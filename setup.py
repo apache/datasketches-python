@@ -102,7 +102,7 @@ setup(
     packages=find_packages(exclude=['src','include','*tests*']), # src not needed if only the .so
     package_dir={'':'.'},
     # may need to add all source paths for sdist packages w/o MANIFEST.in
-    ext_modules=[CMakeExtension('datasketches')],
+    ext_modules=[CMakeExtension('datasketches','.')],
     cmdclass={'build_ext': CMakeBuild},
     install_requires=['numpy'],
     zip_safe=False
