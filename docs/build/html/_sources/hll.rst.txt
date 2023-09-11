@@ -1,0 +1,10 @@
+Distinct Counting Sketches
+--------------------------
+
+.. autoclass:: _datasketches.hll_sketch
+    :members:
+    :undoc-members:
+
+.. autoclass:: _datasketches.theta_sketch
+    :members:
+    :undoc-members:

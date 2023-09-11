@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Distinct Counting Sketches &#8212; datasketches 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to datasketches’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="distinct-counting-sketches">
+<h1>Distinct Counting Sketches<a class="headerlink" href="#distinct-counting-sketches" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.hll_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">hll_sketch</span></span><a class="headerlink" href="#datasketches.hll_sketch" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.deserialize">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></span><a class="headerlink" href="#datasketches.hll_sketch.deserialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a bytes object and returns the corresponding hll_sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.get_compact_serialization_bytes">
+<span class="sig-name descname"><span class="pre">get_compact_serialization_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.get_compact_serialization_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the size of the serialized sketch when compressing the exception table if HLL_4</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.get_estimate">
+<span class="sig-name descname"><span class="pre">get_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.get_estimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate of the distinct count of the input stream</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.get_lower_bound">
+<span class="sig-name descname"><span class="pre">get_lower_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_std_devs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.get_lower_bound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the approximate lower error bound given the specified number of standard deviations in {1, 2, 3}</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.get_max_updatable_serialization_bytes">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_max_updatable_serialization_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lg_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tgt_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.html#datasketches.tgt_hll_type" title="_datasketches.tgt_hll_type"><span class="pre">_datasketches.tgt_hll_type</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.get_max_updatable_serialization_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides a likely upper bound on serialization size for the given parameters</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.get_rel_err">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_rel_err</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">upper_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unioned</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lg_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_std_devs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.get_rel_err" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the a priori relative error bound for the given parameters</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.get_updatable_serialization_bytes">
+<span class="sig-name descname"><span class="pre">get_updatable_serialization_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.get_updatable_serialization_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the size of the serialized sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.get_upper_bound">
+<span class="sig-name descname"><span class="pre">get_upper_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_std_devs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.get_upper_bound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the approximate upper error bound given the specified number of standard deviations in {1, 2, 3}</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.is_compact">
+<span class="sig-name descname"><span class="pre">is_compact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.is_compact" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the sketch is compact, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.lg_config_k">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lg_config_k</span></span><a class="headerlink" href="#datasketches.hll_sketch.lg_config_k" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configured lg_k value for the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the sketch to the empty state in coupon collection mode</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.serialize_compact">
+<span class="sig-name descname"><span class="pre">serialize_compact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.serialize_compact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes the sketch into a bytes object, compressing the exception table if HLL_4</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.serialize_updatable">
+<span class="sig-name descname"><span class="pre">serialize_updatable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.serialize_updatable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes the sketch into a bytes object</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.tgt_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tgt_type</span></span><a class="headerlink" href="#datasketches.hll_sketch.tgt_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the HLL type (4, 6, or 8) when in estimation mode</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">summary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aux_detail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.hll_sketch.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>update(self: _datasketches.hll_sketch, datum: int) -&gt; None</p></li>
+</ol>
+<p>Updates the sketch with the given integral value</p>
+<ol class="arabic simple" start="2">
+<li><p>update(self: _datasketches.hll_sketch, datum: float) -&gt; None</p></li>
+</ol>
+<p>Updates the sketch with the given floating point value</p>
+<ol class="arabic simple" start="3">
+<li><p>update(self: _datasketches.hll_sketch, datum: str) -&gt; None</p></li>
+</ol>
+<p>Updates the sketch with the given string value</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.theta_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">theta_sketch</span></span><a class="headerlink" href="#datasketches.theta_sketch" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_sketch.get_estimate">
+<span class="sig-name descname"><span class="pre">get_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_estimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate of the distinct count of the input stream</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_sketch.get_lower_bound">
+<span class="sig-name descname"><span class="pre">get_lower_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_std_devs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_lower_bound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an approximate lower bound on the estimate at standard deviations in {1, 2, 3}</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_sketch.get_num_retained">
+<span class="sig-name descname"><span class="pre">get_num_retained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_num_retained" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of items currently in the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_sketch.get_seed_hash">
+<span class="sig-name descname"><span class="pre">get_seed_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_seed_hash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a hash of the seed used in the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_sketch.get_theta">
+<span class="sig-name descname"><span class="pre">get_theta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns theta (effective sampling rate) as a fraction from 0 to 1</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_sketch.get_theta64">
+<span class="sig-name descname"><span class="pre">get_theta64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_theta64" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns theta as 64-bit value</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_sketch.get_upper_bound">
+<span class="sig-name descname"><span class="pre">get_upper_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_std_devs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_upper_bound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an approximate upper bound on the estimate at standard deviations in {1, 2, 3}</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_sketch.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_sketch.is_estimation_mode">
+<span class="sig-name descname"><span class="pre">is_estimation_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.is_estimation_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if sketch is in estimation mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_sketch.is_ordered">
+<span class="sig-name descname"><span class="pre">is_ordered</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.is_ordered" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the sketch entries are sorted, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_sketch.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">datasketches</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Distinct Counting Sketches</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#datasketches.hll_sketch"><code class="docutils literal notranslate"><span class="pre">hll_sketch</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#datasketches.theta_sketch"><code class="docutils literal notranslate"><span class="pre">theta_sketch</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to datasketches’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, charlie.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/hll.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantiles Sketch (Deprecated) &mdash; datasketches 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Relative Error Quantiles (REQ) Sketch" href="req.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            datasketches
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="hyper_log_log.html">HyperLogLog (HLL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpc.html">Compressed Probabilistic Counting (CPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theta.html">Theta Sketch</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="count_min_sketch.html">CountMin Sketch</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="frequent_items.html">Frequent Items</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quantiles Sketch (Deprecated)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#datasketches.quantiles_ints_sketch"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_cdf"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_cdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_k"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_k()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_max_value"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_max_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_min_value"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_min_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_n"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_n()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_num_retained"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_num_retained()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_pmf"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_pmf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_quantile"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_quantile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_quantiles"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_quantiles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_rank"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_rank()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.is_empty()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.is_estimation_mode"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.is_estimation_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.merge"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.merge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.serialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.to_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.update"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#datasketches.quantiles_floats_sketch"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_cdf"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_cdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_k"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_k()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_max_value"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_max_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_min_value"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_min_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_n"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_n()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_num_retained"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_num_retained()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_pmf"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_pmf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_quantile"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_quantile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_quantiles"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_quantiles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_rank"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_rank()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.is_empty()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.is_estimation_mode"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.is_estimation_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.merge"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.merge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.serialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.to_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.update"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_cdf"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_cdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_k"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_k()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_max_value"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_max_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_min_value"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_min_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_n"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_n()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_num_retained"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_num_retained()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_pmf"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_pmf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_quantile"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_quantile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_quantiles"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_quantiles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_rank"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_rank()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.is_empty()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.is_estimation_mode"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.is_estimation_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.merge"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.merge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.serialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.to_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.update"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#datasketches.quantiles_items_sketch"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_cdf"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_cdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_k"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_k()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_max_value"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_max_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_min_value"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_min_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_n"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_n()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_num_retained"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_num_retained()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_pmf"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_pmf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_quantile"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_quantile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_quantiles"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_quantiles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_rank"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_rank()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.is_empty()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.is_estimation_mode"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.is_estimation_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.merge"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.merge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.serialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.to_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.update"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">datasketches</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quantiles Sketch (Deprecated)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quantiles_depr.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quantiles-sketch-deprecated">
+<h1>Quantiles Sketch (Deprecated)<a class="headerlink" href="#quantiles-sketch-deprecated" title="Link to this heading"></a></h1>
+<p>This is a deprecated quantiles sketch that is included for cross-language compatability.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">quantiles_ints_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.deserialize">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_cdf">
+<span class="sig-name descname"><span class="pre">get_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_cdf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Cumulative Distribution Function (CDF), which is the cumulative analog of the PMF, of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+The definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_k">
+<span class="sig-name descname"><span class="pre">get_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_k" title="Link to this definition"></a></dt>
+<dd><p>Returns the configured parameter k</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_max_value">
+<span class="sig-name descname"><span class="pre">get_max_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_max_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the maximum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_min_value">
+<span class="sig-name descname"><span class="pre">get_min_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_min_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the minimum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_n">
+<span class="sig-name descname"><span class="pre">get_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_n" title="Link to this definition"></a></dt>
+<dd><p>Returns the length of the input stream</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_normalized_rank_error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error given parameters k and the pmf flag.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_num_retained">
+<span class="sig-name descname"><span class="pre">get_num_retained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_num_retained" title="Link to this definition"></a></dt>
+<dd><p>Returns the number of retained items (samples) in the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_pmf">
+<span class="sig-name descname"><span class="pre">get_pmf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_pmf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Probability Mass Function (PMF) of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+The definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_quantile">
+<span class="sig-name descname"><span class="pre">get_quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_quantile" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the data value associated with the given rank in a hypothetical sorted version of the input stream so far.
+For quantiles_floats_sketch: if the sketch is empty this returns nan. For quantiles_ints_sketch: if the sketch is empty this throws a RuntimeError.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_quantiles">
+<span class="sig-name descname"><span class="pre">get_quantiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ranks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_quantiles" title="Link to this definition"></a></dt>
+<dd><p>This returns an array that could have been generated by using get_quantile() for each normalized rank separately.
+If the sketch is empty this returns an empty vector.
+Deprecated. Will be removed in the next major version. Use get_quantile() instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_rank">
+<span class="sig-name descname"><span class="pre">get_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_rank" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the normalized rank of the given value from 0 to 1, inclusive.
+The resulting approximation has a probabilistic guarantee that can be obtained from the get_normalized_rank_error(False) function.
+With the parameter inclusive=true the weight of the given value is included into the rank.Otherwise the rank equals the sum of the weights of values less than the given value.
+If the sketch is empty this returns nan.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.is_estimation_mode">
+<span class="sig-name descname"><span class="pre">is_estimation_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.is_estimation_mode" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is in estimation mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.merge">
+<span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.merge" title="Link to this definition"></a></dt>
+<dd><p>Merges the provided sketch into this one</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.normalized_rank_error">
+<span class="sig-name descname"><span class="pre">normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error for this sketch.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.serialize" title="Link to this definition"></a></dt>
+<dd><p>Serializes the sketch into a bytes object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_levels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.to_string" title="Link to this definition"></a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.update" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>update(self: _datasketches.quantiles_ints_sketch, item: int) -&gt; None</p></li>
+</ol>
+<p>Updates the sketch with the given value</p>
+<ol class="arabic simple" start="2">
+<li><p>update(self: _datasketches.quantiles_ints_sketch, array: numpy.ndarray[numpy.int32]) -&gt; None</p></li>
+</ol>
+<p>Updates the sketch with the values in the given array</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">quantiles_floats_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.deserialize">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_cdf">
+<span class="sig-name descname"><span class="pre">get_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_cdf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Cumulative Distribution Function (CDF), which is the cumulative analog of the PMF, of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+The definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_k">
+<span class="sig-name descname"><span class="pre">get_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_k" title="Link to this definition"></a></dt>
+<dd><p>Returns the configured parameter k</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_max_value">
+<span class="sig-name descname"><span class="pre">get_max_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_max_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the maximum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_min_value">
+<span class="sig-name descname"><span class="pre">get_min_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_min_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the minimum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_n">
+<span class="sig-name descname"><span class="pre">get_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_n" title="Link to this definition"></a></dt>
+<dd><p>Returns the length of the input stream</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_normalized_rank_error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error given parameters k and the pmf flag.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_num_retained">
+<span class="sig-name descname"><span class="pre">get_num_retained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_num_retained" title="Link to this definition"></a></dt>
+<dd><p>Returns the number of retained items (samples) in the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_pmf">
+<span class="sig-name descname"><span class="pre">get_pmf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_pmf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Probability Mass Function (PMF) of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+The definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_quantile">
+<span class="sig-name descname"><span class="pre">get_quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_quantile" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the data value associated with the given rank in a hypothetical sorted version of the input stream so far.
+For quantiles_floats_sketch: if the sketch is empty this returns nan. For quantiles_ints_sketch: if the sketch is empty this throws a RuntimeError.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_quantiles">
+<span class="sig-name descname"><span class="pre">get_quantiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ranks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_quantiles" title="Link to this definition"></a></dt>
+<dd><p>This returns an array that could have been generated by using get_quantile() for each normalized rank separately.
+If the sketch is empty this returns an empty vector.
+Deprecated. Will be removed in the next major version. Use get_quantile() instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_rank">
+<span class="sig-name descname"><span class="pre">get_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_rank" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the normalized rank of the given value from 0 to 1, inclusive.
+The resulting approximation has a probabilistic guarantee that can be obtained from the get_normalized_rank_error(False) function.
+With the parameter inclusive=true the weight of the given value is included into the rank.Otherwise the rank equals the sum of the weights of values less than the given value.
+If the sketch is empty this returns nan.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.is_estimation_mode">
+<span class="sig-name descname"><span class="pre">is_estimation_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.is_estimation_mode" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is in estimation mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.merge">
+<span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.merge" title="Link to this definition"></a></dt>
+<dd><p>Merges the provided sketch into this one</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.normalized_rank_error">
+<span class="sig-name descname"><span class="pre">normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error for this sketch.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.serialize" title="Link to this definition"></a></dt>
+<dd><p>Serializes the sketch into a bytes object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_levels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.to_string" title="Link to this definition"></a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.update" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>update(self: _datasketches.quantiles_floats_sketch, item: float) -&gt; None</p></li>
+</ol>
+<p>Updates the sketch with the given value</p>
+<ol class="arabic simple" start="2">
+<li><p>update(self: _datasketches.quantiles_floats_sketch, array: numpy.ndarray[numpy.float32]) -&gt; None</p></li>
+</ol>
+<p>Updates the sketch with the values in the given array</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">quantiles_doubles_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.deserialize">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_cdf">
+<span class="sig-name descname"><span class="pre">get_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_cdf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Cumulative Distribution Function (CDF), which is the cumulative analog of the PMF, of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+The definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_k">
+<span class="sig-name descname"><span class="pre">get_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_k" title="Link to this definition"></a></dt>
+<dd><p>Returns the configured parameter k</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_max_value">
+<span class="sig-name descname"><span class="pre">get_max_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_max_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the maximum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_min_value">
+<span class="sig-name descname"><span class="pre">get_min_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_min_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the minimum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_n">
+<span class="sig-name descname"><span class="pre">get_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_n" title="Link to this definition"></a></dt>
+<dd><p>Returns the length of the input stream</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_normalized_rank_error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error given parameters k and the pmf flag.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_num_retained">
+<span class="sig-name descname"><span class="pre">get_num_retained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_num_retained" title="Link to this definition"></a></dt>
+<dd><p>Returns the number of retained items (samples) in the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_pmf">
+<span class="sig-name descname"><span class="pre">get_pmf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_pmf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Probability Mass Function (PMF) of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+The definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_quantile">
+<span class="sig-name descname"><span class="pre">get_quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_quantile" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the data value associated with the given rank in a hypothetical sorted version of the input stream so far.
+For quantiles_floats_sketch: if the sketch is empty this returns nan. For quantiles_ints_sketch: if the sketch is empty this throws a RuntimeError.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_quantiles">
+<span class="sig-name descname"><span class="pre">get_quantiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ranks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_quantiles" title="Link to this definition"></a></dt>
+<dd><p>This returns an array that could have been generated by using get_quantile() for each normalized rank separately.
+If the sketch is empty this returns an empty vector.
+Deprecated. Will be removed in the next major version. Use get_quantile() instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_rank">
+<span class="sig-name descname"><span class="pre">get_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_rank" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the normalized rank of the given value from 0 to 1, inclusive.
+The resulting approximation has a probabilistic guarantee that can be obtained from the get_normalized_rank_error(False) function.
+With the parameter inclusive=true the weight of the given value is included into the rank.Otherwise the rank equals the sum of the weights of values less than the given value.
+If the sketch is empty this returns nan.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.is_estimation_mode">
+<span class="sig-name descname"><span class="pre">is_estimation_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.is_estimation_mode" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is in estimation mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.merge">
+<span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.merge" title="Link to this definition"></a></dt>
+<dd><p>Merges the provided sketch into this one</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.normalized_rank_error">
+<span class="sig-name descname"><span class="pre">normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error for this sketch.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.serialize" title="Link to this definition"></a></dt>
+<dd><p>Serializes the sketch into a bytes object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_levels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.to_string" title="Link to this definition"></a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.update" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>update(self: _datasketches.quantiles_doubles_sketch, item: float) -&gt; None</p></li>
+</ol>
+<p>Updates the sketch with the given value</p>
+<ol class="arabic simple" start="2">
+<li><p>update(self: _datasketches.quantiles_doubles_sketch, array: numpy.ndarray[numpy.float64]) -&gt; None</p></li>
+</ol>
+<p>Updates the sketch with the values in the given array</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">quantiles_items_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.deserialize">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde:</span> <span class="pre">datasketches::py_object_serde</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object using the provided serde.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_cdf">
+<span class="sig-name descname"><span class="pre">get_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_cdf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Cumulative Distribution Function (CDF), which is the cumulative analog of the PMF, of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+The definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_k">
+<span class="sig-name descname"><span class="pre">get_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_k" title="Link to this definition"></a></dt>
+<dd><p>Returns the configured parameter k</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_max_value">
+<span class="sig-name descname"><span class="pre">get_max_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_max_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the maximum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_min_value">
+<span class="sig-name descname"><span class="pre">get_min_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_min_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the minimum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_n">
+<span class="sig-name descname"><span class="pre">get_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_n" title="Link to this definition"></a></dt>
+<dd><p>Returns the length of the input stream</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_normalized_rank_error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error given parameters k and the pmf flag.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_num_retained">
+<span class="sig-name descname"><span class="pre">get_num_retained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_num_retained" title="Link to this definition"></a></dt>
+<dd><p>Returns the number of retained items (samples) in the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_pmf">
+<span class="sig-name descname"><span class="pre">get_pmf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_pmf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Probability Mass Function (PMF) of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+The definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_quantile">
+<span class="sig-name descname"><span class="pre">get_quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_quantile" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the data value associated with the given rank in a hypothetical sorted version of the input stream so far.
+For quantiles_floats_sketch: if the sketch is empty this returns nan. For quantiles_ints_sketch: if the sketch is empty this throws a RuntimeError.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_quantiles">
+<span class="sig-name descname"><span class="pre">get_quantiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ranks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_quantiles" title="Link to this definition"></a></dt>
+<dd><p>This returns an array that could have been generated by using get_quantile() for each normalized rank separately.
+If the sketch is empty this returns an empty vector.
+Deprecated. Will be removed in the next major version. Use get_quantile() instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_rank">
+<span class="sig-name descname"><span class="pre">get_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclusive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_rank" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the normalized rank of the given value from 0 to 1, inclusive.
+The resulting approximation has a probabilistic guarantee that can be obtained from the get_normalized_rank_error(False) function.
+With the parameter inclusive=true the weight of the given value is included into the rank.Otherwise the rank equals the sum of the weights of values less than the given value.
+If the sketch is empty this returns nan.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.is_estimation_mode">
+<span class="sig-name descname"><span class="pre">is_estimation_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.is_estimation_mode" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is in estimation mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.merge">
+<span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.merge" title="Link to this definition"></a></dt>
+<dd><p>Merges the provided sketch into this one</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.normalized_rank_error">
+<span class="sig-name descname"><span class="pre">normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error for this sketch.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">_datasketches.quantiles_items_sketch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde:</span> <span class="pre">datasketches::py_object_serde</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.serialize" title="Link to this definition"></a></dt>
+<dd><p>Serializes the sketch into a bytes object using the provided serde.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_levels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.to_string" title="Link to this definition"></a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.update" title="Link to this definition"></a></dt>
+<dd><p>Updates the sketch with the given value</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="req.html" class="btn btn-neutral float-left" title="Relative Error Quantiles (REQ) Sketch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
