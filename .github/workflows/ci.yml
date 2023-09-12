@@ -38,8 +38,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Set up Python 3.x
         uses: actions/setup-python@v4
-        with:
-          python-version: '3.8' # 3.x grabs latest minor version of python3, but 3.9 not fully supported yet
+        # 3.x uses the latest minor version of python3. This may break briefly when there is a new version
+        # but dependent libraries (e.g. numpy) have not yet released a compatible update.
+        # May need to enable version pinning temporarily at times.
+        #with:
+        #  python-version: '3.8'
       - name: Install Python dependencies
         run: python -m pip install --upgrade pip setuptools wheel tox
       - name: Build and run Python tests
