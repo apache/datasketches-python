@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.abspath("../../src"))
 
 
 project = 'datasketches'
-copyright = ''
+copyright = '2023'
 author = 'Apache Software Foundation'
 release = '0.1'
 
