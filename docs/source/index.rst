@@ -19,6 +19,14 @@ Counting Distincts
    hyper_log_log
    cpc
    theta 
+   tuple
+
+Density Sketch
+##############
+.. toctree::
+   :maxdepth: 1 
+
+   density_sketch
 
 Frequency Estimation
 ##########################
