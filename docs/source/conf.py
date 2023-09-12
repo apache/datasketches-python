@@ -8,6 +8,7 @@
 
 import sys
 import os 
+import datasketches
 
 # need to fix the paths so that sphinx can find the source code.
 sys.path.insert(0, os.path.abspath("../../datasketches"))
