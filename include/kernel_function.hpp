@@ -58,7 +58,7 @@ struct KernelFunction : public kernel_function {
       kernel_function, // Parent class
       "__call__",      // Name of function in python
       operator(),      // Name of function in C++
-      a, b             // Arguemnts
+      a, b             // Arguments
     );
   }
 };
