@@ -164,7 +164,7 @@ std::vector<uint32_t> vector_of_kll_sketches<T, C>::get_indices(const py::array_
       if (idx < d_) {
         indices.push_back(idx);
       } else {
-        throw std::invalid_argument("request for invalid dimenions >= d ("
+        throw std::invalid_argument("request for invalid dimensions >= d ("
                  + std::to_string(d_) +"): "+ std::to_string(idx));
       }
     }
@@ -395,7 +395,7 @@ template<typename T, typename C>
 void vector_of_kll_sketches<T, C>::deserialize(const py::bytes& sk_bytes,
                                                 uint32_t idx) {
   if (idx >= d_) {
-    throw std::invalid_argument("request for invalid dimenions >= d ("
+    throw std::invalid_argument("request for invalid dimensions >= d ("
              + std::to_string(d_) +"): "+ std::to_string(idx));
   }
   std::string skStr = sk_bytes; // implicit cast

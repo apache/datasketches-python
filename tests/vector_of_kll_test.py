@@ -67,7 +67,7 @@ class VectorOfKllSketchesTest(unittest.TestCase):
       self.assertTrue(np.all(kll.get_n() == n))
       self.assertTrue(np.all(kll.get_num_retained() < n))
 
-      # we can combine sketches across all dimensions and get the reuslt
+      # we can combine sketches across all dimensions and get the result
       result = kll.collapse()
       self.assertEqual(result.get_n(), d * n)
 

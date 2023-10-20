@@ -35,7 +35,7 @@ class FiTest(unittest.TestCase):
     # there are two ways to extract items :
     # * NO_FALSE_POSITIVES includes all items with a lower bound
     #   above the a posteriori error
-    # * NO_FALSE_NEGATIVES includes all items with an uper bound
+    # * NO_FALSE_NEGATIVES includes all items with an upper bound
     #   above the a posteriori error
     # a more complete discussion may be found at
     # https://datasketches.github.io/docs/Frequency/FrequentItemsOverview.html

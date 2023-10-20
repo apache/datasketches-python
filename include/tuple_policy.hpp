@@ -90,7 +90,7 @@ struct TuplePolicy : public tuple_policy {
       tuple_policy,        // Parent class
       "__call__",          // Name of function in python
       operator(),          // Name of function in C++
-      summary, update      // Arguemnts
+      summary, update      // Arguments
     );
   }
 };

@@ -1,6 +1,6 @@
 Quantiles Sketch (Deprecated)
 -----------------------------
-This is a deprecated quantiles sketch that is included for cross-language compatability.
+This is a deprecated quantiles sketch that is included for cross-language compatibility.
 
 .. autoclass:: _datasketches.quantiles_ints_sketch
     :members:

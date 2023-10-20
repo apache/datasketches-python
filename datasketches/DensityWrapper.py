@@ -29,7 +29,7 @@ class density_sketch:
 
   @classmethod
   def deserialize(cls, data:bytes, kernel:KernelFunction=GaussianKernel()):
-    """Reads a bytes object and returns a density sketch, using the provided kerenl or defaulting to a Guassian kerenl"""
+    """Reads a bytes object and returns a density sketch, using the provided kernel or defaulting to a Gaussian kernel"""
     self = cls.__new__(cls)
     self._kernel = kernel
     self._gadget = _density_sketch.deserialize(data, kernel)

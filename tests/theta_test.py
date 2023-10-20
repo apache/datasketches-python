@@ -135,7 +135,7 @@ class ThetaTest(unittest.TestCase):
         self.assertFalse(theta_jaccard_similarity.exactly_equal(sk1, sk2))
 
         # we can apply a check for similarity or dissimilarity at a
-        # given threshhold, at 97.7% confidence.
+        # given threshold, at 97.7% confidence.
 
         # check that the Jaccard Index is at most (upper bound) 0.2.
         # exact result would be 1/7

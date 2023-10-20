@@ -33,9 +33,9 @@ void init_serde(py::module& m) {
     .def("get_size", &py_object_serde::get_size, py::arg("item"),
         "Returns the size in bytes of an item")
     .def("to_bytes", &py_object_serde::to_bytes, py::arg("item"),
-        "Retuns a bytes object with a serialized version of an item")
+        "Returns a bytes object with a serialized version of an item")
     .def("from_bytes", &py_object_serde::from_bytes, py::arg("data"), py::arg("offset"),
-        "Reads a bytes object starting from the given offest and returns a tuple of the reconstructed "
+        "Reads a bytes object starting from the given offset and returns a tuple of the reconstructed "
         "object and the number of additional bytes read")
     ;
 }    

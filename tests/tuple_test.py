@@ -31,7 +31,7 @@ class TupleTest(unittest.TestCase):
         n = 1 << 18 # ~256k unique values
 
         # create a sketch and inject some values -- summary is 2 so we can sum them
-        # and know the reuslt
+        # and know the result
         sk = self.generate_tuple_sketch(AccumulatorPolicy(), n, lgk, value=2)
 
         # we can check that the upper and lower bounds bracket the

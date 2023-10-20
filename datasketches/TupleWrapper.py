@@ -95,7 +95,7 @@ class compact_tuple_sketch(tuple_sketch):
 
   @classmethod
   def deserialize(cls, data:bytes, serde:PyObjectSerDe, seed:int=_tuple_sketch.DEFAULT_SEED):
-    """Reads a bytes object and uses the provded SerDe to return the corresponding compact_tuple_sketch."""
+    """Reads a bytes object and uses the provided SerDe to return the corresponding compact_tuple_sketch."""
     self = cls.__new__(cls)
     self._gadget = _compact_tuple_sketch.deserialize(data, serde, seed)
     return self
@@ -167,7 +167,7 @@ class tuple_intersection:
 
 
 class tuple_a_not_b:
-  """An object that can peform the A-not-B operation between two sketches."""
+  """An object that can perform the A-not-B operation between two sketches."""
   def __init__(self, seed:int = _tuple_sketch.DEFAULT_SEED):
     self._gadget = _tuple_a_not_b(seed)
   
