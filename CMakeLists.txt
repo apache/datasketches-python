@@ -101,6 +101,7 @@ target_sources(python
     src/theta_wrapper.cpp
     src/tuple_wrapper.cpp
     src/vo_wrapper.cpp
+    src/ebpps_wrapper.cpp
     src/req_wrapper.cpp
     src/quantiles_wrapper.cpp
     src/density_wrapper.cpp
@@ -114,7 +115,7 @@ cmake_policy(SET CMP0097 NEW)
 include(ExternalProject)
 ExternalProject_Add(datasketches
   GIT_REPOSITORY https://github.com/apache/datasketches-cpp.git
-  GIT_TAG 4.1.0
+  GIT_TAG origin/master
   GIT_SHALLOW true
   GIT_SUBMODULES ""
   INSTALL_DIR /tmp/datasketches

@@ -31,8 +31,8 @@ class VoTest(unittest.TestCase):
     for i in range(0, n):
       vo.update(i)
 
-    # we can also add a heavy item, using a negative weight for
-    # easy filtering later.  keep in mind that "heavy" is a
+    # we can also add a heavy item, using a negative value for
+    # easy filtering later.  Keep in mind that "heavy" is a
     # relative concept, so using a fixed multiple of n may not
     # be considered a heavy item for larger values of n
     vo.update(-1, 1000 * n)
