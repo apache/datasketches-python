@@ -17,32 +17,35 @@
  * under the License.
  */
 
-#include <pybind11/pybind11.h>
+#include <nanobind/nanobind.h>
 
-namespace py = pybind11;
+namespace nb = nanobind;
 
 // sketches
-void init_hll(py::module& m);
-void init_kll(py::module& m);
-void init_fi(py::module& m);
-void init_cpc(py::module& m);
-void init_theta(py::module& m);
-void init_tuple(py::module& m);
-void init_vo(py::module& m);
-void init_req(py::module& m);
-void init_quantiles(py::module& m);
-void init_count_min(py::module& m);
-void init_density(py::module& m);
-void init_vector_of_kll(py::module& m);
+void init_hll(nb::module_& m);
+void init_kll(nb::module_& m);
+void init_fi(nb::module_& m);
+/*
+void init_cpc(nb::module& m);
+void init_theta(nb::module& m);
+void init_tuple(nb::module& m);
+void init_vo(nb::module& m);
+void init_req(nb::module& m);
+void init_quantiles(nb::module& m);
+void init_count_min(nb::module& m);
+void init_density(nb::module& m);
+void init_vector_of_kll(nb::module& m);
 
 // supporting objects
-void init_kolmogorov_smirnov(py::module& m);
-void init_serde(py::module& m);
+void init_kolmogorov_smirnov(nb::module_& m);
+*/
+void init_serde(nb::module_& m);
 
-PYBIND11_MODULE(_datasketches, m) {
+NB_MODULE(_datasketches, m) {
   init_hll(m);
   init_kll(m);
   init_fi(m);
+  /*
   init_cpc(m);
   init_theta(m);
   init_tuple(m);
@@ -54,5 +57,6 @@ PYBIND11_MODULE(_datasketches, m) {
   init_vector_of_kll(m);
 
   init_kolmogorov_smirnov(m);
+  */
   init_serde(m);
 }
