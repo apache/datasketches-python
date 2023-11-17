@@ -75,10 +75,10 @@ class PyLongsSerDe(PyObjectSerDe):
     return int(8)
 
   def to_bytes(self, item):
-    return struct.pack('<l', item)
+    return struct.pack('<q', item)
 
   def from_bytes(self, data: bytes, offset: int):
-    val = struct.unpack_from('<l', data, offset)[0]
+    val = struct.unpack_from('<q', data, offset)[0]
     return (val, 8)
 
 
