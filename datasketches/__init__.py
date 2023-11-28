@@ -26,7 +26,7 @@ name = 'datasketches'
 from _datasketches import *
 
 from .PySerDe import *
-from .TuplePolicy import *
+#from .TuplePolicy import *
 from .KernelFunction import *
 
 # Wrappers around the pybind11 classes for cases where we
@@ -34,5 +34,5 @@ from .KernelFunction import *
 # the C++ object. Currently, the native python portion of
 # a class derived from a C++ class may be garbage collected
 # even though a pointer to the C++ portion remains valid.
-from .TupleWrapper import *
-from .DensityWrapper import *
+#from .TupleWrapper import *
+#from .DensityWrapper import *
