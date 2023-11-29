@@ -31,21 +31,12 @@
 
 namespace nb = nanobind;
 
-datasketches::kernel_function* default_kernel_function() {
-    // Evaluate in scope of main module
-    nb::object scope = nb::module_::import_(".KernelFunction").attr("GaussianKernel");
-    std::cout << scope << std::endl;
-
-    // Evaluate an isolated expression
-    return nb::cast<datasketches::kernel_function*>(nb::eval("GaussianKernel()", scope));
-}
-
 template<typename T, typename K>
 void bind_density_sketch(nb::module_ &m, const char* name) {
   using namespace datasketches;
 
   nb::class_<density_sketch<T, K>>(m, name)
-    .def("__init__", [](density_sketch<T, K>* sk, uint16_t k, uint32_t dim, std::shared_ptr<kernel_function> kernel=default_kernel_function())
+    .def("__init__", [](density_sketch<T, K>* sk, uint16_t k, uint32_t dim, std::shared_ptr<kernel_function> kernel)
         { K holder(kernel);
           new (sk) density_sketch<T, K>(k, dim, holder);
         },
@@ -72,15 +63,13 @@ void bind_density_sketch(nb::module_ &m, const char* name) {
         "Produces a string summary of the sketch")
     .def("to_string", &density_sketch<T, K>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
         "Produces a string summary of the sketch")
-    .def("__iter__",
-
-
-    [](const density_sketch<T, K> &sk) {
-            return nb::make_iterator(nb::type<density_sketch<T,K> >(),
-                                           "density_iterator",
-                                           sk.begin(),
-                                           sk.end());
-    }, nb::keep_alive<0,1>())
+    .def("__iter__", [](const density_sketch<T, K> &sk) {
+                        return nb::make_iterator(nb::type<density_sketch<T,K> >(),
+                                                 "density_iterator",
+                                                 sk.begin(),
+                                             sk.end());
+                      },
+        nb::keep_alive<0,1>())
     .def("serialize",
         [](const density_sketch<T, K>& sk) {
           auto bytes = sk.serialize();
@@ -90,7 +79,7 @@ void bind_density_sketch(nb::module_ &m, const char* name) {
     )
     .def_static(
         "deserialize",
-        [](const nb::bytes& bytes, std::shared_ptr<kernel_function> kernel=default_kernel_function()) {
+        [](const nb::bytes& bytes, std::shared_ptr<kernel_function> kernel) {
           K holder(kernel);
           return density_sketch<T, K>::deserialize(bytes.c_str(), bytes.size(), holder);
         },
@@ -111,5 +100,5 @@ void init_density(nb::module_ &m) {
   // the old sketch names can almost be defined, but the kernel_function_holder won't work in init()
   //bind_density_sketch<float, gaussian_kernel<float>>(m, "density_floats_sketch");
   //bind_density_sketch<double, gaussian_kernel<double>>(m, "density_doubles_sketch");
-  bind_density_sketch<double, kernel_function_holder>(m, "density_sketch");
+  bind_density_sketch<double, kernel_function_holder>(m, "_density_sketch");
 }
