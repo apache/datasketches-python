@@ -32,8 +32,7 @@ class densityTest(unittest.TestCase):
     dim = 3
     n = 1000
 
-    sketch = density_sketch(k, dim)
-    #sketch = density_sketch(k, dim, GaussianKernel())
+    sketch = density_sketch(k, dim, GaussianKernel())
 
     self.assertEqual(sketch.get_k(), k)
     self.assertEqual(sketch.get_dim(), dim)
@@ -59,24 +58,20 @@ class densityTest(unittest.TestCase):
       self.assertGreaterEqual(weight, 1)
 
     sk_bytes = sketch.serialize()
-    sketch2 = density_sketch.deserialize(sk_bytes)
-    #sketch2 = density_sketch.deserialize(sk_bytes, GaussianKernel())
+    sketch2 = density_sketch.deserialize(sk_bytes, GaussianKernel())
     self.assertEqual(sketch.get_estimate([1.5, 2.5, 3.5]), sketch2.get_estimate([1.5, 2.5, 3.5]))
 
   def test_density_merge(self):
-    sketch1 = density_sketch(10, 2)
-    #sketch1 = density_sketch(10, 2, GaussianKernel())
+    sketch1 = density_sketch(10, 2, GaussianKernel())
     sketch1.update([0, 0])
-    sketch2 = density_sketch(10, 2)
-    #sketch2 = density_sketch(10, 2, GaussianKernel())
+    sketch2 = density_sketch(10, 2, GaussianKernel())
     sketch2.update([0, 1])
     sketch1.merge(sketch2)
     self.assertEqual(sketch1.get_n(), 2)
     self.assertEqual(sketch1.get_num_retained(), 2)
 
   def test_custom_kernel(self):
-    gaussianSketch = density_sketch(10, 2) # default kernel
-    #gaussianSketch = density_sketch(10, 2, GaussianKernel()) # default kernel
+    gaussianSketch = density_sketch(10, 2, GaussianKernel())
     sphericalSketch = density_sketch(10, 2, UnitSphereKernel())
 
     p = [1, 1]

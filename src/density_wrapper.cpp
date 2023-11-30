@@ -67,7 +67,7 @@ void bind_density_sketch(nb::module_ &m, const char* name) {
                         return nb::make_iterator(nb::type<density_sketch<T,K> >(),
                                                  "density_iterator",
                                                  sk.begin(),
-                                             sk.end());
+                                                 sk.end());
                       },
         nb::keep_alive<0,1>())
     .def("serialize",
@@ -100,5 +100,5 @@ void init_density(nb::module_ &m) {
   // the old sketch names can almost be defined, but the kernel_function_holder won't work in init()
   //bind_density_sketch<float, gaussian_kernel<float>>(m, "density_floats_sketch");
   //bind_density_sketch<double, gaussian_kernel<double>>(m, "density_doubles_sketch");
-  bind_density_sketch<double, kernel_function_holder>(m, "_density_sketch");
+  bind_density_sketch<double, kernel_function_holder>(m, "density_sketch");
 }

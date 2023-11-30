@@ -52,8 +52,7 @@ class CMakeBuild(build_ext):
         # ensure we use a consistent python version
         #cmake_args += ['-DPython3_EXECUTABLE=' + sys.executable]
         cmake_args += ['-DPython_EXECUTABLE=' + sys.executable]
-        #cfg = 'Debug' if self.debug else 'Release'
-        cfg = 'Debug'
+        cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg]
 
         if platform.system() == "Windows":
