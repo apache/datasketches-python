@@ -76,7 +76,15 @@ void bind_ebpps_sketch(nb::module_ &m, const char* name) {
          [](const nb::bytes& bytes, py_object_serde& serde) { return ebpps_sketch<T>::deserialize(bytes.c_str(), bytes.size(), serde); },
          nb::arg("bytes"), nb::arg("serde"),
          "Reads a bytes object and returns the corresponding ebpps_sketch")
-    .def("__iter__", [](const ebpps_sketch<T>& sk) { return nb::make_iterator(nb::type<ebpps_sketch<T>>(), "ebpps_iterator", sk.begin(), sk.end()); });
+    .def("__iter__",
+          [](const ebpps_sketch<T>& sk) {
+               return nb::make_iterator(nb::type<ebpps_sketch<T>>(),
+               "ebpps_iterator",
+               sk.begin(),
+               sk.end());
+          }, nb::keep_alive<0,1>()
+     )
+     ;
 }
 
 void init_ebpps(nb::module_ &m) {

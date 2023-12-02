@@ -84,7 +84,15 @@ void bind_vo_sketch(nb::module_ &m, const char* name) {
          [](const nb::bytes& bytes, py_object_serde& serde) { return var_opt_sketch<T>::deserialize(bytes.c_str(), bytes.size(), serde); },
          nb::arg("bytes"), nb::arg("serde"),
          "Reads a bytes object and returns the corresponding var opt sketch")
-    .def("__iter__", [](const var_opt_sketch<T>& sk) { return nb::make_iterator(nb::type<var_opt_sketch<T>>(), "var_opt_iterator", sk.begin(), sk.end()); });
+    .def("__iter__",
+          [](const var_opt_sketch<T>& sk) {
+               return nb::make_iterator(nb::type<var_opt_sketch<T>>(),
+               "var_opt_iterator",
+               sk.begin(),
+               sk.end());
+          }, nb::keep_alive<0,1>()
+     )
+     ;
 }
 
 template<typename T>

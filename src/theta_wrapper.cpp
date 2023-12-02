@@ -60,7 +60,14 @@ void init_theta(nb::module_ &m) {
          "Returns a hash of the seed used in the sketch")
     .def("is_ordered", static_cast<bool (theta_sketch::*)() const>(&theta_sketch::is_ordered),
          "Returns True if the sketch entries are sorted, otherwise False")
-    .def("__iter__", [](const theta_sketch& s) { return nb::make_iterator(nb::type<theta_sketch>(), "theta_iterator", s.begin(), s.end()); })
+    .def("__iter__",
+          [](const theta_sketch& s) {
+               return nb::make_iterator(nb::type<theta_sketch>(),
+               "theta_iterator",
+               s.begin(),
+               s.end());
+          }, nb::keep_alive<0,1>()
+     )
   ;
 
   nb::class_<update_theta_sketch, theta_sketch>(m, "update_theta_sketch")

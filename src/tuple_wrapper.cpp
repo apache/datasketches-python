@@ -96,7 +96,14 @@ void init_tuple(nb::module_ &m) {
          "Returns a hash of the seed used in the sketch")
     .def("is_ordered", &py_tuple_sketch::is_ordered,
          "Returns True if the sketch entries are sorted, otherwise False")
-    .def("__iter__", [](const py_tuple_sketch& s) { return nb::make_iterator(nb::type<py_tuple_sketch>(), "tuple_iterator", s.begin(), s.end()); })
+    .def("__iter__",
+          [](const py_tuple_sketch& s) {
+               return nb::make_iterator(nb::type<py_tuple_sketch>(),
+               "tuple_iterator",
+               s.begin(),
+               s.end());
+          }, nb::keep_alive<0,1>()
+     )
     .def_prop_ro_static("DEFAULT_SEED", [](nb::object /* self */) { return DEFAULT_SEED; });
   ;
 

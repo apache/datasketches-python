@@ -102,8 +102,8 @@ target_sources(python
     src/tuple_wrapper.cpp
     src/vo_wrapper.cpp
     src/ebpps_wrapper.cpp
-    #src/req_wrapper.cpp
-    #src/quantiles_wrapper.cpp
+    src/req_wrapper.cpp
+    src/quantiles_wrapper.cpp
     src/density_wrapper.cpp
     src/ks_wrapper.cpp
     src/count_wrapper.cpp
