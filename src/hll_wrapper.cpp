@@ -91,7 +91,7 @@ void init_hll(nb::module_ &m) {
     )
     .def_static(
         "deserialize",
-        [](const std::string& bytes) { return hll_sketch::deserialize(bytes.data(), bytes.size()); },
+        [](const nb::bytes& bytes) { return hll_sketch::deserialize(bytes.c_str(), bytes.size()); },
         nb::arg("bytes"),
         "Reads a bytes object and returns the corresponding hll_sketch"
     );

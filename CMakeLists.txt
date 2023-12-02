@@ -96,16 +96,17 @@ target_sources(python
     src/datasketches.cpp
     src/hll_wrapper.cpp
     src/kll_wrapper.cpp
-    #src/cpc_wrapper.cpp
+    src/cpc_wrapper.cpp
     src/fi_wrapper.cpp
     src/theta_wrapper.cpp
     src/tuple_wrapper.cpp
-    #src/vo_wrapper.cpp
+    src/vo_wrapper.cpp
+    src/ebpps_wrapper.cpp
     #src/req_wrapper.cpp
     #src/quantiles_wrapper.cpp
     src/density_wrapper.cpp
     src/ks_wrapper.cpp
-    #src/count_wrapper.cpp
+    src/count_wrapper.cpp
     #src/vector_of_kll.cpp
     src/py_serde.cpp
 )
@@ -113,8 +114,10 @@ target_sources(python
 cmake_policy(SET CMP0097 NEW)
 include(ExternalProject)
 ExternalProject_Add(datasketches
-  GIT_REPOSITORY https://github.com/apache/datasketches-cpp.git
-  GIT_TAG master
+  #GIT_REPOSITORY https://github.com/apache/datasketches-cpp.git
+  GIT_REPOSITORY https://github.com/jmalkin/datasketches-cpp.git
+  #GIT_TAG master
+  GIT_TAG ebpps_serialize_fix
   GIT_SHALLOW true
   GIT_SUBMODULES ""
   INSTALL_DIR /tmp/datasketches

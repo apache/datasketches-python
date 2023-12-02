@@ -25,13 +25,14 @@ namespace nb = nanobind;
 void init_hll(nb::module_& m);
 void init_kll(nb::module_& m);
 void init_fi(nb::module_& m);
-//void init_cpc(nb::module_& m);
+void init_cpc(nb::module_& m);
 void init_theta(nb::module_& m);
 void init_tuple(nb::module_& m);
-//void init_vo(nb::module_& m);
+void init_vo(nb::module_& m);
+void init_ebpps(nb::module_& m);
 //void init_req(nb::module_& m);
 //void init_quantiles(nb::module_& m);
-//void init_count_min(nb::module_& m);
+void init_count_min(nb::module_& m);
 void init_density(nb::module_& m);
 //void init_vector_of_kll(nb::module_& m);
 
@@ -43,14 +44,14 @@ NB_MODULE(_datasketches, m) {
   init_hll(m);
   init_kll(m);
   init_fi(m);
-  //init_cpc(m);
+  init_cpc(m);
   init_theta(m);
   init_tuple(m);
-  //init_vo(m);
-  //init_ebpps(m);
+  init_vo(m);
+  init_ebpps(m);
   //init_req(m);
   //init_quantiles(m);
-  //init_count_min(m);
+  init_count_min(m);
   init_density(m);
   //init_vector_of_kll(m);
 

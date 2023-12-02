@@ -17,16 +17,18 @@
  * under the License.
  */
 
+#include <vector>
+
+#include <nanobind/nanobind.h>
+#include <nanobind/make_iterator.h>
+#include <nanobind/stl/string.h>
+#include <nanobind/stl/vector.h>
+
 #include "py_object_lt.hpp"
 #include "py_object_ostream.hpp"
 #include "quantile_conditional.hpp"
-#include "kll_sketch.hpp"
 
-#include <nanobind/nanobind.h>
-#include <nanobind/stl/string.h>
-#include <nanobind/make_iterator.h>
-#include <vector>
-#include <stdexcept>
+#include "kll_sketch.hpp"
 
 namespace nb = nanobind;
 
@@ -37,12 +39,8 @@ void bind_kll_sketch(nb::module_ &m, const char* name) {
   auto kll_class = nb::class_<kll_sketch<T, C>>(m, name)
     .def(nb::init<uint16_t>(), nb::arg("k")=kll_constants::DEFAULT_K)
     .def(nb::init<const kll_sketch<T, C>&>())
-    .def(
-        "update",
-        static_cast<void (kll_sketch<T, C>::*)(const T&)>(&kll_sketch<T, C>::update),
-        nb::arg("item"),
-        "Updates the sketch with the given value"
-    )
+    .def("update", static_cast<void (kll_sketch<T, C>::*)(const T&)>(&kll_sketch<T, C>::update), nb::arg("item"),
+        "Updates the sketch with the given value")
     .def("merge", (void (kll_sketch<T, C>::*)(const kll_sketch<T, C>&)) &kll_sketch<T, C>::merge, nb::arg("sketch"),
         "Merges the provided sketch into this one")
     .def("__str__", &kll_sketch<T, C>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
@@ -149,7 +147,15 @@ void bind_kll_sketch(nb::module_ &m, const char* name) {
          "Otherwise, it is the 'single-sided' normalized rank error for all the other queries.\n"
          "Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials"
     )
-    .def("__iter__", [](const kll_sketch<T, C>& s) { return nb::make_iterator(nb::type<kll_sketch<T, C>>(), "iterator", s.begin(), s.end()); });
+    .def("__iter__",
+        [](const kll_sketch<T, C>& s) {
+            return nb::make_iterator(nb::type<kll_sketch<T, C>>(),
+            "kll_iterator",
+            s.begin(),
+            s.end());
+        }, nb::keep_alive<0, 1>()
+    )
+    ;
 
     add_serialization<T>(kll_class);
     add_vector_update<T>(kll_class);
