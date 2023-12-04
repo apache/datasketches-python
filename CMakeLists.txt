@@ -107,7 +107,7 @@ target_sources(python
     src/density_wrapper.cpp
     src/ks_wrapper.cpp
     src/count_wrapper.cpp
-    #src/vector_of_kll.cpp
+    src/vector_of_kll.cpp
     src/py_serde.cpp
 )
 

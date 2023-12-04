@@ -19,6 +19,7 @@
 
 #include <memory>
 #include <nanobind/nanobind.h>
+#include <nanobind/trampoline.h>
 
 #ifndef _TUPLE_POLICY_HPP_
 #define _TUPLE_POLICY_HPP_
