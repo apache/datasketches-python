@@ -23,9 +23,9 @@
 #include <stdexcept>
 
 #include <nanobind/nanobind.h>
+#include <nanobind/ndarray.h>
 #include <nanobind/stl/vector.h>
 #include <nanobind/stl/string.h>
-#include <nanobind/ndarray.h>
 
 #include "kll_sketch.hpp"
 
@@ -52,42 +52,46 @@ class vector_of_kll_sketches {
     inline uint32_t get_k() const;
     inline uint32_t get_d() const;
 
+    template<typename V>
+    using array1d = nb::ndarray<V, nb::numpy, nb::ndim<1>>;
+
+    template<typename V>
+    using array2d = nb::ndarray<V, nb::numpy, nb::ndim<2>>;
+
     // sketch updates/merges
-    void update(const nb::ndarray<T, nb::ndim<1>>& items);
-    void update(const nb::ndarray<T, nb::ndim<2>>& items);
+    void update(const nb::ndarray<T>& items);
     void merge(const vector_of_kll_sketches<T>& other);
 
     // returns a single sketch combining all data in the array
-    kll_sketch<T, C> collapse(const nb::ndarray<int>& isk) const;
+    kll_sketch<T, C> collapse(nb::ndarray<int>& isk) const;
 
     // sketch queries returning an array of results
-    //nb::ndarray<bool, nb::ndim<1>> is_empty() const;
-    1darray<bool> is_empty() const;
-    nb::ndarray<uint64_t, nb::ndim<1>> get_n() const;
-    nb::ndarray<bool, nb::ndim<1>> is_estimation_mode() const;
-    nb::ndarray<T, nb::ndim<1>> get_min_values() const;
-    nb::ndarray<T, nb::ndim<1>> get_max_values() const;
-    nb::ndarray<uint32_t, nb::ndim<1>> get_num_retained() const;
-    nb::ndarray<T, nb::ndim<2>> get_quantiles(const nb::ndarray<double>& ranks, const nb::ndarray<int>& isk) const;
-    nb::ndarray<double, nb::ndim<2>> get_ranks(const nb::ndarray<T>& values, const nb::ndarray<int>& isk) const;
-    nb::ndarray<double, nb::ndim<2>> get_pmf(const nb::ndarray<T>& split_points, const nb::ndarray<int>& isk) const;
-    nb::ndarray<double, nb::ndim<2>> get_cdf(const nb::ndarray<T>& split_points, const nb::ndarray<int>& isk) const;
+    array1d<bool> is_empty() const;
+    array1d<uint64_t> get_n() const;
+    array1d<bool> is_estimation_mode() const;
+    array1d<T> get_min_values() const;
+    array1d<T> get_max_values() const;
+    array1d<uint32_t> get_num_retained() const;
+    array2d<T> get_quantiles(nb::ndarray<double>& ranks, nb::ndarray<int>& isk) const;
+    array2d<double> get_ranks(nb::ndarray<T>& values, nb::ndarray<int>& isk) const;
+    array2d<double> get_pmf(nb::ndarray<T>& split_points, nb::ndarray<int>& isk) const;
+    array2d<double> get_cdf(nb::ndarray<T>& split_points, nb::ndarray<int>& isk) const;
 
     // human-readable output
     std::string to_string(bool print_levels = false, bool print_items = false) const;
 
     // binary output/input
-    nb::list serialize(const nb::ndarray<int>& isk);
+    nb::list serialize(nb::ndarray<int>& isk);
     // note: deserialize() replaces the sketch at the specified
     //       index. Not a static method.
     void deserialize(const nb::bytes& sk_bytes, uint32_t idx);
 
   private:
-    std::vector<uint32_t> get_indices(const nb::ndarray<int, nb::ndim<1>>& isk) const;
+    std::vector<uint32_t> get_indices(array1d<int>& isk) const;
     
-    char check_order(nb::ndarray<nb::f_contig>) { return 'F'; }
-    char check_order(nb::ndarray<nb::c_contig>) { return 'C'; }
-    char check_order(nb::ndarray<>) { return '?'; }
+    char check_order(nb::ndarray<T, nb::f_contig>) { return 'F'; }
+    char check_order(nb::ndarray<T, nb::c_contig>) { return 'C'; }
+    char check_order(nb::ndarray<T>) { return '?'; }
 
     const uint32_t k_; // kll sketch k parameter
     const uint32_t d_; // number of dimensions (here: sketches) to hold
@@ -153,7 +157,7 @@ uint32_t vector_of_kll_sketches<T, C>::get_d() const {
 }
 
 template<typename T, typename C>
-std::vector<uint32_t> vector_of_kll_sketches<T, C>::get_indices(const nb::ndarray<int, nb::ndim<1>>& isk) const {
+std::vector<uint32_t> vector_of_kll_sketches<T, C>::get_indices(array1d<int>& isk) const {
   std::vector<uint32_t> indices;
   if (isk.size() == 1) {
     if (isk(0) == -1) {
@@ -181,18 +185,19 @@ std::vector<uint32_t> vector_of_kll_sketches<T, C>::get_indices(const nb::ndarra
 
 // Checks if each sketch is empty or not
 template<typename T, typename C>
-nb::ndarray<bool, nb::ndim<1>> vector_of_kll_sketches<T, C>::is_empty() const {
-  std::vector<bool> vals(d_);
+auto vector_of_kll_sketches<T, C>::is_empty() const -> array1d<bool> {
+  std::vector<char> vals(d_);
   for (uint32_t i = 0; i < d_; ++i) {
     vals[i] = sketches_[i].is_empty();
   }
-
-  return nb::ndarray<bool, nb::ndim<1>>(vals);
+  const size_t shape[] = { static_cast<size_t>(d_) };
+  return array1d<bool>(vals.data(), 1, shape);
 }
 
 // Updates each sketch with values -- 1-d input
 // Currently: all values must be present
 // TODO: allow subsets of sketches to be updated
+/*
 template<typename T, typename C>
 void vector_of_kll_sketches<T, C>::update(const nb::ndarray<T, nb::ndim<1>>& items) {
   if (items.size() != d_) {
@@ -234,8 +239,8 @@ void vector_of_kll_sketches<T, C>::update(const nb::ndarray<T, nb::ndim<2>>& ite
     }
   }
 }
+*/
 
-/*
 // Updates each sketch with values
 // Currently: all values must be present
 // TODO: allow subsets of sketches to be updated
@@ -259,8 +264,7 @@ void vector_of_kll_sketches<T, C>::update(const nb::ndarray<T>& items) {
   else if (ndim == 2) {
     // 2D case: multiple values to update per sketch
     //auto data = items.template unchecked<2>();
-    //if (items.flags() & nb::ndarray::f_style) {
-    if constexpr (check_order(items) == 'F') {
+    if (check_order(items) == 'F') {
       for (uint32_t j = 0; j < d_; ++j) {
         for (uint32_t i = 0; i < items.shape(0); ++i) { 
           sketches_[j].update(items(i,j));
@@ -278,7 +282,7 @@ void vector_of_kll_sketches<T, C>::update(const nb::ndarray<T>& items) {
     throw std::invalid_argument("Update input must be 2 or fewer dimensions : " + std::to_string(ndim));
   }
 }
-*/
+
 
 // Merges two arrays of sketches
 // Currently: all values must be present
@@ -295,11 +299,11 @@ void vector_of_kll_sketches<T, C>::merge(const vector_of_kll_sketches<T>& other)
 }
 
 template<typename T, typename C>
-kll_sketch<T, C> vector_of_kll_sketches<T, C>::collapse(const nb::ndarray<int>& isk) const {
-  std::vector<uint32_t> inds = get_indices(isk);
+kll_sketch<T, C> vector_of_kll_sketches<T, C>::collapse(nb::ndarray<int>& isk) const {
+  auto inds = isk.view<int, nb::ndim<1>>();
   
   kll_sketch<T, C> result(k_);
-  for (auto& idx : inds) {
+  for (int idx = 0; idx < inds.shape(0); ++idx) {
     result.merge(sketches_[idx]);
   }
   return result;
@@ -307,44 +311,48 @@ kll_sketch<T, C> vector_of_kll_sketches<T, C>::collapse(const nb::ndarray<int>& 
 
 // Number of updates for each sketch
 template<typename T, typename C>
-nb::ndarray<uint64_t, nb::ndim<1>> vector_of_kll_sketches<T, C>::get_n() const {
+auto vector_of_kll_sketches<T, C>::get_n() const -> array1d<uint64_t> {
   std::vector<uint64_t> vals(d_);
   for (uint32_t i = 0; i < d_; ++i) {
     vals[i] = sketches_[i].get_n();
   }
-  return nb::cast<uint64_t, nb::ndim<1>>(vals);
+  const size_t shape[] = { static_cast<size_t>(d_) };
+  return array1d<uint64_t>(vals.data(), 1, shape);
 }
 
 // Number of retained values for each sketch
 template<typename T, typename C>
-nb::ndarray<uint32_t, nb::ndim<1>> vector_of_kll_sketches<T, C>::get_num_retained() const {
+auto vector_of_kll_sketches<T, C>::get_num_retained() const -> array1d<uint32_t> {
   std::vector<uint32_t> vals(d_);
   for (uint32_t i = 0; i < d_; ++i) {
     vals[i] = sketches_[i].get_num_retained();
   }
-  return nb::cast<uint64_t, nb::ndim<1>>(vals);
+  const size_t shape[] = { static_cast<size_t>(d_) };
+  return array1d<uint32_t>(vals.data(), 1, shape);
 }
 
 // Gets the minimum value of each sketch
 // TODO: allow subsets of sketches
 template<typename T, typename C>
-nb::ndarray<T, nb::ndim<1>> vector_of_kll_sketches<T, C>::get_min_values() const {
+auto vector_of_kll_sketches<T, C>::get_min_values() const -> array1d<T> {
   std::vector<T> vals(d_);
   for (uint32_t i = 0; i < d_; ++i) {
     vals[i] = sketches_[i].get_min_item();
   }
-  return nb::cast<uint64_t, nb::ndim<1>>(vals);
+  const size_t shape[] = { static_cast<size_t>(d_) };
+  return array1d<T>(vals.data(), 1, shape);
 }
 
 // Gets the maximum value of each sketch
 // TODO: allow subsets of sketches
 template<typename T, typename C>
-nb::ndarray<T, nb::ndim<1>> vector_of_kll_sketches<T, C>::get_max_values() const {
+auto vector_of_kll_sketches<T, C>::get_max_values() const -> array1d<T> {
   std::vector<T> vals(d_);
   for (uint32_t i = 0; i < d_; ++i) {
     vals[i] = sketches_[i].get_max_item();
   }
-  return nb::cast<uint64_t, nb::ndim<1>>(vals);
+  const size_t shape[] = { static_cast<size_t>(d_) };
+  return array1d<T>(vals.data(), 1, shape);
 }
 
 // Summary of each sketch as one long string
@@ -363,18 +371,19 @@ std::string vector_of_kll_sketches<T, C>::to_string(bool print_levels, bool prin
 }
 
 template<typename T, typename C>
-nb::ndarray<bool, nb::ndim<1>> vector_of_kll_sketches<T, C>::is_estimation_mode() const {
-  std::vector<bool> vals(d_);
+auto vector_of_kll_sketches<T, C>::is_estimation_mode() const -> array1d<bool> {
+  std::vector<char> vals(d_);
   for (uint32_t i = 0; i < d_; ++i) {
     vals[i] = sketches_[i].is_estimation_mode();
   }
-  return nb::cast<uint64_t, nb::ndim<1>>(vals);
+  const size_t shape[] = { static_cast<size_t>(d_) };
+  return array1d<bool>(vals.data(), 1, shape);
 }
 
 // Value of sketch(es) corresponding to some quantile(s)
 template<typename T, typename C>
-nb::ndarray<T, nb::ndim<2>> vector_of_kll_sketches<T, C>::get_quantiles(const nb::ndarray<double>& ranks,
-                                                                        const nb::ndarray<int>& isk) const {
+auto vector_of_kll_sketches<T, C>::get_quantiles(nb::ndarray<double>& ranks,
+                                                 nb::ndarray<int>& isk) const -> array2d<T> {
   std::vector<uint32_t> inds = get_indices(isk);
   size_t num_sketches = inds.size();
   size_t num_quantiles = ranks.size();
@@ -386,13 +395,14 @@ nb::ndarray<T, nb::ndim<2>> vector_of_kll_sketches<T, C>::get_quantiles(const nb
     }
   }
 
-  return nb::cast<nb::ndarray<T>, nb::ndim<2>>(quants);
+  const size_t shape[] = {static_cast<size_t>(num_sketches), static_cast<size_t>(num_quantiles)};
+  return array2d<T>(quants, 2, shape);
 }
 
 // Value of sketch(es) corresponding to some rank(s)
 template<typename T, typename C>
-nb::ndarray<double, nb::ndim<2>> vector_of_kll_sketches<T, C>::get_ranks(const nb::ndarray<T>& values,
-                                                                         const nb::ndarray<int>& isk) const {
+nb::ndarray<double, nb::ndim<2>> vector_of_kll_sketches<T, C>::get_ranks(nb::ndarray<T>& values,
+                                                                         nb::ndarray<int>& isk) const {
   std::vector<uint32_t> inds = get_indices(isk);
   size_t num_sketches = inds.size();
   size_t num_ranks = values.size();
@@ -410,8 +420,8 @@ nb::ndarray<double, nb::ndim<2>> vector_of_kll_sketches<T, C>::get_ranks(const n
 
 // PMF(s) of sketch(es)
 template<typename T, typename C>
-nb::ndarray<double, nb::ndim<2>> vector_of_kll_sketches<T, C>::get_pmf(const nb::ndarray<T>& split_points,
-                                                                       const nb::ndarray<int>& isk) const {
+nb::ndarray<double, nb::ndim<2>> vector_of_kll_sketches<T, C>::get_pmf(nb::ndarray<T>& split_points,
+                                                                       nb::ndarray<int>& isk) const {
   std::vector<uint32_t> inds = get_indices(isk);
   size_t num_sketches = inds.size();
   size_t num_splits = split_points.size();
@@ -429,8 +439,8 @@ nb::ndarray<double, nb::ndim<2>> vector_of_kll_sketches<T, C>::get_pmf(const nb:
 
 // CDF(s) of sketch(es)
 template<typename T, typename C>
-nb::ndarray<double, nb::ndim<2>> vector_of_kll_sketches<T, C>::get_cdf(const nb::ndarray<T>& split_points,
-                                                                       const nb::ndarray<int>& isk) const {
+nb::ndarray<double, nb::ndim<2>> vector_of_kll_sketches<T, C>::get_cdf(nb::ndarray<T>& split_points,
+                                                                       nb::ndarray<int>& isk) const {
   std::vector<uint32_t> inds = get_indices(isk);
   size_t num_sketches = inds.size();
   size_t num_splits = split_points.size();
@@ -458,30 +468,20 @@ void vector_of_kll_sketches<T, C>::deserialize(const nb::bytes& sk_bytes,
 }
 
 template<typename T, typename C>
-nb::list vector_of_kll_sketches<T, C>::serialize(const nb::ndarray<int>& isk) {
+nb::list vector_of_kll_sketches<T, C>::serialize(nb::ndarray<int>& isk) {
   std::vector<uint32_t> inds = get_indices(isk);
   const size_t num_sketches = inds.size();
 
-  nb::list list(num_sketches);
+  nb::list list;
   for (uint32_t i = 0; i < num_sketches; ++i) {
     auto serResult = sketches_[inds[i]].serialize();
-    list[i] = nb::bytes((char*)serResult.data(), serResult.size());
+    list.append(nb::bytes((char*)serResult.data(), serResult.size()));
   }
 
   return list;
 }
 
-namespace python {
-template<typename T>
-double kll_sketch_generic_normalized_rank_error(uint16_t k, bool pmf) {
-  return kll_sketch<T>::get_normalized_rank_error(k, pmf);
-}
-
-} // namespace datasketches::python
-
 } // namespace datasketches
-
-namespace dspy = datasketches::python;
 
 template<typename T>
 void bind_vector_of_kll_sketches(nb::module_ &m, const char* name) {
@@ -525,7 +525,8 @@ void bind_vector_of_kll_sketches(nb::module_ &m, const char* name) {
          "Returns the probability mass function (PMF) at `split_points` of the specified sketch(es).  `split_points` should be a list/array of floats between 0 and 1 (inclusive). `isk` specifies which sketch(es) to return the PMF for (default: all sketches)")
     .def("get_cdf", &vector_of_kll_sketches<T>::get_cdf, nb::arg("split_points"), nb::arg("isk")=-1, 
          "Returns the cumulative distribution function (CDF) at `split_points` of the specified sketch(es).  `split_points` should be a list/array of floats between 0 and 1 (inclusive). `isk` specifies which sketch(es) to return the CDF for (default: all sketches)")
-    .def_static("get_normalized_rank_error", &dsnb::kll_sketch_generic_normalized_rank_error<T>,
+    .def_static("get_normalized_rank_error",
+        [](uint16_t k, bool pmf) { return kll_sketch<T>::get_normalized_rank_error(k, pmf); },
          nb::arg("k"), nb::arg("as_pmf"), "Returns the normalized rank error")
     .def("serialize", &vector_of_kll_sketches<T>::serialize, nb::arg("isk")=-1, 
          "Serializes the specified sketch(es). `isk` can be an int or a list/array of ints (default: all sketches)")

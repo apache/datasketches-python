@@ -114,10 +114,8 @@ target_sources(python
 cmake_policy(SET CMP0097 NEW)
 include(ExternalProject)
 ExternalProject_Add(datasketches
-  #GIT_REPOSITORY https://github.com/apache/datasketches-cpp.git
-  GIT_REPOSITORY https://github.com/jmalkin/datasketches-cpp.git
-  #GIT_TAG master
-  GIT_TAG ebpps_serialize_fix
+  GIT_REPOSITORY https://github.com/apache/datasketches-cpp.git
+  GIT_TAG master
   GIT_SHALLOW true
   GIT_SUBMODULES ""
   INSTALL_DIR /tmp/datasketches
