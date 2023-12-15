@@ -62,7 +62,7 @@ class vector_of_kll_sketches {
     using Array2D = nb::ndarray<V, nb::numpy, nb::ndim<2>, nb::c_contig>;
 
     // sketch updates/merges
-    void update(const nb::ndarray<T>& items);
+    void update(nb::ndarray<T>& items, char order);
     void merge(const vector_of_kll_sketches<T>& other);
 
     template<typename V>
@@ -103,10 +103,6 @@ class vector_of_kll_sketches {
 
     template<typename TT>
     Array2D<TT> make_ndarray(size_t rows, size_t cols) const;
-
-    char check_order(nb::ndarray<T, nb::f_contig>) { return 'F'; }
-    char check_order(nb::ndarray<T, nb::c_contig>) { return 'C'; }
-    char check_order(nb::ndarray<T>) { return '?'; }
 
     const uint32_t k_; // kll sketch k parameter
     const uint32_t d_; // number of dimensions (here: sketches) to hold
@@ -252,67 +248,17 @@ template<typename T, typename C>
 auto vector_of_kll_sketches<T, C>::is_empty() const -> Array1D<bool> {
   auto vals = make_ndarray<bool>(d_);
   auto view = vals.view();
-  //std::vector<char> vals(d_);
   for (uint32_t i = 0; i < d_; ++i) {
     view(i) = sketches_[i].is_empty();
   }
-  //const size_t shape[] = { static_cast<size_t>(d_) };
-  //return Array1D<bool>(vals.data(), 1, shape);
   return vals;
 }
-
-// Updates each sketch with values -- 1-d input
-// Currently: all values must be present
-// TODO: allow subsets of sketches to be updated
-/*
-template<typename T, typename C>
-void vector_of_kll_sketches<T, C>::update(const nb::ndarray<T, nb::ndim<1>>& items) {
-  if (items.size() != d_) {
-    throw std::invalid_argument("input data must have rows with  " + std::to_string(d_)
-          + " elements. Found: " + std::to_string(items.size()));   
-  }
-
-  // 1D case: single value to update per sketch
-  //auto data = items.template unchecked<1>();
-  for (uint32_t i = 0; i < d_; ++i) {
-    sketches_[i].update(items(i));
-  }
-}
-
-// Updates each sketch with values -- 2-d input
-// Currently: all values must be present
-// TODO: allow subsets of sketches to be updated
-template<typename T, typename C>
-void vector_of_kll_sketches<T, C>::update(const nb::ndarray<T, nb::ndim<2>>& items) {
-  if (items.shape(1) != d_) {
-    throw std::invalid_argument("input data must have rows with  " + std::to_string(d_)
-          + " elements. Found: " + std::to_string(items.shape(1)));   
-  }
-
-  // 2D case: multiple values to update per sketch
-  //auto data = items.template unchecked<2>();
-  //if (items.flags() & nb::ndarray::f_style) {
-  if constexpr (check_order(items) == 'F') {
-    for (uint32_t j = 0; j < d_; ++j) {
-      for (uint32_t i = 0; i < items.shape(0); ++i) { 
-        sketches_[j].update(items(i,j));
-      }
-    }
-  } else { // nb::c_contig or nb::any_contig
-    for (uint32_t i = 0; i < items.shape(0); ++i) { 
-      for (uint32_t j = 0; j < d_; ++j) {
-        sketches_[j].update(items(i,j));
-      }
-    }
-  }
-}
-*/
 
 // Updates each sketch with values
 // Currently: all values must be present
 // TODO: allow subsets of sketches to be updated
 template<typename T, typename C>
-void vector_of_kll_sketches<T, C>::update(const nb::ndarray<T>& items) {
+void vector_of_kll_sketches<T, C>::update(nb::ndarray<T>& items, char order) {
   size_t ndim = items.ndim();
 
   if (items.shape(ndim-1) != d_) {
@@ -320,27 +266,32 @@ void vector_of_kll_sketches<T, C>::update(const nb::ndarray<T>& items) {
           + " elements. Found: " + std::to_string(items.shape(ndim-1)));
   }
   
-  const T* data = items.data();
   if (ndim == 1) {
     // 1D case: single value to update per sketch
+    const T* data = items.data();
     for (uint32_t i = 0; i < d_; ++i) {
       sketches_[i].update(data[i]);
     }
   }
   else if (ndim == 2) {
     // 2D case: multiple values to update per sketch
-    if (check_order(items) == 'F') {
+    // We could speedthis up by using raw array access and pre-computing an offset for the
+    // row/column, but if we use the wrong ordering the computation would be incorrect.
+    // By using a view and dereferencing by (row, column) each time we ensure correct
+    // processing at the cost of an extra multiply each derference. Using a mismatched
+    // ordering versus the actual data storage will be potentially slower but will still
+    // produce correct output.
+    auto data = items.template view<nb::ndim<2>>();
+    if (order == 'F' || order == 'f') { // Fortran-style (column-major) order
       for (uint32_t j = 0; j < d_; ++j) {
-        const size_t offset = j * d_;
         for (uint32_t i = 0; i < items.shape(0); ++i) { 
-          sketches_[j].update(data[offset + i]);
+          sketches_[j].update(data(i, j));
         }
       }
     } else { // nb::c_contig or nb::any_contig
       for (uint32_t i = 0; i < items.shape(0); ++i) { 
-        const size_t offset = i * items.shape(0);
         for (uint32_t j = 0; j < d_; ++j) {
-          sketches_[j].update(data[offset + j]);
+          sketches_[j].update(data(i, j));
         }
       }
     }
@@ -349,7 +300,6 @@ void vector_of_kll_sketches<T, C>::update(const nb::ndarray<T>& items) {
     throw std::invalid_argument("Update input must be 2 or fewer dimensions : " + std::to_string(ndim));
   }
 }
-
 
 // Merges two arrays of sketches
 // Currently: all values must be present
@@ -381,30 +331,22 @@ kll_sketch<T, C> vector_of_kll_sketches<T, C>::collapse(ArrInputType<int>& isk) 
 // Number of updates for each sketch
 template<typename T, typename C>
 auto vector_of_kll_sketches<T, C>::get_n() const -> Array1D<uint64_t> {
-  //std::vector<uint64_t> vals(d_);
   auto vals = make_ndarray<uint64_t>(d_);
   auto view = vals.view();
   for (uint32_t i = 0; i < d_; ++i) {
-    //vals[i] = sketches_[i].get_n();
     view(i) = sketches_[i].get_n();
   }
-  //const size_t shape[] = { static_cast<size_t>(d_) };
-  //return Array1D<uint64_t>(vals.data(), 1, shape);
   return vals;
 }
 
 // Number of retained values for each sketch
 template<typename T, typename C>
 auto vector_of_kll_sketches<T, C>::get_num_retained() const -> Array1D<uint32_t> {
-  //std::vector<uint32_t> vals(d_);
   auto vals = make_ndarray<uint32_t>(d_);
   auto view = vals.view();
   for (uint32_t i = 0; i < d_; ++i) {
-    //vals[i] = sketches_[i].get_num_retained();
     view(i) = sketches_[i].get_num_retained();
   }
-  //const size_t shape[] = { static_cast<size_t>(d_) };
-  //return Array1D<uint32_t>(vals.data(), 1, shape);
   return vals;
 }
 
@@ -416,11 +358,8 @@ auto vector_of_kll_sketches<T, C>::get_min_values() const -> Array1D<T> {
   auto vals = make_ndarray<T>(d_);
   auto view = vals.view();
   for (uint32_t i = 0; i < d_; ++i) {
-    //vals[i] = sketches_[i].get_min_item();
     view(i) = sketches_[i].get_min_item();
   }
-  //const size_t shape[] = { static_cast<size_t>(d_) };
-  //return Array1D<T>(vals.data(), 1, shape);
   return vals;
 }
 
@@ -428,15 +367,11 @@ auto vector_of_kll_sketches<T, C>::get_min_values() const -> Array1D<T> {
 // TODO: allow subsets of sketches
 template<typename T, typename C>
 auto vector_of_kll_sketches<T, C>::get_max_values() const -> Array1D<T> {
-  //std::vector<T> vals(d_);
   auto vals = make_ndarray<T>(d_);
   auto view = vals.view();
   for (uint32_t i = 0; i < d_; ++i) {
-    //vals[i] = sketches_[i].get_max_item();
     view(i) = sketches_[i].get_max_item();
   }
-  //const size_t shape[] = { static_cast<size_t>(d_) };
-  //return Array1D<T>(vals.data(), 1, shape);
   return vals;
 }
 
@@ -499,18 +434,13 @@ auto vector_of_kll_sketches<T, C>::get_ranks(ArrInputType<T>& values,
   size_t num_ranks = values_arr.size();
   auto vals = values_arr.view();
 
-  //std::vector<std::vector<double>> ranks(num_sketches, std::vector<double>(num_ranks));
   auto ranks = make_ndarray<double>(num_sketches, num_ranks);
   auto view = ranks.view();
   for (uint32_t i = 0; i < num_sketches; ++i) {
-    //const size_t offset = i * num_ranks;
     for (size_t j = 0; j < num_ranks; ++j) {
-      //ranks[offset + j] = sketches_[inds[i]].get_rank(vals[j]);
       view(i, j) = sketches_[inds(i)].get_rank(vals(j));
     }
   }
-  //const size_t shape[] = {static_cast<size_t>(num_sketches), static_cast<size_t>(num_ranks)};
-  //return Array2D<double>(ranks.data(), 2, shape);
   return ranks;
 }
 
@@ -525,20 +455,14 @@ auto vector_of_kll_sketches<T, C>::get_pmf(ArrInputType<T>& split_points,
   Array1D<T> splits_arr = input_to_vec<T>(split_points);
   size_t num_splits = splits_arr.size();
   
-  //std::vector<std::vector<T>> pmfs(num_sketches, std::vector<T>(num_splits + 1));
-  //std::vector<double> pmfs(num_sketches * (num_splits + 1));
   auto pmfs = make_ndarray<double>(num_sketches, num_splits + 1);
   auto view = pmfs.view();
   for (uint32_t i = 0; i < num_sketches; ++i) {
     auto pmf = sketches_[inds(i)].get_PMF(splits_arr.data(), num_splits);
-    //const size_t offset = i * num_sketches;
     for (size_t j = 0; j <= num_splits; ++j) {
-      //pmfs[offset + j] = pmf[j];
       view(i, j) = pmf[j];
     }
   }
-  //const size_t shape[] = {static_cast<size_t>(num_sketches), static_cast<size_t>(num_splits + 1)};
-  //return Array2D<double>(pmfs.data(), 2, shape);
   return pmfs;
 }
 
@@ -553,20 +477,14 @@ auto vector_of_kll_sketches<T, C>::get_cdf(ArrInputType<T>& split_points,
   Array1D<T> splits_arr = input_to_vec<T>(split_points);
   size_t num_splits = splits_arr.size();
   
-  //std::vector<std::vector<T>> cdfs(num_sketches, std::vector<T>(num_splits + 1));
-  //std::vector<double> cdfs(num_sketches * (num_splits + 1));
   auto cdfs = make_ndarray<double>(num_sketches, num_splits + 1);
   auto view = cdfs.view();
   for (uint32_t i = 0; i < num_sketches; ++i) {
     auto cdf = sketches_[inds(i)].get_CDF(splits_arr.data(), num_splits);
-    //const size_t offset = i * num_sketches;
     for (size_t j = 0; j <= num_splits; ++j) {
-      //cdfs[offset + j] = cdf[j];
       view(i, j) = cdf[j];
     }
   }
-  //const size_t shape[] = {static_cast<size_t>(num_sketches), static_cast<size_t>(num_splits + 1)};
-  //return Array2D<double>(cdfs.data(), 2, shape);
   return cdfs;
 }
 
@@ -611,8 +529,9 @@ void bind_vector_of_kll_sketches(nb::module_ &m, const char* name) {
          "Returns the value of `k` of the sketch(es)")
     .def("get_d", &vector_of_kll_sketches<T>::get_d,
          "Returns the number of sketches")
-    .def("update", &vector_of_kll_sketches<T>::update, nb::arg("items"), 
-         "Updates the sketch(es) with value(s).  Must be a 1D array of size equal to the number of sketches.  Can also be 2D array of shape (n_updates, n_sketches).  If a sketch does not have a value to update, use np.nan")
+    .def("update", &vector_of_kll_sketches<T>::update, nb::arg("items"), nb::arg("order") = "C",
+         "Updates the sketch(es) with value(s).  Must be a 1D array of size equal to the number of sketches.  Can also be 2D array of shape (n_updates, n_sketches).  If a sketch does not have a value to update, use np.nan. "
+         " Order 'F' specifies a column-major (Fortran style) matrix; any other value assumes row-major (C style) matrix.")
     .def("__str__", &vector_of_kll_sketches<T>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
          "Produces a string summary of all sketches. Users should split the returned string by '\n\n'")
     .def("to_string", &vector_of_kll_sketches<T>::to_string, nb::arg("print_levels")=false,

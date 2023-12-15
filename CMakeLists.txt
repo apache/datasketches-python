@@ -57,12 +57,14 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.18.0")
-find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
+find_package(Python 3.8
+  REQUIRED COMPONENTS Interpreter Development.Module
+  OPTIONAL_COMPONENTS Development.SABIModule)
 else()
 find_package(Python COMPONENTS Interpreter Development REQUIRED)
 endif()
 
-if(Python_VERSION VERSION_LESS "3.6")
+if(Python_VERSION VERSION_LESS "3.8")
   message(FATAL_ERROR "DataSketches requires at least Python3.")
 endif()
 
@@ -73,7 +75,7 @@ list(APPEND CMAKE_PREFIX_PATH "${NB_DIR}")
 message("nanobind dir: ${NB_DIR}")
 find_package(nanobind CONFIG REQUIRED)
 
-nanobind_add_module(python MODULE LTO)
+nanobind_add_module(python MODULE LTO STABLE_ABI NB_STATIC)
 
 set_target_properties(python PROPERTIES
   PREFIX ""
