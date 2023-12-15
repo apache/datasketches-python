@@ -284,12 +284,14 @@ void vector_of_kll_sketches<T, C>::update(nb::ndarray<T>& items, char order) {
     auto data = items.template view<nb::ndim<2>>();
     if (order == 'F' || order == 'f') { // Fortran-style (column-major) order
       for (uint32_t j = 0; j < d_; ++j) {
+        const size_t offset = j * d_;
         for (uint32_t i = 0; i < items.shape(0); ++i) { 
           sketches_[j].update(data(i, j));
         }
       }
     } else { // nb::c_contig or nb::any_contig
       for (uint32_t i = 0; i < items.shape(0); ++i) { 
+        const size_t offset = i * items.shape(0);
         for (uint32_t j = 0; j < d_; ++j) {
           sketches_[j].update(data(i, j));
         }
@@ -437,6 +439,7 @@ auto vector_of_kll_sketches<T, C>::get_ranks(ArrInputType<T>& values,
   auto ranks = make_ndarray<double>(num_sketches, num_ranks);
   auto view = ranks.view();
   for (uint32_t i = 0; i < num_sketches; ++i) {
+    const size_t offset = i * num_ranks;
     for (size_t j = 0; j < num_ranks; ++j) {
       view(i, j) = sketches_[inds(i)].get_rank(vals(j));
     }
@@ -476,7 +479,7 @@ auto vector_of_kll_sketches<T, C>::get_cdf(ArrInputType<T>& split_points,
 
   Array1D<T> splits_arr = input_to_vec<T>(split_points);
   size_t num_splits = splits_arr.size();
-  
+
   auto cdfs = make_ndarray<double>(num_sketches, num_splits + 1);
   auto view = cdfs.view();
   for (uint32_t i = 0; i < num_sketches; ++i) {
