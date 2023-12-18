@@ -23,6 +23,8 @@
 #include <nanobind/stl/shared_ptr.h>
 #include <nanobind/stl/vector.h>
 
+#include <numpy/arrayobject.h>
+
 #ifndef _KERNEL_FUNCTION_HPP_
 #define _KERNEL_FUNCTION_HPP_
 
@@ -36,7 +38,8 @@ namespace datasketches {
  *        kernels implement KernelFunction, as shown in KernelFunction.py
  */
 struct kernel_function {
-  virtual double operator()(const nb::ndarray<nb::numpy, double>& a, const nb::ndarray<nb::numpy, double>& b) const = 0;
+  //virtual double operator()(const nb::ndarray<nb::numpy, double>& a, const nb::ndarray<nb::numpy, double>& b) const = 0;
+  virtual double operator()(PyObject* a, PyObject* b) const = 0;
   virtual ~kernel_function() = default;
 };
 
@@ -54,7 +57,8 @@ struct KernelFunction : public kernel_function {
    * @param b the second vector
    * @return The function value K(a,b)
    */
-  double operator()(const nb::ndarray<nb::numpy, double>& a, const nb::ndarray<nb::numpy, double>& b) const override {
+  //double operator()(const nb::ndarray<nb::numpy, double>& a, const nb::ndarray<nb::numpy, double>& b) const override {
+  double operator()(PyObject* a, PyObject* b) const override {
     NB_OVERRIDE_PURE_NAME(
       "__call__",      // Name of function in python
       operator(),      // Name of function in C++
@@ -75,20 +79,23 @@ struct kernel_function_holder {
   kernel_function_holder& operator=(const kernel_function_holder& other) { _kernel = other._kernel; return *this; }
   kernel_function_holder& operator=(kernel_function_holder&& other) { std::swap(_kernel, other._kernel); return *this; }
 
-  double operator()(const std::vector<double>& a, nb::ndarray<nb::numpy, double>& b) const {
-    size_t shape[1] = { a.size() };
+  double operator()(const std::vector<double>& a, PyObject* b) const {
+    npy_intp size_a = a.size();
+    nb::handle a_obj(PyArray_SimpleNewFromData(1, &size_a, NPY_DOUBLE, const_cast<double*>(a.data())));
     return _kernel->operator()(
-      nb::ndarray<nb::numpy, double>(const_cast<double*>(a.data()), 1, shape),
+      a_obj.ptr(),
       b
     );
   }
 
   double operator()(const std::vector<double>& a, const std::vector<double>& b) const {
-    size_t shape_a[1] = { a.size() };
-    size_t shape_b[1] = { b.size() };
+    npy_intp size_a = a.size();
+    npy_intp size_b = b.size();
+    nb::handle a_obj(PyArray_SimpleNewFromData(1, &size_a, NPY_DOUBLE, const_cast<double*>(a.data())));
+    nb::handle b_obj(PyArray_SimpleNewFromData(1, &size_b, NPY_DOUBLE, const_cast<double*>(b.data())));
     return _kernel->operator()(
-      nb::ndarray<nb::numpy, double>(const_cast<double*>(a.data()), 1, shape_a),
-      nb::ndarray<nb::numpy, double>(const_cast<double*>(b.data()), 1, shape_b)
+      a_obj.ptr(),
+      b_obj.ptr()
     );
   }
 

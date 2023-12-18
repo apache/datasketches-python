@@ -58,10 +58,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.18.0")
 find_package(Python 3.8
-  REQUIRED COMPONENTS Interpreter Development.Module
+  REQUIRED COMPONENTS Interpreter Development.Module NumPy
   OPTIONAL_COMPONENTS Development.SABIModule)
 else()
-find_package(Python COMPONENTS Interpreter Development REQUIRED)
+find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
 endif()
 
 if(Python_VERSION VERSION_LESS "3.8")
@@ -72,7 +72,6 @@ execute_process(
   COMMAND "${Python_EXECUTABLE}" -m nanobind --cmake_dir
   OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE NB_DIR)
 list(APPEND CMAKE_PREFIX_PATH "${NB_DIR}")
-message("nanobind dir: ${NB_DIR}")
 find_package(nanobind CONFIG REQUIRED)
 
 nanobind_add_module(python MODULE LTO STABLE_ABI NB_STATIC)
@@ -126,6 +125,10 @@ ExternalProject_Add(datasketches
 ExternalProject_Get_property(datasketches INSTALL_DIR)
 set(datasketches_INSTALL_DIR ${INSTALL_DIR})
 message("Source dir of datasketches = ${datasketches_INSTALL_DIR}")
+message("Numpy include dir(s): ${Python_NumPy_INCLUDE_DIRS}")
 target_include_directories(python 
-  PRIVATE ${datasketches_INSTALL_DIR}/include/DataSketches)
-add_dependencies(python datasketches)
+  PRIVATE
+    ${datasketches_INSTALL_DIR}/include/DataSketches
+    ${Python_NumPy_INCLUDE_DIRS}
+    )
+add_dependencies(python datasketches Python::NumPy)
