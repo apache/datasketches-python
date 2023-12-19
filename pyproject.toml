@@ -19,5 +19,6 @@
 requires = ["wheel",
             "setuptools >= 30.3.0",
             "cmake >= 3.16",
-            "pybind11[global] >= 2.6.0"]
+            "numpy",
+            "nanobind >= 1.6"]
 build-backend = "setuptools.build_meta"

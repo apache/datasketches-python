@@ -142,6 +142,14 @@ class KllTest(unittest.TestCase):
       for i in range(0, n):
         kll.update(str(i))
       
+      # check iterator for items
+      total_weight = 0
+      for tuple in kll:
+        item = tuple[0]
+        weight = tuple[1]
+        total_weight = total_weight + weight
+      self.assertEqual(total_weight, kll.get_n())
+
       kll_copy = kll_items_sketch(kll)
       kll.merge(kll_copy)
       self.assertEqual(kll.get_n(), 2 * n)

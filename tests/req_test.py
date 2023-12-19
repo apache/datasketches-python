@@ -145,7 +145,14 @@ class reqTest(unittest.TestCase):
       req_copy = req_items_sketch(req)
       req.merge(req_copy)
       self.assertEqual(req.get_n(), 2 * n)
-      
+
+      total_weight = 0
+      for tuple in req:
+        item = tuple[0]
+        weight = tuple[1]
+        total_weight = total_weight + weight
+      self.assertEqual(total_weight, req.get_n())
+
       req_bytes = req.serialize(PyStringsSerDe())
       new_req = req_items_sketch.deserialize(req_bytes, PyStringsSerDe())
       self.assertEqual(req.get_num_retained(), new_req.get_num_retained())

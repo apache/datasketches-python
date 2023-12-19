@@ -35,7 +35,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 set(CMAKE_MACOSX_RPATH ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 # enable compiler warnings globally
 # derived from https://foonathan.net/blog/2018/10/17/cmake-warnings.html
@@ -57,23 +57,24 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.18.0")
-find_package(Python3 COMPONENTS Interpreter Development.Module REQUIRED)
+find_package(Python 3.8
+  REQUIRED COMPONENTS Interpreter Development.Module NumPy
+  OPTIONAL_COMPONENTS Development.SABIModule)
 else()
-find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
 endif()
 
-# only Windows+MSVC seems to have trouble locating pybind11
-if (MSVC)
-  execute_process(COMMAND cmd.exe /c ${CMAKE_CURRENT_SOURCE_DIR}/pybind11Path.cmd "${Python3_EXECUTABLE}"
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-      OUTPUT_VARIABLE EXTRA_PACKAGE_PATH)
-  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${EXTRA_PACKAGE_PATH})
+if(Python_VERSION VERSION_LESS "3.8")
+  message(FATAL_ERROR "DataSketches requires at least Python3.")
 endif()
 
-find_package(pybind11 CONFIG REQUIRED)
+execute_process(
+  COMMAND "${Python_EXECUTABLE}" -m nanobind --cmake_dir
+  OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE NB_DIR)
+list(APPEND CMAKE_PREFIX_PATH "${NB_DIR}")
+find_package(nanobind CONFIG REQUIRED)
 
-pybind11_add_module(python MODULE EXCLUDE_FROM_ALL THIN_LTO)
+nanobind_add_module(python MODULE LTO STABLE_ABI NB_STATIC)
 
 set_target_properties(python PROPERTIES
   PREFIX ""
@@ -115,7 +116,7 @@ cmake_policy(SET CMP0097 NEW)
 include(ExternalProject)
 ExternalProject_Add(datasketches
   GIT_REPOSITORY https://github.com/apache/datasketches-cpp.git
-  GIT_TAG 5.0.0
+  GIT_TAG master
   GIT_SHALLOW true
   GIT_SUBMODULES ""
   INSTALL_DIR /tmp/datasketches
@@ -124,6 +125,10 @@ ExternalProject_Add(datasketches
 ExternalProject_Get_property(datasketches INSTALL_DIR)
 set(datasketches_INSTALL_DIR ${INSTALL_DIR})
 message("Source dir of datasketches = ${datasketches_INSTALL_DIR}")
+message("Numpy include dir(s): ${Python_NumPy_INCLUDE_DIRS}")
 target_include_directories(python 
-  PRIVATE ${datasketches_INSTALL_DIR}/include/DataSketches)
-add_dependencies(python datasketches)
+  PRIVATE
+    ${datasketches_INSTALL_DIR}/include/DataSketches
+    ${Python_NumPy_INCLUDE_DIRS}
+    )
+add_dependencies(python datasketches Python::NumPy)
