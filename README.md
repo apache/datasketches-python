@@ -68,6 +68,8 @@ The unit tests are mostly structured in a tutorial style and can be used as a re
 - VarOpt Sampling
   - `var_opt_sketch`
   - `var_opt_union`
+- EBPPS Sampling (Exactly proportional to weight)
+  - `ebpps_sketch`
 - Vector of KLL
   - `vector_of_kll_ints_sketches`
   - `vector_of_kll_floats_sketches`
