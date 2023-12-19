@@ -12,9 +12,9 @@ This package provides a variety of sketches as described below. Wherever a speci
 
 ## Building and Installation
 
-Once cloned, the library can be installed by running `python3 -m pip install .` in the project root directory which will also install the necessary dependencies, namely NumPy and [pybind11[global]](https://github.com/pybind/pybind11).
+Once cloned, the library can be installed by running `python3 -m pip install .` in the project root directory which will also install the necessary dependencies, namely NumPy and [Nanobind](https://github.com/wjakob/nanobind).
 
-If you prefer to call the `setup.py` build script directly, which is discouraged, you must first install `pybind11[global]`, as well as any other dependencies listed under the build-system section in `pyproject.toml`.
+If you prefer to call the `setup.py` build script directly, which is discouraged, you must first install `nanobind` and `numpy`, as well as any other dependencies listed under the build-system section in `pyproject.toml`.
 
 The library is also available from PyPI via `python3 -m pip install datasketches`.
 
@@ -68,6 +68,8 @@ The unit tests are mostly structured in a tutorial style and can be used as a re
 - VarOpt Sampling
   - `var_opt_sketch`
   - `var_opt_union`
+- EBPPS Sampling (Exactly proportional to weight)
+  - `ebpps_sketch`
 - Vector of KLL
   - `vector_of_kll_ints_sketches`
   - `vector_of_kll_floats_sketches`
@@ -98,4 +100,4 @@ The Python unit tests are run via `tox`, with no arguments, from the project roo
 
 The Apache DataSketches Library is distributed under the Apache 2.0 License.
 
-There may be precompiled binaries provided as a convenience and distributed through PyPI via [https://pypi.org/project/datasketches/] contain compiled code from [pybind11](https://github.com/pybind/pybind11), which is distributed under a BSD license.
+There may be precompiled binaries provided as a convenience and distributed through PyPI via [https://pypi.org/project/datasketches/] contain compiled code from [nanobind](https://github.com/wjakob/nanobind), which is distributed under a BSD license.

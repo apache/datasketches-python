@@ -147,6 +147,13 @@ class QuantilesTest(unittest.TestCase):
       quantiles.merge(quantiles_copy)
       self.assertEqual(quantiles.get_n(), 2 * n)
       
+      total_weight = 0
+      for tuple in quantiles:
+        item = tuple[0]
+        weight = tuple[1]
+        total_weight = total_weight + weight
+      self.assertEqual(total_weight, quantiles.get_n())
+
       quantiles_bytes = quantiles.serialize(PyStringsSerDe())
       new_quantiles = quantiles_items_sketch.deserialize(quantiles_bytes, PyStringsSerDe())
       self.assertEqual(quantiles.get_num_retained(), new_quantiles.get_num_retained())
