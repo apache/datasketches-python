@@ -17,39 +17,38 @@
  * under the License.
  */
 
-#include <nanobind/nanobind.h>
-#include <nanobind/stl/string.h>
+#include <pybind11/pybind11.h>
 
 #include "hll.hpp"
 
-namespace nb = nanobind;
+namespace py = pybind11;
 
-void init_hll(nb::module_ &m) {
+void init_hll(py::module &m) {
   using namespace datasketches;
 
-  nb::enum_<target_hll_type>(m, "tgt_hll_type", "Target HLL flavor")
+  py::enum_<target_hll_type>(m, "tgt_hll_type", "Target HLL flavor")
     .value("HLL_4", HLL_4)
     .value("HLL_6", HLL_6)
     .value("HLL_8", HLL_8)
     .export_values();
 
-  nb::class_<hll_sketch>(m, "hll_sketch")
-    .def(nb::init<uint8_t>(), nb::arg("lg_k"))
-    .def(nb::init<uint8_t, target_hll_type>(), nb::arg("lg_k"), nb::arg("tgt_type"))
-    .def(nb::init<uint8_t, target_hll_type, bool>(), nb::arg("lg_k"), nb::arg("tgt_type"), nb::arg("start_max_size")=false)
+  py::class_<hll_sketch>(m, "hll_sketch")
+    .def(py::init<uint8_t>(), py::arg("lg_k"))
+    .def(py::init<uint8_t, target_hll_type>(), py::arg("lg_k"), py::arg("tgt_type"))
+    .def(py::init<uint8_t, target_hll_type, bool>(), py::arg("lg_k"), py::arg("tgt_type"), py::arg("start_max_size")=false)
     .def("__str__", (std::string (hll_sketch::*)(bool,bool,bool,bool) const) &hll_sketch::to_string,
-         nb::arg("summary")=true, nb::arg("detail")=false, nb::arg("aux_detail")=false, nb::arg("all")=false,
+         py::arg("summary")=true, py::arg("detail")=false, py::arg("aux_detail")=false, py::arg("all")=false,
          "Produces a string summary of the sketch")
     .def("to_string", (std::string (hll_sketch::*)(bool,bool,bool,bool) const) &hll_sketch::to_string,
-         nb::arg("summary")=true, nb::arg("detail")=false, nb::arg("aux_detail")=false, nb::arg("all")=false,
+         py::arg("summary")=true, py::arg("detail")=false, py::arg("aux_detail")=false, py::arg("all")=false,
          "Produces a string summary of the sketch")
-    .def_prop_ro("lg_config_k", &hll_sketch::get_lg_config_k, "Configured lg_k value for the sketch")
-    .def_prop_ro("tgt_type", &hll_sketch::get_target_type, "Returns the HLL type (4, 6, or 8) when in estimation mode")
+    .def_property_readonly("lg_config_k", &hll_sketch::get_lg_config_k, "Configured lg_k value for the sketch")
+    .def_property_readonly("tgt_type", &hll_sketch::get_target_type, "Returns the HLL type (4, 6, or 8) when in estimation mode")
     .def("get_estimate", &hll_sketch::get_estimate,
          "Estimate of the distinct count of the input stream")
-    .def("get_lower_bound", &hll_sketch::get_lower_bound, nb::arg("num_std_devs"),
+    .def("get_lower_bound", &hll_sketch::get_lower_bound, py::arg("num_std_devs"),
          "Returns the approximate lower error bound given the specified number of standard deviations in {1, 2, 3}")
-    .def("get_upper_bound", &hll_sketch::get_upper_bound, nb::arg("num_std_devs"),
+    .def("get_upper_bound", &hll_sketch::get_upper_bound, py::arg("num_std_devs"),
          "Returns the approximate upper error bound given the specified number of standard deviations in {1, 2, 3}")
     .def("is_compact", &hll_sketch::is_compact,
          "True if the sketch is compact, otherwise False")
@@ -61,23 +60,23 @@ void init_hll(nb::module_ &m) {
          "Returns the size of the serialized sketch when compressing the exception table if HLL_4")
     .def("reset", &hll_sketch::reset,
          "Resets the sketch to the empty state in coupon collection mode")
-    .def("update", (void (hll_sketch::*)(int64_t)) &hll_sketch::update, nb::arg("datum"),
+    .def("update", (void (hll_sketch::*)(int64_t)) &hll_sketch::update, py::arg("datum"),
          "Updates the sketch with the given integral value")
-    .def("update", (void (hll_sketch::*)(double)) &hll_sketch::update, nb::arg("datum"),
+    .def("update", (void (hll_sketch::*)(double)) &hll_sketch::update, py::arg("datum"),
          "Updates the sketch with the given floating point value")
-    .def("update", (void (hll_sketch::*)(const std::string&)) &hll_sketch::update, nb::arg("datum"),
+    .def("update", (void (hll_sketch::*)(const std::string&)) &hll_sketch::update, py::arg("datum"),
          "Updates the sketch with the given string value")
     .def_static("get_max_updatable_serialization_bytes", &hll_sketch::get_max_updatable_serialization_bytes,
-         nb::arg("lg_k"), nb::arg("tgt_type"),
+         py::arg("lg_k"), py::arg("tgt_type"),
          "Provides a likely upper bound on serialization size for the given parameters")
     .def_static("get_rel_err", &hll_sketch::get_rel_err,
-         nb::arg("upper_bound"), nb::arg("unioned"), nb::arg("lg_k"), nb::arg("num_std_devs"),
+         py::arg("upper_bound"), py::arg("unioned"), py::arg("lg_k"), py::arg("num_std_devs"),
          "Returns the a priori relative error bound for the given parameters")
     .def(
         "serialize_compact",
         [](const hll_sketch& sk) {
           auto bytes = sk.serialize_compact();
-          return nb::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+          return py::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());
         },
         "Serializes the sketch into a bytes object, compressing the exception table if HLL_4"
     )
@@ -85,43 +84,43 @@ void init_hll(nb::module_ &m) {
         "serialize_updatable",
         [](const hll_sketch& sk) {
           auto bytes = sk.serialize_updatable();
-          return nb::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+          return py::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());
         },
         "Serializes the sketch into a bytes object"
     )
     .def_static(
         "deserialize",
-        [](const nb::bytes& bytes) { return hll_sketch::deserialize(bytes.c_str(), bytes.size()); },
-        nb::arg("bytes"),
+        [](const std::string& bytes) { return hll_sketch::deserialize(bytes.data(), bytes.size()); },
+        py::arg("bytes"),
         "Reads a bytes object and returns the corresponding hll_sketch"
     );
 
-  nb::class_<hll_union>(m, "hll_union")
-    .def(nb::init<uint8_t>(), nb::arg("lg_max_k"))
-    .def_prop_ro("lg_config_k", &hll_union::get_lg_config_k, "Configured lg_k value for the union")
-    .def_prop_ro("tgt_type", &hll_union::get_target_type, "Returns the HLL type (4, 6, or 8) when in estimation mode")
+  py::class_<hll_union>(m, "hll_union")
+    .def(py::init<uint8_t>(), py::arg("lg_max_k"))
+    .def_property_readonly("lg_config_k", &hll_union::get_lg_config_k, "Configured lg_k value for the union")
+    .def_property_readonly("tgt_type", &hll_union::get_target_type, "Returns the HLL type (4, 6, or 8) when in estimation mode")
     .def("get_estimate", &hll_union::get_estimate,
          "Estimate of the distinct count of the input stream")
-    .def("get_lower_bound", &hll_union::get_lower_bound, nb::arg("num_std_devs"),
+    .def("get_lower_bound", &hll_union::get_lower_bound, py::arg("num_std_devs"),
          "Returns the approximate lower error bound given the specified number of standard deviations in {1, 2, 3}")
-    .def("get_upper_bound", &hll_union::get_upper_bound, nb::arg("num_std_devs"),
+    .def("get_upper_bound", &hll_union::get_upper_bound, py::arg("num_std_devs"),
          "Returns the approximate upper error bound given the specified number of standard deviations in {1, 2, 3}")
     .def("is_empty", &hll_union::is_empty,
          "True if the union is empty, otherwise False")    
     .def("reset", &hll_union::reset,
          "Resets the union to the empty state")
-    .def("get_result", &hll_union::get_result, nb::arg("tgt_type")=HLL_4,
+    .def("get_result", &hll_union::get_result, py::arg("tgt_type")=HLL_4,
          "Returns a sketch of the target type representing the current union state")
-    .def<void (hll_union::*)(const hll_sketch&)>("update", &hll_union::update, nb::arg("sketch"),
+    .def<void (hll_union::*)(const hll_sketch&)>("update", &hll_union::update, py::arg("sketch"),
          "Updates the union with the given HLL sketch")
-    .def<void (hll_union::*)(int64_t)>("update", &hll_union::update, nb::arg("datum"),
+    .def<void (hll_union::*)(int64_t)>("update", &hll_union::update, py::arg("datum"),
          "Updates the union with the given integral value")
-    .def<void (hll_union::*)(double)>("update", &hll_union::update, nb::arg("datum"),
+    .def<void (hll_union::*)(double)>("update", &hll_union::update, py::arg("datum"),
          "Updates the union with the given floating point value")
-    .def<void (hll_union::*)(const std::string&)>("update", &hll_union::update, nb::arg("datum"),
+    .def<void (hll_union::*)(const std::string&)>("update", &hll_union::update, py::arg("datum"),
          "Updates the union with the given string value")
     .def_static("get_rel_err", &hll_union::get_rel_err,
-         nb::arg("upper_bound"), nb::arg("unioned"), nb::arg("lg_k"), nb::arg("num_std_devs"),
+         py::arg("upper_bound"), py::arg("unioned"), py::arg("lg_k"), py::arg("num_std_devs"),
          "Returns the a priori relative error bound for the given parameters")
     ;
 }

@@ -18,7 +18,7 @@
 
 # build/config files
 include version.cfg.in
-#include pybind11Path.cmd
+include pybind11Path.cmd
 include CMakeLists.txt
 
 # content files

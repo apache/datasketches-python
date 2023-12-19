@@ -17,31 +17,30 @@
  * under the License.
  */
 
-#include <nanobind/nanobind.h>
-#include <nanobind/stl/string.h>
+#include <pybind11/pybind11.h>
 
 #include "cpc_sketch.hpp"
 #include "cpc_union.hpp"
 #include "cpc_common.hpp"
 #include "common_defs.hpp"
 
-namespace nb = nanobind;
+namespace py = pybind11;
 
-void init_cpc(nb::module_ &m) {
+void init_cpc(py::module &m) {
   using namespace datasketches;
 
-  nb::class_<cpc_sketch>(m, "cpc_sketch")
-    .def(nb::init<uint8_t, uint64_t>(), nb::arg("lg_k")=cpc_constants::DEFAULT_LG_K, nb::arg("seed")=DEFAULT_SEED)
-    .def(nb::init<const cpc_sketch&>())
+  py::class_<cpc_sketch>(m, "cpc_sketch")
+    .def(py::init<uint8_t, uint64_t>(), py::arg("lg_k")=cpc_constants::DEFAULT_LG_K, py::arg("seed")=DEFAULT_SEED)
+    .def(py::init<const cpc_sketch&>())
     .def("__str__", &cpc_sketch::to_string,
          "Produces a string summary of the sketch")
     .def("to_string", &cpc_sketch::to_string,
          "Produces a string summary of the sketch")
-    .def<void (cpc_sketch::*)(uint64_t)>("update", &cpc_sketch::update, nb::arg("datum"),
+    .def<void (cpc_sketch::*)(uint64_t)>("update", &cpc_sketch::update, py::arg("datum"),
          "Updates the sketch with the given 64-bit integer value")
-    .def<void (cpc_sketch::*)(double)>("update", &cpc_sketch::update, nb::arg("datum"),
+    .def<void (cpc_sketch::*)(double)>("update", &cpc_sketch::update, py::arg("datum"),
          "Updates the sketch with the given 64-bit floating point")
-    .def<void (cpc_sketch::*)(const std::string&)>("update", &cpc_sketch::update, nb::arg("datum"),
+    .def<void (cpc_sketch::*)(const std::string&)>("update", &cpc_sketch::update, py::arg("datum"),
          "Updates the sketch with the given string")
     .def("get_lg_k", &cpc_sketch::get_lg_k,
          "Returns configured lg_k of this sketch")
@@ -49,29 +48,29 @@ void init_cpc(nb::module_ &m) {
          "Returns True if the sketch is empty, otherwise False")
     .def("get_estimate", &cpc_sketch::get_estimate,
          "Estimate of the distinct count of the input stream")
-    .def("get_lower_bound", &cpc_sketch::get_lower_bound, nb::arg("kappa"),
+    .def("get_lower_bound", &cpc_sketch::get_lower_bound, py::arg("kappa"),
          "Returns an approximate lower bound on the estimate for kappa values in {1, 2, 3}, roughly corresponding to standard deviations")
-    .def("get_upper_bound", &cpc_sketch::get_upper_bound, nb::arg("kappa"),
+    .def("get_upper_bound", &cpc_sketch::get_upper_bound, py::arg("kappa"),
          "Returns an approximate upper bound on the estimate for kappa values in {1, 2, 3}, roughly corresponding to standard deviations")
     .def(
         "serialize",
         [](const cpc_sketch& sk) {
           auto bytes = sk.serialize();
-          return nb::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+          return py::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());
         },
         "Serializes the sketch into a bytes object"
     )
     .def_static(
         "deserialize",
-        [](const nb::bytes& bytes) { return cpc_sketch::deserialize(bytes.c_str(), bytes.size()); },
-        nb::arg("bytes"),
+        [](const std::string& bytes) { return cpc_sketch::deserialize(bytes.data(), bytes.size()); },
+        py::arg("bytes"),
         "Reads a bytes object and returns the corresponding cpc_sketch"
     );
 
-  nb::class_<cpc_union>(m, "cpc_union")
-    .def(nb::init<uint8_t, uint64_t>(), nb::arg("lg_k"), nb::arg("seed")=DEFAULT_SEED)
-    .def(nb::init<const cpc_union&>())
-    .def("update", (void (cpc_union::*)(const cpc_sketch&)) &cpc_union::update, nb::arg("sketch"),
+  py::class_<cpc_union>(m, "cpc_union")
+    .def(py::init<uint8_t, uint64_t>(), py::arg("lg_k"), py::arg("seed")=DEFAULT_SEED)
+    .def(py::init<const cpc_union&>())
+    .def("update", (void (cpc_union::*)(const cpc_sketch&)) &cpc_union::update, py::arg("sketch"),
          "Updates the union with the provided CPC sketch")
     .def("get_result", &cpc_union::get_result,
          "Returns a CPC sketch with the result of the union")

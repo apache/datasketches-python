@@ -47,7 +47,7 @@ class EbppsTest(unittest.TestCase):
     self.assertFalse(sk.is_empty())
 
     # we can easily get the list of items in the sample
-    items = list(sk)
+    items = sk.get_samples()
     self.assertLessEqual(len(items), k)
 
     count = 0

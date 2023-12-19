@@ -42,7 +42,7 @@ class VoTest(unittest.TestCase):
     self.assertFalse(vo.is_empty())
 
     # we can easily get the list of items in the sample
-    items = list(vo)
+    items = vo.get_samples()
     self.assertEqual(len(items), k)
 
     count = 0

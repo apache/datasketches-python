@@ -31,5 +31,5 @@ class GaussianKernel(KernelFunction):
     self._bw = bandwidth
     self._scale = -0.5 * (bandwidth ** -2)
 
-  def __call__(self, a: np.ndarray, b: np.ndarray) -> float:
+  def __call__(self, a: np.array, b: np.array) -> float:
     return np.exp(self._scale * np.linalg.norm(a - b)**2)
