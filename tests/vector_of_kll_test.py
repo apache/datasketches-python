@@ -138,7 +138,6 @@ class VectorOfKllSketchesTest(unittest.TestCase):
       dat = np.random.randn(10, 7, d)
       try:
         kll.update(dat)
-        np.testing.assert_(False) # should not reach here
       except:
         # this is what we expect
         pass

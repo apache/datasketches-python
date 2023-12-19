@@ -17,16 +17,14 @@
  * under the License.
  */
 
-#include <nanobind/nanobind.h>
-#include <nanobind/trampoline.h>
-#include <nanobind/ndarray.h>
-#include <nanobind/stl/shared_ptr.h>
-#include <nanobind/stl/vector.h>
+//#include <memory>
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
 
 #ifndef _KERNEL_FUNCTION_HPP_
 #define _KERNEL_FUNCTION_HPP_
 
-namespace nb = nanobind;
+namespace py = pybind11;
 
 namespace datasketches {
 
@@ -36,7 +34,7 @@ namespace datasketches {
  *        kernels implement KernelFunction, as shown in KernelFunction.py
  */
 struct kernel_function {
-  virtual double operator()(const nb::ndarray<nb::numpy, double>& a, const nb::ndarray<nb::numpy, double>& b) const = 0;
+  virtual double operator()(py::array_t<double>& a, const py::array_t<double>& b) const = 0;
   virtual ~kernel_function() = default;
 };
 
@@ -46,7 +44,7 @@ struct kernel_function {
  *        functions.
  */
 struct KernelFunction : public kernel_function {
-  NB_TRAMPOLINE(kernel_function, 1);
+  using kernel_function::kernel_function;
 
   /**
    * @brief Evaluates K(a,b), the kernel function for the given points a and b
@@ -54,8 +52,10 @@ struct KernelFunction : public kernel_function {
    * @param b the second vector
    * @return The function value K(a,b)
    */
-  double operator()(const nb::ndarray<nb::numpy, double>& a, const nb::ndarray<nb::numpy, double>& b) const override {
-    NB_OVERRIDE_PURE_NAME(
+  double operator()(py::array_t<double>& a, const py::array_t<double>& b) const override {
+    PYBIND11_OVERRIDE_PURE_NAME(
+      double,          // Return type
+      kernel_function, // Parent class
       "__call__",      // Name of function in python
       operator(),      // Name of function in C++
       a, b             // Arguments
@@ -75,24 +75,21 @@ struct kernel_function_holder {
   kernel_function_holder& operator=(const kernel_function_holder& other) { _kernel = other._kernel; return *this; }
   kernel_function_holder& operator=(kernel_function_holder&& other) { std::swap(_kernel, other._kernel); return *this; }
 
-  double operator()(const std::vector<double>& a, nb::ndarray<nb::numpy, double>& b) const {
-    size_t shape[1] = { a.size() };
-    return _kernel->operator()(
-      nb::ndarray<nb::numpy, double>(const_cast<double*>(a.data()), 1, shape),
-      b
-    );
+  double operator()(const std::vector<double>& a, const py::array_t<double>& b) const {
+    py::array_t<double> a_arr(a.size(), a.data(), dummy_array_owner);
+    return _kernel->operator()(a_arr, b);
   }
 
   double operator()(const std::vector<double>& a, const std::vector<double>& b) const {
-    size_t shape_a[1] = { a.size() };
-    size_t shape_b[1] = { b.size() };
-    return _kernel->operator()(
-      nb::ndarray<nb::numpy, double>(const_cast<double*>(a.data()), 1, shape_a),
-      nb::ndarray<nb::numpy, double>(const_cast<double*>(b.data()), 1, shape_b)
-    );
+    py::array_t<double> a_arr(a.size(), a.data(), dummy_array_owner);
+    py::array_t<double> b_arr(b.size(), b.data(), dummy_array_owner);
+    return _kernel->operator()(a_arr, b_arr);
   }
 
   private:
+    // a dummy object to "own" arrays when translating from std::vector to avoid a copy:
+    // https://github.com/pybind/pybind11/issues/323#issuecomment-575717041
+    py::str dummy_array_owner;
     std::shared_ptr<kernel_function> _kernel;
 };
 
