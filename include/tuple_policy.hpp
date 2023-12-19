@@ -41,7 +41,7 @@ struct tuple_policy {
 };
 
 /**
- * @brief TuplePolicy provides the "trampoline" class for pybind11
+ * @brief TuplePolicy provides the "trampoline" class for nanobind
  *        that allows for a native Python implementation of tuple
  *        sketch policies.
  */

@@ -72,7 +72,7 @@ struct py_object_serde {
 
 /**
  * @brief The PyObjectSerDe class provides a concrete base class
- * that pybind11 uses as a "trampoline" to pass calls through to
+ * that nanobind uses as a "trampoline" to pass calls through to
  * the abstract py_object_serde class. Custom Python serde implementations
  * must extend this class.
  */

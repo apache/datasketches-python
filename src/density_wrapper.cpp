@@ -26,6 +26,8 @@
 
 #include <nanobind/eval.h>
 
+#include <numpy/arrayobject.h>
+
 #include "kernel_function.hpp"
 #include "density_sketch.hpp"
 
@@ -88,8 +90,15 @@ void bind_density_sketch(nb::module_ &m, const char* name) {
     );
 }
 
+int prepare_numpy() {
+  import_array();
+  return 0;
+}
+
 void init_density(nb::module_ &m) {
   using namespace datasketches;
+
+  prepare_numpy();
 
   // generic kernel function
   nb::class_<kernel_function, KernelFunction>(m, "KernelFunction")
