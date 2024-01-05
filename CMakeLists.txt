@@ -116,7 +116,7 @@ cmake_policy(SET CMP0097 NEW)
 include(ExternalProject)
 ExternalProject_Add(datasketches
   GIT_REPOSITORY https://github.com/apache/datasketches-cpp.git
-  GIT_TAG 5.0.1
+  GIT_TAG origin/5.0.x
   GIT_SHALLOW true
   GIT_SUBMODULES ""
   INSTALL_DIR /tmp/datasketches
