@@ -18,12 +18,13 @@
  */
 
 #include <memory>
-#include <pybind11/pybind11.h>
+#include <nanobind/nanobind.h>
+#include <nanobind/trampoline.h>
 
 #ifndef _TUPLE_POLICY_HPP_
 #define _TUPLE_POLICY_HPP_
 
-namespace py = pybind11;
+namespace nb = nanobind;
 
 namespace datasketches {
 
@@ -33,29 +34,27 @@ namespace datasketches {
  *        policies implement TuplePolicy, as shown in TuplePolicy.py
  */
 struct tuple_policy {
-  virtual py::object create_summary() const = 0;
-  virtual py::object update_summary(py::object& summary, const py::object& update) const = 0;
-  virtual py::object operator()(py::object& summary, const py::object& update) const = 0;
+  virtual nb::object create_summary() = 0;
+  virtual nb::object update_summary(nb::object& summary, const nb::object& update) = 0;
+  virtual nb::object operator()(nb::object& summary, const nb::object& update) = 0;
   virtual ~tuple_policy() = default;
 };
 
 /**
- * @brief TuplePolicy provides the "trampoline" class for pybind11
+ * @brief TuplePolicy provides the "trampoline" class for nanobind
  *        that allows for a native Python implementation of tuple
  *        sketch policies.
  */
 struct TuplePolicy : public tuple_policy {
-  using tuple_policy::tuple_policy;
+  NB_TRAMPOLINE(tuple_policy, 3);
 
   /**
    * @brief Create a summary object
    * 
-   * @return py::object representing a new summary
+   * @return nb::object representing a new summary
    */
-  py::object create_summary() const override {
-    PYBIND11_OVERRIDE_PURE(
-      py::object,          // Return type
-      tuple_policy,        // Parent class
+  nb::object create_summary() override {
+    NB_OVERRIDE_PURE(
       create_summary,      // Name of function in C++ (must match Python name)
                            // Argument(s) -- if any
     );
@@ -66,12 +65,10 @@ struct TuplePolicy : public tuple_policy {
    * 
    * @param summary The current summary to update
    * @param update The new value with which to update the summary
-   * @return py::object The updated summary
+   * @return nb::object The updated summary
    */
-  py::object update_summary(py::object& summary, const py::object& update) const override {
-    PYBIND11_OVERRIDE_PURE(
-      py::object,          // Return type
-      tuple_policy,        // Parent class
+  nb::object update_summary(nb::object& summary, const nb::object& update) override {
+    NB_OVERRIDE_PURE(
       update_summary,      // Name of function in C++ (must match Python name)
       summary, update      // Arguments
     );
@@ -82,12 +79,10 @@ struct TuplePolicy : public tuple_policy {
    * 
    * @param summary The current summary on which to apply the policy
    * @param update An update to apply to the current summary
-   * @return py::object The potentially modified summary
+   * @return nb::object The potentially modified summary
    */
-  py::object operator()(py::object& summary, const py::object& update) const override {
-    PYBIND11_OVERRIDE_PURE_NAME(
-      py::object,          // Return type
-      tuple_policy,        // Parent class
+  nb::object operator()(nb::object& summary, const nb::object& update) override {
+    NB_OVERRIDE_PURE_NAME(
       "__call__",          // Name of function in python
       operator(),          // Name of function in C++
       summary, update      // Arguments
@@ -107,13 +102,13 @@ struct tuple_policy_holder {
   tuple_policy_holder& operator=(const tuple_policy_holder& other) { _policy = other._policy; return *this; }
   tuple_policy_holder& operator=(tuple_policy_holder&& other) { std::swap(_policy, other._policy); return *this; }
 
-  py::object create() const { return _policy->create_summary(); }
+  nb::object create() const { return _policy->create_summary(); }
   
-  void update(py::object& summary, const py::object& update) const {
+  void update(nb::object& summary, const nb::object& update) const {
     summary = _policy->update_summary(summary, update);
   }
 
-  void operator()(py::object& summary, const py::object& update) const {
+  void operator()(nb::object& summary, const nb::object& update) const {
     summary = _policy->operator()(summary, update);
   }
 
@@ -126,7 +121,7 @@ struct tuple_policy_holder {
  * does not need to observe the summaries.
  */
 struct dummy_jaccard_policy {
-  void operator()(py::object&, const py::object&) const {
+  void operator()(nb::object&, const nb::object&) const {
     return;
   }
 };

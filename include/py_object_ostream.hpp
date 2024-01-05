@@ -20,7 +20,7 @@
 #ifndef _PY_OBJECT_OSTREAM_HPP_
 #define _PY_OBJECT_OSTREAM_HPP_
 
-#include <pybind11/pybind11.h>
+#include <nanobind/nanobind.h>
 
 #include <string>
 #include <ostream>
@@ -34,12 +34,10 @@
         any sketch classes.
 */
 
-namespace py = pybind11;
-
 namespace datasketches {
 
-static std::ostream& operator<<(std::ostream& os, const py::object& obj) {
-  os << std::string(pybind11::str(obj));
+static std::ostream& operator<<(std::ostream& os, const nanobind::object& obj) {
+  os << std::string(nanobind::str(obj).c_str());
   return os;
 }
 
