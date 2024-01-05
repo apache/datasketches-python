@@ -49,17 +49,17 @@
 <li class="toctree-l1"><a class="reference internal" href="cpc.html">Compressed Probabilistic Counting (CPC)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Theta Sketch</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#datasketches.theta_sketch"><code class="docutils literal notranslate"><span class="pre">theta_sketch</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_estimate()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_lower_bound()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_num_retained"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_num_retained()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_seed_hash"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_seed_hash()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_theta"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_theta()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_theta64"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_theta64()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_upper_bound()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">theta_sketch.is_empty()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.is_estimation_mode"><code class="docutils literal notranslate"><span class="pre">theta_sketch.is_estimation_mode()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.is_ordered"><code class="docutils literal notranslate"><span class="pre">theta_sketch.is_ordered()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">theta_sketch.to_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_estimate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_lower_bound</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_num_retained"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_num_retained</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_seed_hash"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_seed_hash</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_theta"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_theta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_theta64"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_theta64</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">theta_sketch.get_upper_bound</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">theta_sketch.is_empty</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.is_estimation_mode"><code class="docutils literal notranslate"><span class="pre">theta_sketch.is_estimation_mode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.is_ordered"><code class="docutils literal notranslate"><span class="pre">theta_sketch.is_ordered</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">theta_sketch.to_string</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -112,69 +112,69 @@ It can also easily handle set operations (such as union, intersection, differenc
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.theta_sketch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">theta_sketch</span></span><a class="headerlink" href="#datasketches.theta_sketch" title="Link to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.get_estimate">
-<span class="sig-name descname"><span class="pre">get_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_estimate" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_estimate</span></span><a class="headerlink" href="#datasketches.theta_sketch.get_estimate" title="Link to this definition"></a></dt>
 <dd><p>Estimate of the distinct count of the input stream</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.get_lower_bound">
-<span class="sig-name descname"><span class="pre">get_lower_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_std_devs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_lower_bound" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_lower_bound</span></span><a class="headerlink" href="#datasketches.theta_sketch.get_lower_bound" title="Link to this definition"></a></dt>
 <dd><p>Returns an approximate lower bound on the estimate at standard deviations in {1, 2, 3}</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.get_num_retained">
-<span class="sig-name descname"><span class="pre">get_num_retained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_num_retained" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_num_retained</span></span><a class="headerlink" href="#datasketches.theta_sketch.get_num_retained" title="Link to this definition"></a></dt>
 <dd><p>Returns the number of items currently in the sketch</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.get_seed_hash">
-<span class="sig-name descname"><span class="pre">get_seed_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_seed_hash" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_seed_hash</span></span><a class="headerlink" href="#datasketches.theta_sketch.get_seed_hash" title="Link to this definition"></a></dt>
 <dd><p>Returns a hash of the seed used in the sketch</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.get_theta">
-<span class="sig-name descname"><span class="pre">get_theta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_theta" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_theta</span></span><a class="headerlink" href="#datasketches.theta_sketch.get_theta" title="Link to this definition"></a></dt>
 <dd><p>Returns theta (effective sampling rate) as a fraction from 0 to 1</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.get_theta64">
-<span class="sig-name descname"><span class="pre">get_theta64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_theta64" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_theta64</span></span><a class="headerlink" href="#datasketches.theta_sketch.get_theta64" title="Link to this definition"></a></dt>
 <dd><p>Returns theta as 64-bit value</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.get_upper_bound">
-<span class="sig-name descname"><span class="pre">get_upper_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_std_devs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.get_upper_bound" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_upper_bound</span></span><a class="headerlink" href="#datasketches.theta_sketch.get_upper_bound" title="Link to this definition"></a></dt>
 <dd><p>Returns an approximate upper bound on the estimate at standard deviations in {1, 2, 3}</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.is_empty">
-<span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.is_empty" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">is_empty</span></span><a class="headerlink" href="#datasketches.theta_sketch.is_empty" title="Link to this definition"></a></dt>
 <dd><p>Returns True if the sketch is empty, otherwise False</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.is_estimation_mode">
-<span class="sig-name descname"><span class="pre">is_estimation_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.is_estimation_mode" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">is_estimation_mode</span></span><a class="headerlink" href="#datasketches.theta_sketch.is_estimation_mode" title="Link to this definition"></a></dt>
 <dd><p>Returns True if sketch is in estimation mode, otherwise False</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.is_ordered">
-<span class="sig-name descname"><span class="pre">is_ordered</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.is_ordered" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">is_ordered</span></span><a class="headerlink" href="#datasketches.theta_sketch.is_ordered" title="Link to this definition"></a></dt>
 <dd><p>Returns True if the sketch entries are sorted, otherwise False</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.to_string">
-<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#datasketches.theta_sketch.to_string" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.theta_sketch.to_string" title="Link to this definition"></a></dt>
 <dd><p>Produces a string summary of the sketch</p>
 </dd></dl>
 
