@@ -20,7 +20,7 @@
 #ifndef _PY_OBJECT_LT_HPP_
 #define _PY_OBJECT_LT_HPP_
 
-#include <pybind11/pybind11.h>
+#include <nanobind/nanobind.h>
 
 /*
   This header defines a less than operator on generic python
@@ -29,7 +29,7 @@
 */
 
 struct py_object_lt {
-  bool operator()(const pybind11::object& a, const pybind11::object& b) const {
+  bool operator()(const nanobind::object& a, const nanobind::object& b) const {
     return a < b;
   }
 };

@@ -18,8 +18,16 @@
  */
 
 #include <memory>
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
+#include <string>
+#include <nanobind/nanobind.h>
+#include <nanobind/make_iterator.h>
+#include <nanobind/stl/array.h>
+#include <nanobind/stl/shared_ptr.h>
+#include <nanobind/stl/string.h>
+
+#include "py_serde.hpp"
+#include "py_object_ostream.hpp"
+#include "tuple_policy.hpp"
 
 #include "theta_sketch.hpp"
 #include "tuple_sketch.hpp"
@@ -29,55 +37,52 @@
 #include "theta_jaccard_similarity_base.hpp"
 #include "common_defs.hpp"
 
-#include "py_serde.hpp"
-#include "tuple_policy.hpp"
+namespace nb = nanobind;
 
-namespace py = pybind11;
-
-void init_tuple(py::module &m) {
+void init_tuple(nb::module_ &m) {
   using namespace datasketches;
 
   // generic tuple_policy:
   // * update sketch policy uses create_summary and update_summary
   // * set operation policies all use __call__
-  py::class_<tuple_policy, TuplePolicy, std::shared_ptr<tuple_policy>>(m, "TuplePolicy")
-    .def(py::init())
+  nb::class_<tuple_policy, TuplePolicy>(m, "TuplePolicy")
+    .def(nb::init())
     .def("create_summary", &tuple_policy::create_summary)
-    .def("update_summary", &tuple_policy::update_summary, py::arg("summary"), py::arg("update"))
-    .def("__call__", &tuple_policy::operator(), py::arg("summary"), py::arg("update"))
+    .def("update_summary", &tuple_policy::update_summary, nb::arg("summary"), nb::arg("update"))
+    .def("__call__", &tuple_policy::operator(), nb::arg("summary"), nb::arg("update"))
   ;
 
   // potentially useful for debugging but not needed as a permanent
   // object type in the library
   /*
-  py::class_<tuple_policy_holder>(m, "TuplePolicyHolder")
-    .def(py::init<std::shared_ptr<tuple_policy>>(), py::arg("policy"))
+  nb::class_<tuple_policy_holder>(m, "TuplePolicyHolder")
+    .def(nb::init<std::shared_ptr<tuple_policy>>(), nb::arg("policy"))
     .def("create", &tuple_policy_holder::create, "Creates a new Summary object")
-    .def("update", &tuple_policy_holder::update, py::arg("summary"), py::arg("update"),
+    .def("update", &tuple_policy_holder::update, nb::arg("summary"), nb::arg("update"),
          "Updates the provided summary using the data in update")
   ;
   */
 
-  using py_tuple_sketch = tuple_sketch<py::object>;
-  using py_update_tuple = update_tuple_sketch<py::object, py::object, tuple_policy_holder>;
-  using py_compact_tuple = compact_tuple_sketch<py::object>;
-  using py_tuple_union = tuple_union<py::object, tuple_policy_holder>;
-  using py_tuple_intersection = tuple_intersection<py::object, tuple_policy_holder>;
-  using py_tuple_a_not_b = tuple_a_not_b<py::object>;
-  using py_tuple_jaccard_similarity = jaccard_similarity_base<tuple_union<py::object, dummy_jaccard_policy>, tuple_intersection<py::object, dummy_jaccard_policy>, pair_extract_key<uint64_t, py::object>>;
+  using py_tuple_sketch = tuple_sketch<nb::object>;
+  using py_update_tuple = update_tuple_sketch<nb::object, nb::object, tuple_policy_holder>;
+  using py_compact_tuple = compact_tuple_sketch<nb::object>;
+  using py_tuple_union = tuple_union<nb::object, tuple_policy_holder>;
+  using py_tuple_intersection = tuple_intersection<nb::object, tuple_policy_holder>;
+  using py_tuple_a_not_b = tuple_a_not_b<nb::object>;
+  using py_tuple_jaccard_similarity = jaccard_similarity_base<tuple_union<nb::object, dummy_jaccard_policy>, tuple_intersection<nb::object, dummy_jaccard_policy>, pair_extract_key<uint64_t, nb::object>>;
 
-  py::class_<py_tuple_sketch>(m, "_tuple_sketch")
-    .def("__str__", &py_tuple_sketch::to_string, py::arg("print_items")=false,
+  nb::class_<py_tuple_sketch>(m, "tuple_sketch")
+    .def("__str__", &py_tuple_sketch::to_string, nb::arg("print_items")=false,
          "Produces a string summary of the sketch")
-    .def("to_string", &py_tuple_sketch::to_string, py::arg("print_items")=false,
+    .def("to_string", &py_tuple_sketch::to_string, nb::arg("print_items")=false,
          "Produces a string summary of the sketch")
     .def("is_empty", &py_tuple_sketch::is_empty,
          "Returns True if the sketch is empty, otherwise False")
     .def("get_estimate", &py_tuple_sketch::get_estimate,
          "Estimate of the distinct count of the input stream")
-    .def("get_upper_bound", static_cast<double (py_tuple_sketch::*)(uint8_t) const>(&py_tuple_sketch::get_upper_bound), py::arg("num_std_devs"),
+    .def("get_upper_bound", static_cast<double (py_tuple_sketch::*)(uint8_t) const>(&py_tuple_sketch::get_upper_bound), nb::arg("num_std_devs"),
          "Returns an approximate upper bound on the estimate at standard deviations in {1, 2, 3}")
-    .def("get_lower_bound", static_cast<double (py_tuple_sketch::*)(uint8_t) const>(&py_tuple_sketch::get_lower_bound), py::arg("num_std_devs"),
+    .def("get_lower_bound", static_cast<double (py_tuple_sketch::*)(uint8_t) const>(&py_tuple_sketch::get_lower_bound), nb::arg("num_std_devs"),
          "Returns an approximate lower bound on the estimate at standard deviations in {1, 2, 3}")
     .def("is_estimation_mode", &py_tuple_sketch::is_estimation_mode,
          "Returns True if sketch is in estimation mode, otherwise False")
@@ -91,123 +96,130 @@ void init_tuple(py::module &m) {
          "Returns a hash of the seed used in the sketch")
     .def("is_ordered", &py_tuple_sketch::is_ordered,
          "Returns True if the sketch entries are sorted, otherwise False")
-    .def("__iter__", [](const py_tuple_sketch& s) { return py::make_iterator(s.begin(), s.end()); })
-    .def_property_readonly_static("DEFAULT_SEED", [](py::object /* self */) { return DEFAULT_SEED; });
+    .def("__iter__",
+          [](const py_tuple_sketch& s) {
+               return nb::make_iterator(nb::type<py_tuple_sketch>(),
+               "tuple_iterator",
+               s.begin(),
+               s.end());
+          }, nb::keep_alive<0,1>()
+     )
+    .def_prop_ro_static("DEFAULT_SEED", [](nb::object /* self */) { return DEFAULT_SEED; });
   ;
 
-  py::class_<py_compact_tuple, py_tuple_sketch>(m, "_compact_tuple_sketch")
-    .def(py::init<const py_compact_tuple&>(), py::arg("other"))
-    .def(py::init<const py_tuple_sketch&, bool>(), py::arg("other"), py::arg("ordered")=true)
-    .def(py::init<const theta_sketch&, py::object&>(), py::arg("other"), py::arg("summary"),
+  nb::class_<py_compact_tuple, py_tuple_sketch>(m, "compact_tuple_sketch")
+    .def(nb::init<const py_compact_tuple&>(), nb::arg("other"))
+    .def(nb::init<const py_tuple_sketch&, bool>(), nb::arg("other"), nb::arg("ordered")=true)
+    .def(nb::init<const theta_sketch&, nb::object&>(), nb::arg("other"), nb::arg("summary"),
          "Creates a compact tuple sketch from a theta sketch using a fixed summary value.")
     .def(
         "serialize",
         [](const py_compact_tuple& sk, py_object_serde& serde) {
           auto bytes = sk.serialize(0, serde);
-          return py::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());
-        }, py::arg("serde"),
+          return nb::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+        }, nb::arg("serde"),
         "Serializes the sketch into a bytes object"
     )
     .def_static(
         "deserialize",
-        [](const std::string& bytes, py_object_serde& serde, uint64_t seed) {
-          return py_compact_tuple::deserialize(bytes.data(), bytes.size(), seed, serde);
+        [](const nb::bytes& bytes, py_object_serde& serde, uint64_t seed) {
+          return py_compact_tuple::deserialize(bytes.c_str(), bytes.size(), seed, serde);
         },
-        py::arg("bytes"), py::arg("serde"), py::arg("seed")=DEFAULT_SEED,
+        nb::arg("bytes"), nb::arg("serde"), nb::arg("seed")=DEFAULT_SEED,
         "Reads a bytes object and returns the corresponding compact_tuple_sketch"
     );
 
-  py::class_<py_update_tuple, py_tuple_sketch>(m, "_update_tuple_sketch")
-    .def(
-        py::init([](std::shared_ptr<tuple_policy> policy, uint8_t lg_k, double p, uint64_t seed) {
+  nb::class_<py_update_tuple, py_tuple_sketch>(m, "update_tuple_sketch")
+    .def("__init__",
+        [](py_update_tuple* sk, std::shared_ptr<tuple_policy> policy, uint8_t lg_k, double p, uint64_t seed) {
           tuple_policy_holder holder(policy);
-          return py_update_tuple::builder(holder).set_lg_k(lg_k).set_p(p).set_seed(seed).build();
-        }),
-        py::arg("policy"), py::arg("lg_k")=theta_constants::DEFAULT_LG_K, py::arg("p")=1.0, py::arg("seed")=DEFAULT_SEED
+          new (sk) py_update_tuple(py_update_tuple::builder(holder).set_lg_k(lg_k).set_p(p).set_seed(seed).build());
+        },
+        nb::arg("policy"), nb::arg("lg_k")=theta_constants::DEFAULT_LG_K, nb::arg("p")=1.0, nb::arg("seed")=DEFAULT_SEED
     )
-    .def(py::init<const py_update_tuple&>())
-    .def("update", static_cast<void (py_update_tuple::*)(int64_t, py::object&)>(&py_update_tuple::update),
-         py::arg("datum"), py::arg("value"),
+    .def(nb::init<const py_update_tuple&>())
+    .def("update", static_cast<void (py_update_tuple::*)(int64_t, nb::object&)>(&py_update_tuple::update),
+         nb::arg("datum"), nb::arg("value"),
          "Updates the sketch with the given integral item and summary value")
-    .def("update", static_cast<void (py_update_tuple::*)(double, py::object&)>(&py_update_tuple::update),
-         py::arg("datum"), py::arg("value"),
+    .def("update", static_cast<void (py_update_tuple::*)(double, nb::object&)>(&py_update_tuple::update),
+         nb::arg("datum"), nb::arg("value"),
          "Updates the sketch with the given floating point item and summary value")
-    .def("update", static_cast<void (py_update_tuple::*)(const std::string&, py::object&)>(&py_update_tuple::update),
-         py::arg("datum"), py::arg("value"),
+    .def("update", static_cast<void (py_update_tuple::*)(const std::string&, nb::object&)>(&py_update_tuple::update),
+         nb::arg("datum"), nb::arg("value"),
          "Updates the sketch with the given string item and summary value")
-    .def("compact", &py_update_tuple::compact, py::arg("ordered")=true,
+    .def("compact", &py_update_tuple::compact, nb::arg("ordered")=true,
          "Returns a compacted form of the sketch, optionally sorting it")
     .def("trim", &py_update_tuple::trim, "Removes retained entries in excess of the nominal size k (if any)")
     .def("reset", &py_update_tuple::reset, "Resets the sketch to the initial empty state")
   ;
 
-  py::class_<py_tuple_union>(m, "_tuple_union")
-    .def(
-        py::init([](std::shared_ptr<tuple_policy> policy, uint8_t lg_k, double p, uint64_t seed) {
+  nb::class_<py_tuple_union>(m, "tuple_union")
+    .def("__init__",
+        [](py_tuple_union* u, std::shared_ptr<tuple_policy> policy, uint8_t lg_k, double p, uint64_t seed) {
           tuple_policy_holder holder(policy);
-          return py_tuple_union::builder(holder).set_lg_k(lg_k).set_p(p).set_seed(seed).build();
-        }),
-        py::arg("policy"), py::arg("lg_k")=theta_constants::DEFAULT_LG_K, py::arg("p")=1.0, py::arg("seed")=DEFAULT_SEED
+          new (u) py_tuple_union(py_tuple_union::builder(holder).set_lg_k(lg_k).set_p(p).set_seed(seed).build());
+        },
+        nb::arg("policy"), nb::arg("lg_k")=theta_constants::DEFAULT_LG_K, nb::arg("p")=1.0, nb::arg("seed")=DEFAULT_SEED
     )
-    .def("update", &py_tuple_union::update<const py_tuple_sketch&>, py::arg("sketch"),
+    .def("update", &py_tuple_union::update<const py_tuple_sketch&>, nb::arg("sketch"),
          "Updates the union with the given sketch")
-    .def("get_result", &py_tuple_union::get_result, py::arg("ordered")=true,
+    .def("get_result", &py_tuple_union::get_result, nb::arg("ordered")=true,
          "Returns the sketch corresponding to the union result")
     .def("reset", &py_tuple_union::reset,
          "Resets the sketch to the initial empty")
   ;
 
-  py::class_<py_tuple_intersection>(m, "_tuple_intersection")
-    .def(
-        py::init([](std::shared_ptr<tuple_policy> policy, uint64_t seed) {
+  nb::class_<py_tuple_intersection>(m, "tuple_intersection")
+    .def("__init__",
+        [](py_tuple_intersection* sk, std::shared_ptr<tuple_policy> policy, uint64_t seed) {
           tuple_policy_holder holder(policy);
-          return py_tuple_intersection(seed, holder);
-        }),
-        py::arg("policy"), py::arg("seed")=DEFAULT_SEED)
-    .def("update", &py_tuple_intersection::update<const py_tuple_sketch&>, py::arg("sketch"),
+          new (sk) py_tuple_intersection(seed, holder);
+        },
+        nb::arg("policy"), nb::arg("seed")=DEFAULT_SEED)
+    .def("update", &py_tuple_intersection::update<const py_tuple_sketch&>, nb::arg("sketch"),
          "Intersects the provided sketch with the current intersection state")
-    .def("get_result", &py_tuple_intersection::get_result, py::arg("ordered")=true,
+    .def("get_result", &py_tuple_intersection::get_result, nb::arg("ordered")=true,
          "Returns the sketch corresponding to the intersection result")
     .def("has_result", &py_tuple_intersection::has_result,
          "Returns True if the intersection has a valid result, otherwise False")
   ;
 
-  py::class_<py_tuple_a_not_b>(m, "_tuple_a_not_b")
-    .def(py::init<uint64_t>(), py::arg("seed")=DEFAULT_SEED)
+  nb::class_<py_tuple_a_not_b>(m, "tuple_a_not_b")
+    .def(nb::init<uint64_t>(), nb::arg("seed")=DEFAULT_SEED)
     .def(
         "compute",
         &py_tuple_a_not_b::compute<const py_tuple_sketch&, const py_tuple_sketch&>,
-        py::arg("a"), py::arg("b"), py::arg("ordered")=true,
+        nb::arg("a"), nb::arg("b"), nb::arg("ordered")=true,
         "Returns a sketch with the result of applying the A-not-B operation on the given inputs"
     )
   ;
 
-  py::class_<py_tuple_jaccard_similarity>(m, "_tuple_jaccard_similarity")
+  nb::class_<py_tuple_jaccard_similarity>(m, "tuple_jaccard_similarity")
     .def_static(
         "jaccard",
         [](const py_tuple_sketch& sketch_a, const py_tuple_sketch& sketch_b, uint64_t seed) {
           return py_tuple_jaccard_similarity::jaccard(sketch_a, sketch_b, seed);
         },
-        py::arg("sketch_a"), py::arg("sketch_b"), py::arg("seed")=DEFAULT_SEED,
+        nb::arg("sketch_a"), nb::arg("sketch_b"), nb::arg("seed")=DEFAULT_SEED,
         "Returns a list with {lower_bound, estimate, upper_bound} of the Jaccard similarity between sketches"
     )
     .def_static(
         "exactly_equal",
         &py_tuple_jaccard_similarity::exactly_equal<const py_tuple_sketch&, const py_tuple_sketch&>,
-        py::arg("sketch_a"), py::arg("sketch_b"), py::arg("seed")=DEFAULT_SEED,
+        nb::arg("sketch_a"), nb::arg("sketch_b"), nb::arg("seed")=DEFAULT_SEED,
         "Returns True if sketch_a and sketch_b are equivalent, otherwise False"
     )
     .def_static(
         "similarity_test",
         &py_tuple_jaccard_similarity::similarity_test<const py_tuple_sketch&, const py_tuple_sketch&>,
-        py::arg("actual"), py::arg("expected"), py::arg("threshold"), py::arg("seed")=DEFAULT_SEED,
+        nb::arg("actual"), nb::arg("expected"), nb::arg("threshold"), nb::arg("seed")=DEFAULT_SEED,
         "Tests similarity of an actual sketch against an expected sketch. Computes the lower bound of the Jaccard "
         "index J_{LB} of the actual and expected sketches. If J_{LB} >= threshold, then the sketches are considered "
         "to be similar with a confidence of 97.7% and returns True, otherwise False.")
     .def_static(
         "dissimilarity_test",
         &py_tuple_jaccard_similarity::dissimilarity_test<const py_tuple_sketch&, const py_tuple_sketch&>,
-        py::arg("actual"), py::arg("expected"), py::arg("threshold"), py::arg("seed")=DEFAULT_SEED,
+        nb::arg("actual"), nb::arg("expected"), nb::arg("threshold"), nb::arg("seed")=DEFAULT_SEED,
         "Tests dissimilarity of an actual sketch against an expected sketch. Computes the upper bound of the Jaccard "
         "index J_{UB} of the actual and expected sketches. If J_{UB} <= threshold, then the sketches are considered "
         "to be dissimilar with a confidence of 97.7% and returns True, otherwise False."
