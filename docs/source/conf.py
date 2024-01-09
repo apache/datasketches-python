@@ -8,7 +8,6 @@
 
 import sys
 import os 
-import datasketches
 
 # need to fix the paths so that sphinx can find the source code.
 sys.path.insert(0, os.path.abspath("../../datasketches"))
@@ -19,12 +18,12 @@ project = 'datasketches'
 copyright = '2023'
 author = 'Apache Software Foundation'
 release = '0.1'
+add_module_names = False
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx.ext.autodoc","sphinx.ext.autosummary"]
-
+extensions = ["sphinx.ext.autodoc"]
 templates_path = ['_templates']
 exclude_patterns = []
 

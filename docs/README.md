@@ -1,18 +1,20 @@
 Follow these steps to build the documentation.
 1. Clone the directory in an appropriate location `git clone https://github.com/apache/datasketches-python.git`
-2. Switch to the correct branch: `git checkout python-docs`.
-3. In project root run `source python-docs-venv/bin/activate`
-
-If there are problems running the virtual env then you may need to install `virtualenv`
-and install the packages manually as below
-(nb my environment has `python` aliased to `python3` so just use whichever is appropriate for your installation)
+2. Make a new branch and switch to that branch.
 ```
-python -m venv python-docs-venv # create a new virtual env named python-docs-venv
-source python-docs-venv/bin/activate
-python -m pip install sphinx 
-python -m pip install sphinx-rtd-theme
+cd datasketches-python
+git branch new-branch
+git checkout new-branch
+``` 
+3. In project root, make a new virtual environment with the appropriate packages.  Depending on how python is aliased in your environment, you may 
+need `python` or `python3`, as indicated by `python(3)`.
 ```
-4. In project root run `python3 -m pip install .` to build the python bindings.
+python -m venv venv # create a new virtual env named venv using system python
+source venv/bin/activate
+python(3) -m pip install sphinx # now using venv python
+python(3) -m pip install sphinx-rtd-theme
+```
+4. In project root run `python(3) -m pip install .` to build the python bindings.
 5. Build and open the documentation:
 ```
 cd python/docs
