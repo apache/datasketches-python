@@ -35,6 +35,7 @@ void bind_ebpps_sketch(nb::module_ &m, const char* name) {
 
   nb::class_<ebpps_sketch<T>>(m, name)
     .def(nb::init<uint32_t>(), nb::arg("k"))
+    .def("__copy__", [](const ebpps_sketch<T>& sk){ return ebpps_sketch<T>(sk); })
     .def("__str__", &ebpps_sketch<T>::to_string,
          "Produces a string summary of the sketch")
     .def("to_string",
@@ -51,11 +52,11 @@ void bind_ebpps_sketch(nb::module_ &m, const char* name) {
     .def("merge", (void (ebpps_sketch<T>::*)(const ebpps_sketch<T>&)) &ebpps_sketch<T>::merge,
          nb::arg("sketch"), "Merges the sketch with the given sketch")
     .def_prop_ro("k", &ebpps_sketch<T>::get_k,
-         "Returns the sketch's maximum configured sample size")
+         "The sketch's maximum configured sample size")
     .def_prop_ro("n", &ebpps_sketch<T>::get_n,
-         "Returns the total stream length")         
+         "The total stream length")         
     .def_prop_ro("c", &ebpps_sketch<T>::get_c,
-         "Returns the expected number of samples returned upon a call to get_result() or the creation of an iterator. "
+         "The expected number of samples returned upon a call to get_result() or the creation of an iterator. "
          "The number is a floating point value, where the fractional portion represents the probability of including "
          "a \"partial item\" from the sample. The value C should be no larger than the sketch's configured value of k, "
          "although numerical precision limitations mean it may exceed k by double precision floating point error margins in certain cases.")

@@ -39,7 +39,7 @@ void bind_quantiles_sketch(nb::module_ &m, const char* name) {
 
   auto quantiles_class = nb::class_<quantiles_sketch<T, C>>(m, name)
     .def(nb::init<uint16_t>(), nb::arg("k")=quantiles_constants::DEFAULT_K)
-    .def(nb::init<const quantiles_sketch<T, C>&>())
+    .def("__copy__", [](const quantiles_sketch<T, C>& sk) { return quantiles_sketch<T,C>(sk); })
     .def(
         "update",
         static_cast<void (quantiles_sketch<T, C>::*)(const T&)>(&quantiles_sketch<T, C>::update),
@@ -48,18 +48,18 @@ void bind_quantiles_sketch(nb::module_ &m, const char* name) {
     )
     .def("merge", (void (quantiles_sketch<T, C>::*)(const quantiles_sketch<T, C>&)) &quantiles_sketch<T, C>::merge, nb::arg("sketch"),
          "Merges the provided sketch into this one")
-    .def("__str__", &quantiles_sketch<T, C>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
+    .def("__str__", &quantiles_sketch<T, C>::to_string,
          "Produces a string summary of the sketch")
     .def("to_string", &quantiles_sketch<T, C>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
          "Produces a string summary of the sketch")
     .def("is_empty", &quantiles_sketch<T, C>::is_empty,
          "Returns True if the sketch is empty, otherwise False")
-    .def("get_k", &quantiles_sketch<T, C>::get_k,
-         "Returns the configured parameter k")
-    .def("get_n", &quantiles_sketch<T, C>::get_n,
-         "Returns the length of the input stream")
-    .def("get_num_retained", &quantiles_sketch<T, C>::get_num_retained,
-         "Returns the number of retained items (samples) in the sketch")
+    .def_prop_ro("k", &quantiles_sketch<T, C>::get_k,
+         "The configured parameter k")
+    .def_prop_ro("n", &quantiles_sketch<T, C>::get_n,
+         "The length of the input stream")
+    .def_prop_ro("num_retained", &quantiles_sketch<T, C>::get_num_retained,
+         "The number of retained items (samples) in the sketch")
     .def("is_estimation_mode", &quantiles_sketch<T, C>::is_estimation_mode,
          "Returns True if the sketch is in estimation mode, otherwise False")
     .def("get_min_value", &quantiles_sketch<T, C>::get_min_item,

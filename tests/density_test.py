@@ -34,21 +34,21 @@ class densityTest(unittest.TestCase):
 
     sketch = density_sketch(k, dim, GaussianKernel())
 
-    self.assertEqual(sketch.get_k(), k)
-    self.assertEqual(sketch.get_dim(), dim)
+    self.assertEqual(sketch.k, k)
+    self.assertEqual(sketch.dim, dim)
     self.assertTrue(sketch.is_empty())
     self.assertFalse(sketch.is_estimation_mode())
-    self.assertEqual(sketch.get_n(), 0)
-    self.assertEqual(sketch.get_num_retained(), 0)
+    self.assertEqual(sketch.n, 0)
+    self.assertEqual(sketch.num_retained, 0)
 
     for i in range(n):
       sketch.update([i, i, i])
 
     self.assertFalse(sketch.is_empty())
     self.assertTrue(sketch.is_estimation_mode())
-    self.assertEqual(sketch.get_n(), n)
-    self.assertGreater(sketch.get_num_retained(), k)
-    self.assertLess(sketch.get_num_retained(), n)
+    self.assertEqual(sketch.n, n)
+    self.assertGreater(sketch.num_retained, k)
+    self.assertLess(sketch.num_retained, n)
     self.assertGreater(sketch.get_estimate([n - 1, n - 1, n - 1]), 0)
 
     for tuple in sketch:
@@ -67,8 +67,8 @@ class densityTest(unittest.TestCase):
     sketch2 = density_sketch(10, 2, GaussianKernel())
     sketch2.update([0, 1])
     sketch1.merge(sketch2)
-    self.assertEqual(sketch1.get_n(), 2)
-    self.assertEqual(sketch1.get_num_retained(), 2)
+    self.assertEqual(sketch1.n, 2)
+    self.assertEqual(sketch1.num_retained, 2)
 
   def test_custom_kernel(self):
     gaussianSketch = density_sketch(10, 2, GaussianKernel())

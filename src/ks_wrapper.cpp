@@ -57,7 +57,7 @@ void init_kolmogorov_smirnov(nb::module_ &m) {
     "Performs the Kolmogorov-Smirnov Test between quantiles_floats_sketches.\n"
     "Note: if the given sketches have insufficient data or if the sketch sizes are too small, "
     "this will return false.\n"
-    "Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying "
+    ":Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying "
     "distribution) using the provided p-value, otherwise False.");
   m.def("ks_test", &kolmogorov_smirnov::test<quantiles_sketch<double>>, nb::arg("sk_1"), nb::arg("sk_2"), nb::arg("p"),
     "Performs the Kolmogorov-Smirnov Test between quantiles_doubles_sketches.\n"

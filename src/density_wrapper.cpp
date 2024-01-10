@@ -43,20 +43,21 @@ void bind_density_sketch(nb::module_ &m, const char* name) {
           new (sk) density_sketch<T, K>(k, dim, holder);
         },
         nb::arg("k"), nb::arg("dim"), nb::arg("kernel"))
+    .def("__copy__", [](const density_sketch<T,K>& sk){ return density_sketch<T,K>(sk); })
     .def("update", static_cast<void (density_sketch<T, K>::*)(const std::vector<T>&)>(&density_sketch<T, K>::update), nb::arg("vector"),
         "Updates the sketch with the given vector")
     .def("merge", static_cast<void (density_sketch<T, K>::*)(const density_sketch<T, K>&)>(&density_sketch<T, K>::merge), nb::arg("sketch"),
         "Merges the provided sketch into this one")
     .def("is_empty", &density_sketch<T, K>::is_empty,
         "Returns True if the sketch is empty, otherwise False")
-    .def("get_k", &density_sketch<T, K>::get_k,
-        "Returns the configured parameter k")
-    .def("get_dim", &density_sketch<T, K>::get_dim,
-        "Returns the configured parameter dim")
-    .def("get_n", &density_sketch<T, K>::get_n,
-        "Returns the length of the input stream")
-    .def("get_num_retained", &density_sketch<T, K>::get_num_retained,
-        "Returns the number of retained items (samples) in the sketch")
+    .def_prop_ro("k", &density_sketch<T, K>::get_k,
+        "The configured parameter k")
+    .def_prop_ro("dim", &density_sketch<T, K>::get_dim,
+        "The configured parameter dim")
+    .def_prop_ro("n", &density_sketch<T, K>::get_n,
+        "The length of the input stream")
+    .def_prop_ro("num_retained", &density_sketch<T, K>::get_num_retained,
+        "The number of retained items (samples) in the sketch")
     .def("is_estimation_mode", &density_sketch<T, K>::is_estimation_mode,
         "Returns True if the sketch is in estimation mode, otherwise False")
     .def("get_estimate", &density_sketch<T, K>::get_estimate, nb::arg("point"),
@@ -101,9 +102,12 @@ void init_density(nb::module_ &m) {
   prepare_numpy();
 
   // generic kernel function
-  nb::class_<kernel_function, KernelFunction>(m, "KernelFunction")
+  nb::class_<kernel_function, KernelFunction>(m, "KernelFunction",
+     "KernelFunction provicdes a generic base class from which user-defined kernels must inherit. \
+     The class contains only a __call__ method that must be overridden.")
     .def(nb::init())
-    .def("__call__", &kernel_function::operator(), nb::arg("a"), nb::arg("b"))
+    .def("__call__", &kernel_function::operator(), nb::arg("a"), nb::arg("b"),
+     "A method to evaluate a kernel with given inputs a and b.")
     ;
 
   // the old sketch names can almost be defined, but the kernel_function_holder won't work in init()

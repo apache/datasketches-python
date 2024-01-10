@@ -47,9 +47,11 @@ void init_tuple(nb::module_ &m) {
   // * set operation policies all use __call__
   nb::class_<tuple_policy, TuplePolicy>(m, "TuplePolicy")
     .def(nb::init())
-    .def("create_summary", &tuple_policy::create_summary)
-    .def("update_summary", &tuple_policy::update_summary, nb::arg("summary"), nb::arg("update"))
-    .def("__call__", &tuple_policy::operator(), nb::arg("summary"), nb::arg("update"))
+    .def("create_summary", &tuple_policy::create_summary, "Creates a new Summary object")
+    .def("update_summary", &tuple_policy::update_summary, nb::arg("summary"), nb::arg("update"),
+         "applies the relevant policy to update the provided summary with the data in update.")
+    .def("__call__", &tuple_policy::operator(), nb::arg("summary"), nb::arg("update"),
+         "Similar to update_summary but allows a different implementation for set operations (union and intersection)")
   ;
 
   // potentially useful for debugging but not needed as a permanent
@@ -72,7 +74,7 @@ void init_tuple(nb::module_ &m) {
   using py_tuple_jaccard_similarity = jaccard_similarity_base<tuple_union<nb::object, dummy_jaccard_policy>, tuple_intersection<nb::object, dummy_jaccard_policy>, pair_extract_key<uint64_t, nb::object>>;
 
   nb::class_<py_tuple_sketch>(m, "tuple_sketch")
-    .def("__str__", &py_tuple_sketch::to_string, nb::arg("print_items")=false,
+    .def("__str__", &py_tuple_sketch::to_string,
          "Produces a string summary of the sketch")
     .def("to_string", &py_tuple_sketch::to_string, nb::arg("print_items")=false,
          "Produces a string summary of the sketch")
@@ -86,12 +88,12 @@ void init_tuple(nb::module_ &m) {
          "Returns an approximate lower bound on the estimate at standard deviations in {1, 2, 3}")
     .def("is_estimation_mode", &py_tuple_sketch::is_estimation_mode,
          "Returns True if sketch is in estimation mode, otherwise False")
-    .def("get_theta", &py_tuple_sketch::get_theta,
-         "Returns theta (effective sampling rate) as a fraction from 0 to 1")
-    .def("get_theta64", &py_tuple_sketch::get_theta64,
-         "Returns theta as 64-bit value")
-    .def("get_num_retained", &py_tuple_sketch::get_num_retained,
-         "Returns the number of items currently in the sketch")
+    .def_prop_ro("theta", &py_tuple_sketch::get_theta,
+         "Theta (effective sampling rate) as a fraction from 0 to 1")
+    .def_prop_ro("theta64", &py_tuple_sketch::get_theta64,
+         "Theta as 64-bit value")
+    .def_prop_ro("num_retained", &py_tuple_sketch::get_num_retained,
+         "The number of items currently in the sketch")
     .def("get_seed_hash", [](const py_tuple_sketch& sk) { return sk.get_seed_hash(); }, // why does regular call not work??
          "Returns a hash of the seed used in the sketch")
     .def("is_ordered", &py_tuple_sketch::is_ordered,
@@ -108,10 +110,10 @@ void init_tuple(nb::module_ &m) {
   ;
 
   nb::class_<py_compact_tuple, py_tuple_sketch>(m, "compact_tuple_sketch")
-    .def(nb::init<const py_compact_tuple&>(), nb::arg("other"))
     .def(nb::init<const py_tuple_sketch&, bool>(), nb::arg("other"), nb::arg("ordered")=true)
     .def(nb::init<const theta_sketch&, nb::object&>(), nb::arg("other"), nb::arg("summary"),
          "Creates a compact tuple sketch from a theta sketch using a fixed summary value.")
+    .def("__copy__", [](const py_compact_tuple& sk){ return py_compact_tuple(sk); })
     .def(
         "serialize",
         [](const py_compact_tuple& sk, py_object_serde& serde) {

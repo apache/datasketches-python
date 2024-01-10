@@ -58,11 +58,11 @@ class TupleTest(unittest.TestCase):
         count = 0
         cumSum = 0
         for pair in new_sk:
-          self.assertLess(pair[0], new_sk.get_theta64())
+          self.assertLess(pair[0], new_sk.theta64)
           count += 1
           cumSum += pair[1]
-        self.assertEqual(count, new_sk.get_num_retained())
-        self.assertEqual(cumSum, 2 * new_sk.get_num_retained())
+        self.assertEqual(count, new_sk.num_retained)
+        self.assertEqual(cumSum, 2 * new_sk.num_retained)
 
         # we can even create a tuple sketch from an existing theta sketch
         # as long as we provide a summary to use
@@ -73,15 +73,15 @@ class TupleTest(unittest.TestCase):
         cumSum = 0
         for pair in cts:
           cumSum += pair[1]
-        self.assertEqual(cumSum, 5 * cts.get_num_retained())
+        self.assertEqual(cumSum, 5 * cts.num_retained)
 
-        num = sk.get_num_retained()
+        num = sk.num_retained
         sk.trim()
-        self.assertLessEqual(sk.get_num_retained(), num)
+        self.assertLessEqual(sk.num_retained, num)
 
         sk.reset()
         self.assertTrue(sk.is_empty())
-        self.assertEqual(sk.get_num_retained(), 0)
+        self.assertEqual(sk.num_retained, 0)
 
     def test_tuple_set_operations(self):
         lgk = 12    # 2^k = 4096 rows in the table
@@ -153,7 +153,7 @@ class TupleTest(unittest.TestCase):
             count5 += 1
           else:
             self.fail()
-        self.assertEqual(count5, result.get_num_retained())
+        self.assertEqual(count5, result.num_retained)
 
         # A NOT B
         # create an a_not_b object
@@ -175,7 +175,7 @@ class TupleTest(unittest.TestCase):
             count5 += 1
           else:
             self.fail()
-        self.assertEqual(count5, result.get_num_retained())
+        self.assertEqual(count5, result.num_retained)
 
         # JACCARD SIMILARITY
         # Jaccard Similarity measure returns (lower_bound, estimate, upper_bound)

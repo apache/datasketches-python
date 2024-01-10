@@ -36,6 +36,7 @@ void bind_vo_sketch(nb::module_ &m, const char* name) {
 
   nb::class_<var_opt_sketch<T>>(m, name)
     .def(nb::init<uint32_t>(), nb::arg("k"))
+    .def("__copy__", [](const var_opt_sketch<T>& sk){ return var_opt_sketch<T>(sk); })
     .def("__str__", &var_opt_sketch<T>::to_string,
          "Produces a string summary of the sketch")
     .def("to_string",

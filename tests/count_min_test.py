@@ -41,7 +41,7 @@ class CountMinTest(unittest.TestCase):
       cm.update(i, i)
       total_wt += i
     self.assertFalse(cm.is_empty())
-    self.assertEqual(cm.get_total_weight(), total_wt)
+    self.assertEqual(cm.total_weight, total_wt)
 
     # querying the items, each of them should
     # have a non-zero count.  the estimate should
@@ -73,9 +73,9 @@ class CountMinTest(unittest.TestCase):
 
     # and now interrogate the sketch
     self.assertFalse(new_cm.is_empty())
-    self.assertEqual(new_cm.get_num_hashes(), cm.get_num_hashes())
-    self.assertEqual(new_cm.get_num_buckets(), cm.get_num_buckets())
-    self.assertEqual(new_cm.get_total_weight(), cm.get_total_weight())
+    self.assertEqual(new_cm.num_hashes, cm.num_hashes)
+    self.assertEqual(new_cm.num_buckets, cm.num_buckets)
+    self.assertEqual(new_cm.total_weight, cm.total_weight)
     
     # we can also iterate through values in and out of the sketch to ensure
     # the estimates match

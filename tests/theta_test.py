@@ -50,17 +50,17 @@ class ThetaTest(unittest.TestCase):
 
         count = 0
         for hash in new_sk:
-          self.assertLess(hash, new_sk.get_theta64())
+          self.assertLess(hash, new_sk.theta64)
           count = count + 1
-        self.assertEqual(count, new_sk.get_num_retained())
+        self.assertEqual(count, new_sk.num_retained)
 
-        num = sk.get_num_retained()
+        num = sk.num_retained
         sk.trim()
-        self.assertLessEqual(sk.get_num_retained(), num)
+        self.assertLessEqual(sk.num_retained, num)
 
         sk.reset()
         self.assertTrue(sk.is_empty())
-        self.assertEqual(sk.get_num_retained(), 0)
+        self.assertEqual(sk.num_retained, 0)
 
     def test_theta_set_operations(self):
         lgk = 12    # 2^k = 4096 rows in the table

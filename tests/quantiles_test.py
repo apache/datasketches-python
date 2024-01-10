@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
+import copy
 import unittest
 from datasketches import quantiles_ints_sketch, quantiles_floats_sketch, quantiles_doubles_sketch
 from datasketches import quantiles_items_sketch, ks_test, PyStringsSerDe
@@ -57,19 +58,19 @@ class QuantilesTest(unittest.TestCase):
       # and a few basic queries about the sketch
       self.assertFalse(quantiles.is_empty())
       self.assertTrue(quantiles.is_estimation_mode())
-      self.assertEqual(quantiles.get_n(), n)
-      self.assertEqual(quantiles.get_k(), k)
-      self.assertLess(quantiles.get_num_retained(), n)
+      self.assertEqual(quantiles.n, n)
+      self.assertEqual(quantiles.k, k)
+      self.assertLess(quantiles.num_retained, n)
 
       # merging itself will double the number of items the sketch has seen
-      quantiles_copy = quantiles_floats_sketch(quantiles)
+      quantiles_copy = copy.copy(quantiles)
       quantiles.merge(quantiles_copy)
-      self.assertEqual(quantiles.get_n(), 2*n)
+      self.assertEqual(quantiles.n, 2*n)
 
       # we can then serialize and reconstruct the sketch
       quantiles_bytes = quantiles.serialize()
       new_quantiles = quantiles_floats_sketch.deserialize(quantiles_bytes)
-      self.assertEqual(quantiles.get_num_retained(), new_quantiles.get_num_retained())
+      self.assertEqual(quantiles.num_retained, new_quantiles.num_retained)
       self.assertEqual(quantiles.get_min_value(), new_quantiles.get_min_value())
       self.assertEqual(quantiles.get_max_value(), new_quantiles.get_max_value())
       self.assertEqual(quantiles.get_quantile(0.7), new_quantiles.get_quantile(0.7))
@@ -87,7 +88,7 @@ class QuantilesTest(unittest.TestCase):
         item = tuple[0]
         weight = tuple[1]
         total_weight = total_weight + weight
-      self.assertEqual(total_weight, quantiles.get_n())
+      self.assertEqual(total_weight, quantiles.n)
 
     def test_quantiles_ints_sketch(self):
         k = 128
@@ -98,10 +99,10 @@ class QuantilesTest(unittest.TestCase):
 
         self.assertEqual(quantiles.get_min_value(), 0)
         self.assertEqual(quantiles.get_max_value(), n-1)
-        self.assertEqual(quantiles.get_n(), n)
+        self.assertEqual(quantiles.n, n)
         self.assertFalse(quantiles.is_empty())
         self.assertFalse(quantiles.is_estimation_mode()) # n < k
-        self.assertEqual(quantiles.get_k(), k)
+        self.assertEqual(quantiles.k, k)
 
         pmf = quantiles.get_pmf([round(n/2)])
         self.assertIsNotNone(pmf)
@@ -119,9 +120,9 @@ class QuantilesTest(unittest.TestCase):
         self.assertEqual(quantiles.get_rank(round(n/2)), 0.5)
 
         # merge self
-        quantiles_copy = quantiles_ints_sketch(quantiles)
+        quantiles_copy = copy.copy(quantiles)
         quantiles.merge(quantiles_copy)
-        self.assertEqual(quantiles.get_n(), 2 * n)
+        self.assertEqual(quantiles.n, 2 * n)
 
         sk_bytes = quantiles.serialize()
         self.assertTrue(isinstance(quantiles_ints_sketch.deserialize(sk_bytes), quantiles_ints_sketch))
@@ -143,20 +144,20 @@ class QuantilesTest(unittest.TestCase):
       for i in range(0, n):
         quantiles.update(str(i))
       
-      quantiles_copy = quantiles_items_sketch(quantiles)
+      quantiles_copy = copy.copy(quantiles)
       quantiles.merge(quantiles_copy)
-      self.assertEqual(quantiles.get_n(), 2 * n)
+      self.assertEqual(quantiles.n, 2 * n)
       
       total_weight = 0
       for tuple in quantiles:
         item = tuple[0]
         weight = tuple[1]
         total_weight = total_weight + weight
-      self.assertEqual(total_weight, quantiles.get_n())
+      self.assertEqual(total_weight, quantiles.n)
 
       quantiles_bytes = quantiles.serialize(PyStringsSerDe())
       new_quantiles = quantiles_items_sketch.deserialize(quantiles_bytes, PyStringsSerDe())
-      self.assertEqual(quantiles.get_num_retained(), new_quantiles.get_num_retained())
+      self.assertEqual(quantiles.num_retained, new_quantiles.num_retained)
       self.assertEqual(quantiles.get_min_value(), new_quantiles.get_min_value())
       self.assertEqual(quantiles.get_max_value(), new_quantiles.get_max_value())
       self.assertEqual(quantiles.get_quantile(0.7), new_quantiles.get_quantile(0.7))

@@ -50,12 +50,12 @@ void init_theta(nb::module_ &m) {
          "Returns an approximate lower bound on the estimate at standard deviations in {1, 2, 3}")
     .def("is_estimation_mode", static_cast<bool (theta_sketch::*)() const>(&theta_sketch::is_estimation_mode),
          "Returns True if sketch is in estimation mode, otherwise False")
-    .def("get_theta", static_cast<double (theta_sketch::*)() const>(&theta_sketch::get_theta),
-         "Returns theta (effective sampling rate) as a fraction from 0 to 1")
-    .def("get_theta64", static_cast<uint64_t (theta_sketch::*)() const>(&theta_sketch::get_theta64),
-         "Returns theta as 64-bit value")
-    .def("get_num_retained", static_cast<uint32_t (theta_sketch::*)() const>(&theta_sketch::get_num_retained),
-         "Returns the number of items currently in the sketch")
+    .def_prop_ro("theta", static_cast<double (theta_sketch::*)() const>(&theta_sketch::get_theta),
+         "Theta (effective sampling rate) as a fraction from 0 to 1")
+    .def_prop_ro("theta64", static_cast<uint64_t (theta_sketch::*)() const>(&theta_sketch::get_theta64),
+         "Theta as 64-bit value")
+    .def_prop_ro("num_retained", static_cast<uint32_t (theta_sketch::*)() const>(&theta_sketch::get_num_retained),
+         "The number of items currently in the sketch")
     .def("get_seed_hash", static_cast<uint16_t (theta_sketch::*)() const>(&theta_sketch::get_seed_hash),
          "Returns a hash of the seed used in the sketch")
     .def("is_ordered", static_cast<bool (theta_sketch::*)() const>(&theta_sketch::is_ordered),
@@ -77,7 +77,7 @@ void init_theta(nb::module_ &m) {
         },
         nb::arg("lg_k")=theta_constants::DEFAULT_LG_K, nb::arg("p")=1.0, nb::arg("seed")=DEFAULT_SEED
     )
-    .def(nb::init<const update_theta_sketch&>())
+    .def("__copy__", [](const update_theta_sketch& sk){ return update_theta_sketch(sk); })
     .def("update", (void (update_theta_sketch::*)(int64_t)) &update_theta_sketch::update, nb::arg("datum"),
          "Updates the sketch with the given integral value")
     .def("update", (void (update_theta_sketch::*)(double)) &update_theta_sketch::update, nb::arg("datum"),
@@ -91,8 +91,8 @@ void init_theta(nb::module_ &m) {
   ;
 
   nb::class_<compact_theta_sketch, theta_sketch>(m, "compact_theta_sketch")
-    .def(nb::init<const compact_theta_sketch&>())
     .def(nb::init<const theta_sketch&, bool>())
+    .def("__copy__", [](const compact_theta_sketch& sk){ return compact_theta_sketch(sk); })
     .def(
         "serialize",
         [](const compact_theta_sketch& sk) {
@@ -125,7 +125,6 @@ void init_theta(nb::module_ &m) {
 
   nb::class_<theta_intersection>(m, "theta_intersection")
     .def(nb::init<uint64_t>(), nb::arg("seed")=DEFAULT_SEED)
-    .def(nb::init<const theta_intersection&>())
     .def("update", &theta_intersection::update<const theta_sketch&>, nb::arg("sketch"),
          "Intersections the provided sketch with the current intersection state")
     .def("get_result", &theta_intersection::get_result, nb::arg("ordered")=true,

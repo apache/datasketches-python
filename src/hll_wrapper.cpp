@@ -34,17 +34,14 @@ void init_hll(nb::module_ &m) {
     .export_values();
 
   nb::class_<hll_sketch>(m, "hll_sketch")
-    .def(nb::init<uint8_t>(), nb::arg("lg_k"))
-    .def(nb::init<uint8_t, target_hll_type>(), nb::arg("lg_k"), nb::arg("tgt_type"))
-    .def(nb::init<uint8_t, target_hll_type, bool>(), nb::arg("lg_k"), nb::arg("tgt_type"), nb::arg("start_max_size")=false)
+    .def(nb::init<uint8_t, target_hll_type, bool>(), nb::arg("lg_k"), nb::arg("tgt_type")=HLL_8, nb::arg("start_max_size")=false)
     .def("__str__", (std::string (hll_sketch::*)(bool,bool,bool,bool) const) &hll_sketch::to_string,
-         nb::arg("summary")=true, nb::arg("detail")=false, nb::arg("aux_detail")=false, nb::arg("all")=false,
          "Produces a string summary of the sketch")
     .def("to_string", (std::string (hll_sketch::*)(bool,bool,bool,bool) const) &hll_sketch::to_string,
          nb::arg("summary")=true, nb::arg("detail")=false, nb::arg("aux_detail")=false, nb::arg("all")=false,
          "Produces a string summary of the sketch")
     .def_prop_ro("lg_config_k", &hll_sketch::get_lg_config_k, "Configured lg_k value for the sketch")
-    .def_prop_ro("tgt_type", &hll_sketch::get_target_type, "Returns the HLL type (4, 6, or 8) when in estimation mode")
+    .def_prop_ro("tgt_type", &hll_sketch::get_target_type, "The HLL type (4, 6, or 8) when in estimation mode")
     .def("get_estimate", &hll_sketch::get_estimate,
          "Estimate of the distinct count of the input stream")
     .def("get_lower_bound", &hll_sketch::get_lower_bound, nb::arg("num_std_devs"),
@@ -99,7 +96,6 @@ void init_hll(nb::module_ &m) {
   nb::class_<hll_union>(m, "hll_union")
     .def(nb::init<uint8_t>(), nb::arg("lg_max_k"))
     .def_prop_ro("lg_config_k", &hll_union::get_lg_config_k, "Configured lg_k value for the union")
-    .def_prop_ro("tgt_type", &hll_union::get_target_type, "Returns the HLL type (4, 6, or 8) when in estimation mode")
     .def("get_estimate", &hll_union::get_estimate,
          "Estimate of the distinct count of the input stream")
     .def("get_lower_bound", &hll_union::get_lower_bound, nb::arg("num_std_devs"),

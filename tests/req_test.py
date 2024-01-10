@@ -17,6 +17,7 @@
 
 import unittest
 from datasketches import req_ints_sketch, req_floats_sketch, req_items_sketch, PyStringsSerDe
+import copy
 import numpy as np
 
 class reqTest(unittest.TestCase):
@@ -62,19 +63,19 @@ class reqTest(unittest.TestCase):
       # and a few basic queries about the sketch
       self.assertFalse(req.is_empty())
       self.assertTrue(req.is_estimation_mode())
-      self.assertEqual(req.get_n(), n)
-      self.assertLess(req.get_num_retained(), n)
-      self.assertEqual(req.get_k(), k)
+      self.assertEqual(req.n, n)
+      self.assertLess(req.num_retained, n)
+      self.assertEqual(req.k, k)
 
       # merging itself will double the number of items the sketch has seen
-      req_copy = req_floats_sketch(req)
+      req_copy = copy.copy(req)
       req.merge(req_copy)
-      self.assertEqual(req.get_n(), 2*n)
+      self.assertEqual(req.n, 2*n)
 
       # we can then serialize and reconstruct the sketch
       req_bytes = req.serialize()
       new_req = req_floats_sketch.deserialize(req_bytes)
-      self.assertEqual(req.get_num_retained(), new_req.get_num_retained())
+      self.assertEqual(req.num_retained, new_req.num_retained)
       self.assertEqual(req.get_min_value(), new_req.get_min_value())
       self.assertEqual(req.get_max_value(), new_req.get_max_value())
       self.assertEqual(req.get_quantile(0.7), new_req.get_quantile(0.7))
@@ -85,7 +86,7 @@ class reqTest(unittest.TestCase):
         item = tuple[0]
         weight = tuple[1]
         total_weight = total_weight + weight
-      self.assertEqual(total_weight, req.get_n())
+      self.assertEqual(total_weight, req.n)
 
     def test_req_ints_sketch(self):
         k = 100
@@ -96,10 +97,10 @@ class reqTest(unittest.TestCase):
 
         self.assertEqual(req.get_min_value(), 0)
         self.assertEqual(req.get_max_value(), n-1)
-        self.assertEqual(req.get_n(), n)
+        self.assertEqual(req.n, n)
         self.assertFalse(req.is_empty())
         self.assertFalse(req.is_estimation_mode()) # n < k
-        self.assertEqual(req.get_k(), k)
+        self.assertEqual(req.k, k)
 
         pmf = req.get_pmf([round(n/2)])
         self.assertIsNotNone(pmf)
@@ -117,9 +118,9 @@ class reqTest(unittest.TestCase):
         self.assertEqual(req.get_rank(round(n/2)), 0.5)
 
         # merge self
-        req_copy = req_ints_sketch(req)
+        req_copy = copy.copy(req)
         req.merge(req_copy)
-        self.assertEqual(req.get_n(), 2 * n)
+        self.assertEqual(req.n, 2 * n)
 
         sk_bytes = req.serialize()
         self.assertTrue(isinstance(req_ints_sketch.deserialize(sk_bytes), req_ints_sketch))
@@ -142,20 +143,20 @@ class reqTest(unittest.TestCase):
       for i in range(0, n):
         req.update(str(i))
       
-      req_copy = req_items_sketch(req)
+      req_copy = copy.copy(req)
       req.merge(req_copy)
-      self.assertEqual(req.get_n(), 2 * n)
+      self.assertEqual(req.n, 2 * n)
 
       total_weight = 0
       for tuple in req:
         item = tuple[0]
         weight = tuple[1]
         total_weight = total_weight + weight
-      self.assertEqual(total_weight, req.get_n())
+      self.assertEqual(total_weight, req.n)
 
       req_bytes = req.serialize(PyStringsSerDe())
       new_req = req_items_sketch.deserialize(req_bytes, PyStringsSerDe())
-      self.assertEqual(req.get_num_retained(), new_req.get_num_retained())
+      self.assertEqual(req.num_retained, new_req.num_retained)
       self.assertEqual(req.get_min_value(), new_req.get_min_value())
       self.assertEqual(req.get_max_value(), new_req.get_max_value())
       self.assertEqual(req.get_quantile(0.7), new_req.get_quantile(0.7))

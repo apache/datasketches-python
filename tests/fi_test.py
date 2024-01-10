@@ -64,7 +64,7 @@ class FiTest(unittest.TestCase):
     # values but all with equal weight (of 1) such that
     # the total weight is much larger than the first sketch
     fi2 = frequent_strings_sketch(k)
-    wt = fi.get_total_weight()
+    wt = fi.total_weight
     for i in range(0, 4*wt):
       fi2.update(str(i))
 
@@ -72,7 +72,7 @@ class FiTest(unittest.TestCase):
     fi.merge(fi2)
 
     # we can see that the weight is much larger
-    self.assertEqual(5 * wt, fi.get_total_weight())
+    self.assertEqual(5 * wt, fi.total_weight)
 
     # querying with NO_FALSE_POSITIVES means we don't find anything
     # heavy enough to return
@@ -91,8 +91,8 @@ class FiTest(unittest.TestCase):
 
     # and now interrogate the sketch
     self.assertFalse(new_fi.is_empty())
-    self.assertGreater(new_fi.get_num_active_items(), 0)
-    self.assertEqual(5 * wt, new_fi.get_total_weight())
+    self.assertGreater(new_fi.num_active_items, 0)
+    self.assertEqual(5 * wt, new_fi.total_weight)
 
   # This example uses generic objects but is otherwise identical
   def test_fi_items_example(self):
@@ -111,7 +111,7 @@ class FiTest(unittest.TestCase):
     # values but all with equal weight (of 1) such that
     # the total weight is much larger than the first sketch
     fi2 = frequent_items_sketch(k)
-    wt = fi.get_total_weight()
+    wt = fi.total_weight
     for i in range(0, 4*wt):
       fi2.update(i)
 
@@ -119,7 +119,7 @@ class FiTest(unittest.TestCase):
     fi.merge(fi2)
 
     # we can see that the weight is much larger
-    self.assertEqual(5 * wt, fi.get_total_weight())
+    self.assertEqual(5 * wt, fi.total_weight)
 
     # finally, serialize and reconstruct -- now we need a serde to tell
     # (de)serialization how to interpret the objects
@@ -129,8 +129,8 @@ class FiTest(unittest.TestCase):
 
     # and again interrogate the sketch to check that it's what we serialized
     self.assertFalse(new_fi.is_empty())
-    self.assertGreater(new_fi.get_num_active_items(), 0)
-    self.assertEqual(5 * wt, new_fi.get_total_weight())
+    self.assertGreater(new_fi.num_active_items, 0)
+    self.assertEqual(5 * wt, new_fi.total_weight)
 
 
   def test_fi_sketch(self):
@@ -139,9 +139,9 @@ class FiTest(unittest.TestCase):
     wt = 10000
     fi = frequent_strings_sketch(k)
 
-    self.assertAlmostEqual(fi.get_sketch_epsilon(), 0.0008545, delta=1e-6)
+    self.assertAlmostEqual(fi.epsilon, 0.0008545, delta=1e-6)
 
-    sk_apriori_error = fi.get_sketch_epsilon() * wt
+    sk_apriori_error = fi.epsilon * wt
     reference_apriori_error = frequent_strings_sketch.get_apriori_error(k, wt)
     self.assertAlmostEqual(sk_apriori_error, reference_apriori_error, delta=1e-6)
 

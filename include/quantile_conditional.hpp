@@ -84,7 +84,7 @@ template<typename T, typename SK, typename std::enable_if<std::is_trivial<T>::va
 void add_vector_update(nb::class_<SK>& clazz) {
   clazz.def(
     "update",
-    [](SK& sk, nb::ndarray<T, nb::c_contig> items) {
+    [](SK& sk, nb::ndarray<T> items) {
       if (items.ndim() != 1) {
         throw std::invalid_argument("input data must have only one dimension. Found: "
           + std::to_string(items.ndim()));

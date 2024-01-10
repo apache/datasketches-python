@@ -46,6 +46,7 @@ void bind_fi_sketch(nb::module_ &m, const char* name) {
 
   auto fi_class = nb::class_<frequent_items_sketch<T, W, H, E>>(m, name)
     .def(nb::init<uint8_t>(), nb::arg("lg_max_k"))
+    .def("__copy__", [](const frequent_items_sketch<T, W, H, E>& sk){ return frequent_items_sketch<T,W,H,E>(sk); })
     .def("__str__", &frequent_items_sketch<T, W, H, E>::to_string, nb::arg("print_items")=false,
          "Produces a string summary of the sketch")
     .def("to_string", &frequent_items_sketch<T, W, H, E>::to_string, nb::arg("print_items")=false,
@@ -56,10 +57,10 @@ void bind_fi_sketch(nb::module_ &m, const char* name) {
          "Merges the given sketch into this one")
     .def("is_empty", &frequent_items_sketch<T, W, H, E>::is_empty,
          "Returns True if the sketch is empty, otherwise False")
-    .def("get_num_active_items", &frequent_items_sketch<T, W, H, E>::get_num_active_items,
-         "Returns the number of active items in the sketch")
-    .def("get_total_weight", &frequent_items_sketch<T, W, H, E>::get_total_weight,
-         "Returns the sum of the weights (frequencies) in the stream seen so far by the sketch")
+    .def_prop_ro("num_active_items", &frequent_items_sketch<T, W, H, E>::get_num_active_items,
+         "The number of active items in the sketch")
+    .def_prop_ro("total_weight", &frequent_items_sketch<T, W, H, E>::get_total_weight,
+         "The sum of the weights (frequencies) in the stream seen so far by the sketch")
     .def("get_estimate", &frequent_items_sketch<T, W, H, E>::get_estimate, nb::arg("item"),
          "Returns the estimate of the weight (frequency) of the given item.\n"
          "Note: The true frequency of a item would be the sum of the counts as a result of the "
@@ -68,8 +69,8 @@ void bind_fi_sketch(nb::module_ &m, const char* name) {
          "Returns the guaranteed lower bound weight (frequency) of the given item.")
     .def("get_upper_bound", &frequent_items_sketch<T, W, H, E>::get_upper_bound, nb::arg("item"),
          "Returns the guaranteed upper bound weight (frequency) of the given item.")
-    .def("get_sketch_epsilon", (double (frequent_items_sketch<T, W, H, E>::*)(void) const) &frequent_items_sketch<T, W, H, E>::get_epsilon,
-         "Returns the epsilon value used by the sketch to compute error")
+    .def_prop_ro("epsilon", (double (frequent_items_sketch<T, W, H, E>::*)(void) const) &frequent_items_sketch<T, W, H, E>::get_epsilon,
+         "The epsilon value used by the sketch to compute error")
     .def(
         "get_frequent_items",
         [](const frequent_items_sketch<T, W, H, E>& sk, frequent_items_error_type err_type, uint64_t threshold) {

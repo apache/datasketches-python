@@ -63,7 +63,7 @@ class CpcTest(unittest.TestCase):
   def test_cpc_get_lg_k(self):
     lgk = 10
     cpc = cpc_sketch(lgk)
-    self.assertEqual(cpc.get_lg_k(), lgk)
+    self.assertEqual(cpc.lg_k, lgk)
 
 if __name__ == '__main__':
     unittest.main()
