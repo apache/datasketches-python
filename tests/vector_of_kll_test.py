@@ -69,7 +69,7 @@ class VectorOfKllSketchesTest(unittest.TestCase):
 
       # we can combine sketches across all dimensions and get the result
       result = kll.collapse()
-      self.assertEqual(result.get_n(), d * n)
+      self.assertEqual(result.n, d * n)
 
       # merging a copy of itself will double the number of items the sketch has seen
       kll_copy = vector_of_kll_floats_sketches(kll)
