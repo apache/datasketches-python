@@ -37,24 +37,28 @@ void bind_kll_sketch(nb::module_ &m, const char* name) {
   using namespace datasketches;
 
   auto kll_class = nb::class_<kll_sketch<T, C>>(m, name)
-    .def(nb::init<uint16_t>(), nb::arg("k")=kll_constants::DEFAULT_K)
-    .def(nb::init<const kll_sketch<T, C>&>())
+    .def(nb::init<uint16_t>(), nb::arg("k")=kll_constants::DEFAULT_K,
+         "Creates a KLL sketch instance with the given value of k.\n\n"
+         ":param k: Controls the size/accuracy trade-off of the sketch. Default is 200.\n"
+         ":type k: int, optional"
+         )
+    .def("__copy__", [](const kll_sketch<T, C>& sk){ return kll_sketch<T, C>(sk); })
     .def("update", static_cast<void (kll_sketch<T, C>::*)(const T&)>(&kll_sketch<T, C>::update), nb::arg("item"),
         "Updates the sketch with the given value")
     .def("merge", (void (kll_sketch<T, C>::*)(const kll_sketch<T, C>&)) &kll_sketch<T, C>::merge, nb::arg("sketch"),
         "Merges the provided sketch into this one")
-    .def("__str__", &kll_sketch<T, C>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
+    .def("__str__", &kll_sketch<T, C>::to_string,
         "Produces a string summary of the sketch")
     .def("to_string", &kll_sketch<T, C>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
         "Produces a string summary of the sketch")
     .def("is_empty", &kll_sketch<T, C>::is_empty,
         "Returns True if the sketch is empty, otherwise False")
-    .def("get_k", &kll_sketch<T, C>::get_k,
-        "Returns the configured parameter k")
-    .def("get_n", &kll_sketch<T, C>::get_n,
-        "Returns the length of the input stream")
-    .def("get_num_retained", &kll_sketch<T, C>::get_num_retained,
-        "Returns the number of retained items (samples) in the sketch")
+    .def_prop_ro("k", &kll_sketch<T, C>::get_k,
+        "The configured parameter k")
+    .def_prop_ro("n", &kll_sketch<T, C>::get_n,
+        "The length of the input stream")
+    .def_prop_ro("num_retained", &kll_sketch<T, C>::get_num_retained,
+        "The number of retained items (samples) in the sketch")
     .def("is_estimation_mode", &kll_sketch<T, C>::is_estimation_mode,
         "Returns True if the sketch is in estimation mode, otherwise False")
     .def("get_min_value", &kll_sketch<T, C>::get_min_item,

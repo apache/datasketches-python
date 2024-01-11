@@ -525,13 +525,17 @@ void bind_vector_of_kll_sketches(nb::module_ &m, const char* name) {
 
   nb::class_<vector_of_kll_sketches<T>>(m, name)
     .def(nb::init<uint32_t, uint32_t>(), nb::arg("k")=vector_of_kll_constants::DEFAULT_K, 
-                                         nb::arg("d")=vector_of_kll_constants::DEFAULT_D)
-    .def(nb::init<const vector_of_kll_sketches<T>&>())
+                                         nb::arg("d")=vector_of_kll_constants::DEFAULT_D,
+         "Creates a new Vector of KLL Sketches instance with the given values of k and d.\n\n"
+         ":param k: The value of k for every sketch in the vector\n:type k: int\n"
+         ":param d: The number of sketches in the vector\n:type d: int"
+        )
+    .def("__copy__", [](const vector_of_kll_sketches<T>& sk){ return vector_of_kll_sketches<T>(sk); })
     // allow user to retrieve k or d, in case it's instantiated w/ defaults
-    .def("get_k", &vector_of_kll_sketches<T>::get_k,
-         "Returns the value of `k` of the sketch(es)")
-    .def("get_d", &vector_of_kll_sketches<T>::get_d,
-         "Returns the number of sketches")
+    .def_prop_ro("k", &vector_of_kll_sketches<T>::get_k,
+         "The value of `k` of the sketch(es)")
+    .def_prop_ro("d", &vector_of_kll_sketches<T>::get_d,
+         "The number of sketches")
     .def("update", &vector_of_kll_sketches<T>::update, nb::arg("items"), nb::arg("order") = "C",
          "Updates the sketch(es) with value(s).  Must be a 1D array of size equal to the number of sketches.  Can also be 2D array of shape (n_updates, n_sketches).  If a sketch does not have a value to update, use np.nan. "
          " Order 'F' specifies a column-major (Fortran style) matrix; any other value assumes row-major (C style) matrix.")

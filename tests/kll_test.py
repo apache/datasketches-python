@@ -18,6 +18,7 @@
 import unittest
 from datasketches import kll_ints_sketch, kll_floats_sketch, kll_doubles_sketch
 from datasketches import kll_items_sketch, ks_test, PyStringsSerDe
+import copy
 import numpy as np
 
 class KllTest(unittest.TestCase):
@@ -57,20 +58,20 @@ class KllTest(unittest.TestCase):
       # and a few basic queries about the sketch
       self.assertFalse(kll.is_empty())
       self.assertTrue(kll.is_estimation_mode())
-      self.assertEqual(kll.get_n(), n)
-      self.assertEqual(kll.get_k(), k)
-      self.assertLess(kll.get_num_retained(), n)
+      self.assertEqual(kll.n, n)
+      self.assertEqual(kll.k, k)
+      self.assertLess(kll.num_retained, n)
 
       # merging itself will double the number of items the sketch has seen
       # but need to do that with a copy
-      kll_copy = kll_floats_sketch(kll)
+      kll_copy = copy.copy(kll)
       kll.merge(kll_copy)
-      self.assertEqual(kll.get_n(), 2*n)
+      self.assertEqual(kll.n, 2*n)
 
       # we can then serialize and reconstruct the sketch
       kll_bytes = kll.serialize()
       new_kll = kll_floats_sketch.deserialize(kll_bytes)
-      self.assertEqual(kll.get_num_retained(), new_kll.get_num_retained())
+      self.assertEqual(kll.num_retained, new_kll.num_retained)
       self.assertEqual(kll.get_min_value(), new_kll.get_min_value())
       self.assertEqual(kll.get_max_value(), new_kll.get_max_value())
       self.assertEqual(kll.get_quantile(0.7), new_kll.get_quantile(0.7))
@@ -86,7 +87,7 @@ class KllTest(unittest.TestCase):
         item = tuple[0]
         weight = tuple[1]
         total_weight = total_weight + weight
-      self.assertEqual(total_weight, kll.get_n())
+      self.assertEqual(total_weight, kll.n)
 
     def test_kll_ints_sketch(self):
         k = 100
@@ -97,10 +98,10 @@ class KllTest(unittest.TestCase):
 
         self.assertEqual(kll.get_min_value(), 0)
         self.assertEqual(kll.get_max_value(), n-1)
-        self.assertEqual(kll.get_n(), n)
+        self.assertEqual(kll.n, n)
         self.assertFalse(kll.is_empty())
         self.assertFalse(kll.is_estimation_mode()) # n < k
-        self.assertEqual(kll.get_k(), k)
+        self.assertEqual(kll.k, k)
 
         pmf = kll.get_pmf([round(n/2)])
         self.assertIsNotNone(pmf)
@@ -118,9 +119,9 @@ class KllTest(unittest.TestCase):
         self.assertEqual(kll.get_rank(round(n/2)), 0.5)
 
         # merge copy of self
-        kll_copy = kll_ints_sketch(kll)
+        kll_copy = copy.copy(kll)
         kll.merge(kll_copy)
-        self.assertEqual(kll.get_n(), 2 * n)
+        self.assertEqual(kll.n, 2 * n)
 
         sk_bytes = kll.serialize()
         self.assertTrue(isinstance(kll_ints_sketch.deserialize(sk_bytes), kll_ints_sketch))
@@ -148,15 +149,15 @@ class KllTest(unittest.TestCase):
         item = tuple[0]
         weight = tuple[1]
         total_weight = total_weight + weight
-      self.assertEqual(total_weight, kll.get_n())
+      self.assertEqual(total_weight, kll.n)
 
-      kll_copy = kll_items_sketch(kll)
+      kll_copy = copy.copy(kll)
       kll.merge(kll_copy)
-      self.assertEqual(kll.get_n(), 2 * n)
+      self.assertEqual(kll.n, 2 * n)
       
       kll_bytes = kll.serialize(PyStringsSerDe())
       new_kll = kll_items_sketch.deserialize(kll_bytes, PyStringsSerDe())
-      self.assertEqual(kll.get_num_retained(), new_kll.get_num_retained())
+      self.assertEqual(kll.num_retained, new_kll.num_retained)
       self.assertEqual(kll.get_min_value(), new_kll.get_min_value())
       self.assertEqual(kll.get_max_value(), new_kll.get_max_value())
       self.assertEqual(kll.get_quantile(0.7), new_kll.get_quantile(0.7))

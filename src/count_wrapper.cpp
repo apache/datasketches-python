@@ -30,8 +30,14 @@ void bind_count_min_sketch(nb::module_ &m, const char* name) {
   using namespace datasketches;
 
   nb::class_<count_min_sketch<W>>(m, name)
-    .def(nb::init<uint8_t, uint32_t, uint64_t>(), nb::arg("num_hashes"), nb::arg("num_buckets"), nb::arg("seed")=DEFAULT_SEED)
-    .def(nb::init<const count_min_sketch<W>&>())
+    .def(nb::init<uint8_t, uint32_t, uint64_t>(), nb::arg("num_hashes"), nb::arg("num_buckets"), nb::arg("seed")=DEFAULT_SEED,
+         "Creates an instance of a CountMin sketch\n\n"
+         ":param num_hashes: Number of rows in the sketch\n:type num_hashes: int\n"
+         ":param num_buckets: Number of columns in the sketch\n:type num_buckets: int\n"
+         ":param seed: Hash seed to use\n:type seed: int, optional"
+         )
+         // using nun_hashes (rows), num_buckets (columns), and hash seed `seed`.)
+    .def("__copy__", [](const count_min_sketch<W>& sk){ return count_min_sketch<W>(sk); })
     .def_static("suggest_num_buckets", &count_min_sketch<W>::suggest_num_buckets, nb::arg("relative_error"),
                 "Suggests the number of buckets needed to achieve an accuracy within the provided "
                 "relative_error. For example, when relative_error = 0.05, the returned frequency estimates "
@@ -50,16 +56,16 @@ void bind_count_min_sketch(nb::module_ &m, const char* name) {
          "Produces a string summary of the sketch")
     .def("is_empty", &count_min_sketch<W>::is_empty,
          "Returns True if the sketch has seen no items, otherwise False")
-    .def("get_num_hashes", &count_min_sketch<W>::get_num_hashes,
-         "Returns the configured number of hashes for the sketch")
-    .def("get_num_buckets", &count_min_sketch<W>::get_num_buckets,
-         "Returns the configured number of buckets for the sketch")
-    .def("get_seed", &count_min_sketch<W>::get_seed,
-         "Returns the base hash seed for the sketch")
+    .def_prop_ro("num_hashes", &count_min_sketch<W>::get_num_hashes,
+         "The configured number of hashes for the sketch")
+    .def_prop_ro("num_buckets", &count_min_sketch<W>::get_num_buckets,
+         "The configured number of buckets for the sketch")
+    .def_prop_ro("seed", &count_min_sketch<W>::get_seed,
+         "The base hash seed for the sketch")
     .def("get_relative_error", &count_min_sketch<W>::get_relative_error,
          "Returns the maximum permissible error for any frequency estimate query")
-    .def("get_total_weight", &count_min_sketch<W>::get_total_weight,
-         "Returns the total weight currently inserted into the stream")
+    .def_prop_ro("total_weight", &count_min_sketch<W>::get_total_weight,
+         "The total weight currently inserted into the stream")
     .def("update", static_cast<void (count_min_sketch<W>::*)(int64_t, W)>(&count_min_sketch<W>::update), nb::arg("item"), nb::arg("weight")=1.0,
          "Updates the sketch with the given 64-bit integer value")
     .def("update", static_cast<void (count_min_sketch<W>::*)(const std::string&, W)>(&count_min_sketch<W>::update), nb::arg("item"), nb::arg("weight")=1.0,
@@ -73,9 +79,9 @@ void bind_count_min_sketch(nb::module_ &m, const char* name) {
     .def("get_upper_bound", static_cast<W (count_min_sketch<W>::*)(const std::string&) const>(&count_min_sketch<W>::get_upper_bound), nb::arg("item"),
          "Returns an upper bound on the estimate for the provided string")
     .def("get_lower_bound", static_cast<W (count_min_sketch<W>::*)(int64_t) const>(&count_min_sketch<W>::get_lower_bound), nb::arg("item"),
-         "Returns an lower bound on the estimate for the given 64-bit integer value")
+         "Returns a lower bound on the estimate for the given 64-bit integer value")
     .def("get_lower_bound", static_cast<W (count_min_sketch<W>::*)(const std::string&) const>(&count_min_sketch<W>::get_lower_bound), nb::arg("item"),
-         "Returns an lower bound on the estimate for the provided string")
+         "Returns a lower bound on the estimate for the provided string")
     .def("merge", &count_min_sketch<W>::merge, nb::arg("other"),
          "Merges the provided other sketch into this one")
     .def("get_serialized_size_bytes", &count_min_sketch<W>::get_serialized_size_bytes,

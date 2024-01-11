@@ -31,8 +31,14 @@ void init_cpc(nb::module_ &m) {
   using namespace datasketches;
 
   nb::class_<cpc_sketch>(m, "cpc_sketch")
-    .def(nb::init<uint8_t, uint64_t>(), nb::arg("lg_k")=cpc_constants::DEFAULT_LG_K, nb::arg("seed")=DEFAULT_SEED)
-    .def(nb::init<const cpc_sketch&>())
+    .def(nb::init<uint8_t, uint64_t>(), nb::arg("lg_k")=cpc_constants::DEFAULT_LG_K, nb::arg("seed")=DEFAULT_SEED,
+         "Creates a new CPC sketch\n\n"
+         ":param lg_k: base 2 logarithm of the number of bins in the sketch\n"
+         ":type lg_k: int, optional\n"
+         ":param seed: seed value for the hash function\n"
+         ":type seed: int, optional"
+    )
+    .def("__copy__", [](const cpc_sketch& sk){ return cpc_sketch(sk); })
     .def("__str__", &cpc_sketch::to_string,
          "Produces a string summary of the sketch")
     .def("to_string", &cpc_sketch::to_string,
@@ -43,8 +49,8 @@ void init_cpc(nb::module_ &m) {
          "Updates the sketch with the given 64-bit floating point")
     .def<void (cpc_sketch::*)(const std::string&)>("update", &cpc_sketch::update, nb::arg("datum"),
          "Updates the sketch with the given string")
-    .def("get_lg_k", &cpc_sketch::get_lg_k,
-         "Returns configured lg_k of this sketch")
+    .def_prop_ro("lg_k", &cpc_sketch::get_lg_k,
+         "Configured lg_k of this sketch")
     .def("is_empty", &cpc_sketch::is_empty,
          "Returns True if the sketch is empty, otherwise False")
     .def("get_estimate", &cpc_sketch::get_estimate,
@@ -70,7 +76,6 @@ void init_cpc(nb::module_ &m) {
 
   nb::class_<cpc_union>(m, "cpc_union")
     .def(nb::init<uint8_t, uint64_t>(), nb::arg("lg_k"), nb::arg("seed")=DEFAULT_SEED)
-    .def(nb::init<const cpc_union&>())
     .def("update", (void (cpc_union::*)(const cpc_sketch&)) &cpc_union::update, nb::arg("sketch"),
          "Updates the union with the provided CPC sketch")
     .def("get_result", &cpc_union::get_result,
