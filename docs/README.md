@@ -21,32 +21,3 @@ cd python/docs
 make html
 open build/html/index.html
 ```
-
-## Problems
-The `density_sketch` and `tuple_sketch` are not yet included.  
-I have not included the file to avoid cluttering the PR with things that may not work.
-You can easily include them by making a `density_sketch.rst` file in the same location as 
-all of the other `X.rst` files for the sketches and copying in the following:
-
-```
-Density Sketch
---------------
-
-.. autoclass:: datasketches.density_sketch
-    :members:
-    :undoc-members:
-
-.. autoclass:: datasketches.GaussianKernel
-    :members:
-```
-Additionally, you will need to add the below to `index.rst`
-```
-Density Estimation
-##################
-
-.. toctree::
-   :maxdepth: 1 
-
-   density_sketch
-```
-
