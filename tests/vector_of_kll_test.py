@@ -18,6 +18,7 @@
 import unittest
 from datasketches import (vector_of_kll_ints_sketches,
                           vector_of_kll_floats_sketches)
+import copy
 import numpy as np
 
 class VectorOfKllSketchesTest(unittest.TestCase):
@@ -72,7 +73,7 @@ class VectorOfKllSketchesTest(unittest.TestCase):
       self.assertEqual(result.n, d * n)
 
       # merging a copy of itself will double the number of items the sketch has seen
-      kll_copy = vector_of_kll_floats_sketches(kll)
+      kll_copy = copy.copy(kll)
       kll.merge(kll_copy)
       np.testing.assert_equal(kll.get_n(), 2*n)
 
