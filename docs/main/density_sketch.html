@@ -109,9 +109,15 @@
              
   <section id="density-sketch">
 <h1>Density Sketch<a class="headerlink" href="#density-sketch" title="Link to this heading"></a></h1>
+<p>Builds a coreset from the given set of input points.
+Provides density estimate at a given point.</p>
+<p>Based on the following paper: Zohar Karnin, Edo Liberty
+“Discrepancy, Coresets, and Sketches in Machine Learning”
+<a class="reference external" href="https://proceedings.mlr.press/v99/karnin19a/karnin19a.pdf">https://proceedings.mlr.press/v99/karnin19a/karnin19a.pdf</a></p>
+<p>Inspired by the following implementation: <a class="reference external" href="https://github.com/edoliberty/streaming-quantiles/blob/f688c8161a25582457b0a09deb4630a81406293b/gde.py">https://github.com/edoliberty/streaming-quantiles/blob/f688c8161a25582457b0a09deb4630a81406293b/gde.py</a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.density_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datasketches.</span></span><span class="sig-name descname"><span class="pre">density_sketch</span></span><a class="headerlink" href="#datasketches.density_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">density_sketch</span></span><a class="headerlink" href="#datasketches.density_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.density_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.density_sketch.deserialize" title="Link to this definition"></a></dt>
@@ -187,7 +193,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.GaussianKernel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datasketches.</span></span><span class="sig-name descname"><span class="pre">GaussianKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.GaussianKernel" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GaussianKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.GaussianKernel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>

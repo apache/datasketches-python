@@ -123,9 +123,11 @@
              
   <section id="tuple-sketch">
 <h1>Tuple Sketch<a class="headerlink" href="#tuple-sketch" title="Link to this heading"></a></h1>
+<p>Tuple sketches are an extension of Theta sketch that allow the keeping of arbitrary summaries associated with each retained key
+(for example, a count for every key).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.tuple_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datasketches.</span></span><span class="sig-name descname"><span class="pre">tuple_sketch</span></span><a class="headerlink" href="#datasketches.tuple_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tuple_sketch</span></span><a class="headerlink" href="#datasketches.tuple_sketch" title="Link to this definition"></a></dt>
 <dd><p>An abstract base class for tuple sketches.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.tuple_sketch.DEFAULT_SEED">
@@ -202,7 +204,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.AccumulatorPolicy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datasketches.</span></span><span class="sig-name descname"><span class="pre">AccumulatorPolicy</span></span><a class="headerlink" href="#datasketches.AccumulatorPolicy" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AccumulatorPolicy</span></span><a class="headerlink" href="#datasketches.AccumulatorPolicy" title="Link to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="datasketches.AccumulatorPolicy.create_summary">
 <span class="sig-name descname"><span class="pre">create_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#datasketches.AccumulatorPolicy.create_summary" title="Link to this definition"></a></dt>
@@ -219,7 +221,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.MaxIntPolicy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datasketches.</span></span><span class="sig-name descname"><span class="pre">MaxIntPolicy</span></span><a class="headerlink" href="#datasketches.MaxIntPolicy" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MaxIntPolicy</span></span><a class="headerlink" href="#datasketches.MaxIntPolicy" title="Link to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="datasketches.MaxIntPolicy.create_summary">
 <span class="sig-name descname"><span class="pre">create_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#datasketches.MaxIntPolicy.create_summary" title="Link to this definition"></a></dt>
@@ -236,7 +238,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.MinIntPolicy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datasketches.</span></span><span class="sig-name descname"><span class="pre">MinIntPolicy</span></span><a class="headerlink" href="#datasketches.MinIntPolicy" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MinIntPolicy</span></span><a class="headerlink" href="#datasketches.MinIntPolicy" title="Link to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="datasketches.MinIntPolicy.create_summary">
 <span class="sig-name descname"><span class="pre">create_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#datasketches.MinIntPolicy.create_summary" title="Link to this definition"></a></dt>

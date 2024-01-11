@@ -181,9 +181,96 @@
              
   <section id="kll-sketch">
 <h1>KLL Sketch<a class="headerlink" href="#kll-sketch" title="Link to this heading"></a></h1>
+<p>Implementation of a very compact quantiles sketch with lazy compaction scheme
+and nearly optimal accuracy per retained item.
+See <cite>Optimal Quantile Approximation in Streams</cite>.</p>
+<p>This is a stochastic streaming sketch that enables near real-time analysis of the
+approximate distribution of items from a very large stream in a single pass, requiring only
+that the items are comparable.
+The analysis is obtained using <cite>get_quantile()</cite> function or the
+inverse functions <cite>get_rank()</cite>, <cite>get_pmf()</cite> (Probability Mass Function), and <cite>get_cdf()</cite>
+(Cumulative Distribution Function).</p>
+<p>As of May 2020, this implementation produces serialized sketches which are binary-compatible
+with the equivalent Java implementation only when template parameter <cite>T = float</cite>
+(32-bit single precision values).</p>
+<p>Given an input stream of <cite>N</cite> items, the <cite>natural rank</cite> of any specific
+item is defined as its index <cite>(1 to N)</cite> in inclusive mode
+or <cite>(0 to N-1)</cite> in exclusive mode
+in the hypothetical sorted stream of all <cite>N</cite> input items.</p>
+<p>The <cite>normalized rank</cite> (<cite>rank</cite>) of any specific item is defined as its
+<cite>natural rank</cite> divided by <cite>N</cite>.
+Thus, the <cite>normalized rank</cite> is between zero and one.
+In the documentation for this sketch <cite>natural rank</cite> is never used so any
+reference to just <cite>rank</cite> should be interpreted to mean <cite>normalized rank</cite>.</p>
+<p>This sketch is configured with a parameter <cite>k</cite>, which affects the size of the sketch
+and its estimation error.</p>
+<p>The estimation error is commonly called <cite>epsilon</cite> (or <cite>eps</cite>) and is a fraction
+between zero and one. Larger values of <cite>k</cite> result in smaller values of <cite>epsilon</cite>.
+Epsilon is always with respect to the rank and cannot be applied to the
+corresponding items.</p>
+<p>The relationship between the <cite>normalized rank</cite> and the corresponding items can be viewed
+as a two-dimensional monotonic plot with the <cite>normalized rank</cite> on one axis and the
+corresponding items on the other axis. If the y-axis is specified as the item-axis and
+the x-axis as the <cite>normalized rank</cite>, then <cite>y = get_quantile(x)</cite> is a monotonically
+increasing function.</p>
+<p>The function <cite>get_quantile(rank)</cite> translates ranks into
+corresponding quantiles. The functions <cite>get_rank(item)</cite>,
+<cite>get_cdf(…)</cite> (Cumulative Distribution Function), and <cite>get_pmf(…)</cite>
+(Probability Mass Function) perform the opposite operation and translate items into ranks.</p>
+<p>The <cite>get_pmf(…)</cite> function has about 13 to 47% worse rank error (depending
+on <cite>k</cite>) than the other queries because the mass of each “bin” of the PMF has
+“double-sided” error from the upper and lower edges of the bin as a result of a subtraction,
+as the errors from the two edges can sometimes add.</p>
+<p>The default <cite>k</cite> of 200 yields a “single-sided” <cite>epsilon</cite> of about 1.33% and a
+“double-sided” (PMF) <cite>epsilon</cite> of about 1.65%.</p>
+<p>A <cite>get_quantile(rank)</cite> query has the following guarantees:
+- Let <cite>q = get_quantile(r)</cite> where <cite>r</cite> is the rank between zero and one.
+- The quantile <cite>q</cite> will be an item from the input stream.
+- Let <cite>true_rank</cite> be the true rank of <cite>q</cite> derived from the hypothetical sorted
+stream of all <cite>N</cite> items.
+- Let <cite>eps = get_normalized_rank_error(false)</cite>.
+- Then <cite>r - eps ≤ true_rank ≤ r + eps</cite> with a confidence of 99%. Note that the
+error is on the rank, not the quantile.</p>
+<p>A <cite>get_rank(item)</cite> query has the following guarantees:
+- Let <cite>r = get_rank(i)</cite> where <cite>i</cite> is an item between the min and max items of
+the input stream.
+- Let <cite>true_rank</cite> be the true rank of <cite>i</cite> derived from the hypothetical sorted
+stream of all <cite>N</cite> items.
+- Let <cite>eps = get_normalized_rank_error(false)</cite>.
+- Then <cite>r - eps ≤ true_rank ≤ r + eps</cite> with a confidence of 99%.</p>
+<p>A <cite>get_pmf()</cite> query has the following guarantees:
+- Let <cite>{r1, r2, …, r(m+1)} = get_pmf(s1, s2, …, sm)</cite> where <cite>s1, s2</cite> are
+split points (items from the input domain) between the min and max items of
+the input stream.
+- Let <cite>mass_i = estimated mass between s_i and s_i+1</cite>.
+- Let <cite>true_mass</cite> be the true mass between the items of <cite>s_i</cite>,
+<cite>s_i+1</cite> derived from the hypothetical sorted stream of all <cite>N</cite> items.
+- Let <cite>eps = get_normalized_rank_error(true)</cite>.
+- then <cite>mass - eps ≤ true_mass ≤ mass + eps</cite> with a confidence of 99%.
+- <cite>r(m+1)</cite> includes the mass of all points larger than <cite>s_m</cite>.</p>
+<p>A <cite>get_cdf(…)</cite> query has the following guarantees;
+- Let <cite>{r1, r2, …, r(m+1)} = get_cdf(s1, s2, …, sm)</cite> where <cite>s1, s2, …</cite> are
+split points (items from the input domain) between the min and max items of
+the input stream.
+- Let <cite>mass_i = r_(i+1) - r_i</cite>.
+- Let <cite>true_mass</cite> be the true mass between the true ranks of <cite>s_i</cite>,
+<cite>s_i+1</cite> derived from the hypothetical sorted stream of all <cite>N</cite> items.
+- Let <cite>eps = get_normalized_rank_error(true)</cite>.
+- then <cite>mass - eps ≤ true_mass ≤ mass + eps</cite> with a confidence of 99%.
+- <cite>1 - r(m+1)</cite> includes the mass of all points larger than <cite>s_m</cite>.</p>
+<p>From the above, it might seem like we could make some estimates to bound the
+<cite>item</cite> returned from a call to <cite>get_quantile()</cite>. The sketch, however, does not
+let us derive error bounds or confidences around items. Because errors are independent, we
+can approximately bracket a value as shown below, but there are no error estimates available.
+Additionally, the interval may be quite large for certain distributions.
+- Let <cite>q = get_quantile(r)</cite>, the estimated quantile of rank <cite>r</cite>.
+- Let <cite>eps = get_normalized_rank_error(false)</cite>.
+- Let <cite>q_lo = estimated quantile of rank (r - eps)</cite>.
+- Let <cite>q_hi = estimated quantile of rank (r + eps)</cite>.
+- Then <cite>q_lo ≤ q ≤ q_hi</cite>, with 99% confidence.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.kll_ints_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">kll_ints_sketch</span></span><a class="headerlink" href="#datasketches.kll_ints_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kll_ints_sketch</span></span><a class="headerlink" href="#datasketches.kll_ints_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.kll_ints_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.kll_ints_sketch.deserialize" title="Link to this definition"></a></dt>
@@ -328,7 +415,7 @@ Constants were derived as the best fit to 99 percentile empirically measured max
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.kll_floats_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">kll_floats_sketch</span></span><a class="headerlink" href="#datasketches.kll_floats_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kll_floats_sketch</span></span><a class="headerlink" href="#datasketches.kll_floats_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.kll_floats_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.kll_floats_sketch.deserialize" title="Link to this definition"></a></dt>
@@ -473,7 +560,7 @@ Constants were derived as the best fit to 99 percentile empirically measured max
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.kll_doubles_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">kll_doubles_sketch</span></span><a class="headerlink" href="#datasketches.kll_doubles_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kll_doubles_sketch</span></span><a class="headerlink" href="#datasketches.kll_doubles_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.kll_doubles_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.kll_doubles_sketch.deserialize" title="Link to this definition"></a></dt>
@@ -618,7 +705,7 @@ Constants were derived as the best fit to 99 percentile empirically measured max
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.kll_items_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">kll_items_sketch</span></span><a class="headerlink" href="#datasketches.kll_items_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kll_items_sketch</span></span><a class="headerlink" href="#datasketches.kll_items_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.kll_items_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.kll_items_sketch.deserialize" title="Link to this definition"></a></dt>

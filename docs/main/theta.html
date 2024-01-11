@@ -107,11 +107,16 @@
              
   <section id="theta-sketch">
 <h1>Theta Sketch<a class="headerlink" href="#theta-sketch" title="Link to this heading"></a></h1>
+<p>The theta package contains the basic sketch classes that are members of the <a class="reference external" href="https://datasketches.apache.org/docs/Theta/ThetaSketchFramework.html">Theta Sketch Framework</a>.
+There is a separate Tuple package for many of the sketches that are derived from the same algorithms defined in the Theta Sketch Framework paper.</p>
 <p>The <em>Theta Sketch</em> sketch is a space-efficient method for estimating cardinalities of sets.
-It can also easily handle set operations (such as union, intersection, difference) while maintaining good accuracy.</p>
+It can also easily handle set operations (such as union, intersection, difference) while maintaining good accuracy.
+Theta sketch is a practical variant of the K-Minimum Values sketch which avoids the need to sort the stored
+hash values on every insertion to the sketch.
+It has better error properties than the HyperLogLog sketch for set operations beyond the simple union.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.theta_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">theta_sketch</span></span><a class="headerlink" href="#datasketches.theta_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">theta_sketch</span></span><a class="headerlink" href="#datasketches.theta_sketch" title="Link to this definition"></a></dt>
 <dd><p>An abstract base class for theta sketches</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.theta_sketch.get_estimate">

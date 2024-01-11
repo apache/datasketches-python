@@ -181,9 +181,40 @@
   <section id="quantiles-sketch-deprecated">
 <h1>Quantiles Sketch (Deprecated)<a class="headerlink" href="#quantiles-sketch-deprecated" title="Link to this heading"></a></h1>
 <p>This is a deprecated quantiles sketch that is included for cross-language compatibility.</p>
+<p>This is a stochastic streaming sketch that enables near-real time analysis of the
+approximate distribution from a very large stream in a single pass.
+The analysis is obtained using <cite>get_rank()</cite> and <cite>get_quantile()</cite> functions,
+the Probability Mass Function from <cite>get_pmf()`</cite> and the Cumulative Distribution Function from <cite>get_cdf</cite>.</p>
+<p>Consider a large stream of one million values such as packet sizes coming into a network node.
+The natural rank of any specific size value is its index in the hypothetical sorted
+array of values.
+The normalized rank is the natural rank divided by the stream size,
+in this case one million.
+The value corresponding to the normalized rank of <cite>0.5</cite> represents the 50th percentile or median
+value of the distribution, or <cite>get_quantile(0.5)</cite>.
+Similarly, the 95th percentile is obtained from <cite>get_quantile(0.95)</cite>.</p>
+<p>From the min and max values, for example, 1 and 1000 bytes,
+you can obtain the PMF from <cite>get_pmf(100, 500, 900)</cite> that will result in an array of
+4 fractional values such as {.4, .3, .2, .1}, which means that
+40% of the values were &lt; 100,
+30% of the values were ≥ 100 and &lt; 500,
+20% of the values were ≥ 500 and &lt; 900, and
+10% of the values were ≥ 900.
+A frequency histogram can be obtained by multiplying these fractions by <cite>get_n()</cite>,
+which is the total count of values received.
+The <cite>get_cdf()`</cite> works similarly, but produces the cumulative distribution instead.</p>
+<p>As of November 2021, this implementation produces serialized sketches which are binary-compatible
+with the equivalent Java implementation only when template parameter T = double
+(64-bit double precision values).</p>
+<p>The accuracy of this sketch is a function of the configured value <cite>k</cite>, which also affects
+the overall size of the sketch. Accuracy of this quantile sketch is always with respect to
+the normalized rank. A <cite>k</cite> of 128 produces a normalized, rank error of about 1.7%.
+For example, the median item returned from <cite>get_quantile(0.5)</cite> will be between the actual items
+from the hypothetically sorted array of input items at normalized ranks of 0.483 and 0.517, with
+a confidence of about 99%.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">quantiles_ints_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quantiles_ints_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_ints_sketch.deserialize" title="Link to this definition"></a></dt>
@@ -326,7 +357,7 @@ Constants were derived as the best fit to 99 percentile empirically measured max
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">quantiles_floats_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quantiles_floats_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_floats_sketch.deserialize" title="Link to this definition"></a></dt>
@@ -469,7 +500,7 @@ Constants were derived as the best fit to 99 percentile empirically measured max
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">quantiles_doubles_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quantiles_doubles_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.deserialize" title="Link to this definition"></a></dt>
@@ -612,7 +643,7 @@ Constants were derived as the best fit to 99 percentile empirically measured max
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.quantiles_items_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">quantiles_items_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quantiles_items_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_items_sketch.deserialize" title="Link to this definition"></a></dt>

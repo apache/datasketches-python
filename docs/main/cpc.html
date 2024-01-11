@@ -48,7 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="hyper_log_log.html">HyperLogLog (HLL)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Compressed Probabilistic Counting (CPC)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#datasketches.cpc_sketch"><code class="docutils literal notranslate"><span class="pre">cpc_sketch</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.cpc_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.deserialize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.cpc_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.deserialize()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.cpc_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.get_estimate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.cpc_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.get_lower_bound</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.cpc_sketch.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.get_upper_bound</span></code></a></li>
@@ -105,15 +105,25 @@
              
   <section id="compressed-probabilistic-counting-cpc">
 <h1>Compressed Probabilistic Counting (CPC)<a class="headerlink" href="#compressed-probabilistic-counting-cpc" title="Link to this heading"></a></h1>
-<p>The <em>Compressed Probabilistic Counting</em> sketch is a space-efficient method for estimating cardinalities of sets.</p>
+<p>High performance C++ implementation of Compressed Probabilistic Counting (CPC) Sketch.
+This is a unique-counting sketch that implements the Compressed Probabilistic Counting (CPC, a.k.a FM85) algorithms developed by Kevin Lang in his paper
+<a class="reference external" href="https://arxiv.org/abs/1708.06839">Back to the Future: an Even More Nearly Optimal Cardinality Estimation Algorithm</a>.
+This sketch is extremely space-efficient when serialized.
+In an apples-to-apples empirical comparison against compressed HyperLogLog sketches, this new algorithm simultaneously wins on the two dimensions of the space/accuracy tradeoff and produces sketches that are smaller than the entropy of HLL, so no possible implementation of compressed HLL can match its space efficiency for a given accuracy. As described in the paper this sketch implements a newly developed ICON estimator algorithm that survives unioning operations, another well-known estimator, the Historical Inverse Probability (HIP) estimator does not.
+The update speed performance of this sketch is quite fast and is comparable to the speed of HLL.
+The unioning (merging) capability of this sketch also allows for merging of sketches with different configurations of K.
+For additional security this sketch can be configured with a user-specified hash seed.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.cpc_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">cpc_sketch</span></span><a class="headerlink" href="#datasketches.cpc_sketch" title="Link to this definition"></a></dt>
-<dd><dl class="py attribute">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cpc_sketch</span></span><a class="headerlink" href="#datasketches.cpc_sketch" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.cpc_sketch.deserialize">
-<span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.cpc_sketch.deserialize" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.cpc_sketch" title="_datasketches.cpc_sketch"><span class="pre">_datasketches.cpc_sketch</span></a></span></span><a class="headerlink" href="#datasketches.cpc_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Reads a bytes object and returns the corresponding cpc_sketch</p>
+</dd></dl>
 
+<p class="rubric">Non-static Methods:</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.cpc_sketch.get_estimate">
 <span class="sig-name descname"><span class="pre">get_estimate</span></span><a class="headerlink" href="#datasketches.cpc_sketch.get_estimate" title="Link to this definition"></a></dt>

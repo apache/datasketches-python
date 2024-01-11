@@ -18,6 +18,7 @@
         <script src="_static/documentation_options.js?v=2709fde1"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -56,7 +57,9 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">CountMin Sketch</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#datasketches.count_min_sketch"><code class="docutils literal notranslate"><span class="pre">count_min_sketch</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.deserialize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.suggest_num_buckets"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.suggest_num_buckets()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.suggest_num_hashes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.suggest_num_hashes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_estimate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_lower_bound</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_relative_error"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_relative_error</span></code></a></li>
@@ -68,8 +71,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.num_hashes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.num_hashes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.seed"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.seed</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.serialize</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.suggest_num_buckets"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.suggest_num_buckets</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.suggest_num_hashes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.suggest_num_hashes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.to_string</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.total_weight"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.total_weight</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.update"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.update</span></code></a></li>
@@ -113,14 +114,38 @@
              
   <section id="countmin-sketch">
 <h1>CountMin Sketch<a class="headerlink" href="#countmin-sketch" title="Link to this heading"></a></h1>
+<p>The CountMin sketch, as described in Cormode and Muthukrishnan in
+<a class="reference external" href="http://dimacs.rutgers.edu/~graham/pubs/papers/cm-full.pdf">http://dimacs.rutgers.edu/~graham/pubs/papers/cm-full.pdf</a>,
+is used for approximate Frequency Estimation.
+For an item <span class="math notranslate nohighlight">\(x\)</span> with frequency <span class="math notranslate nohighlight">\(f_x\)</span>, the sketch provides an estimate, <span class="math notranslate nohighlight">\(\hat{f_x}\)</span>,
+such that <span class="math notranslate nohighlight">\(f_x \approx \hat{f_x}.\)</span>
+The sketch guarantees that <span class="math notranslate nohighlight">\(f_x \le \hat{f_x}\)</span> and provides a probabilistic upper bound which is dependent on the size parameters.
+The sketch provides an estimate of the occurrence frequency for any queried item but, in contrast
+to the Frequent Items Sketch, this sketch does not provide a list of
+heavy hitters.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.count_min_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">count_min_sketch</span></span><a class="headerlink" href="#datasketches.count_min_sketch" title="Link to this definition"></a></dt>
-<dd><dl class="py attribute">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">count_min_sketch</span></span><a class="headerlink" href="#datasketches.count_min_sketch" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.count_min_sketch.deserialize">
-<span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.count_min_sketch.deserialize" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.count_min_sketch" title="_datasketches.count_min_sketch"><span class="pre">_datasketches.count_min_sketch</span></a></span></span><a class="headerlink" href="#datasketches.count_min_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Reads a bytes object and returns the corresponding count_min_sketch</p>
+</dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.count_min_sketch.suggest_num_buckets">
+<span class="sig-name descname"><span class="pre">suggest_num_buckets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relative_error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.count_min_sketch.suggest_num_buckets" title="Link to this definition"></a></dt>
+<dd><p>Suggests the number of buckets needed to achieve an accuracy within the provided relative_error. For example, when relative_error = 0.05, the returned frequency estimates satisfy the ‘relative_error’ guarantee that never overestimates the weights but may underestimate the weights by 5% of the total weight in the sketch. Returns the number of hash buckets at every level of the sketch required in order to obtain the specified relative error.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.count_min_sketch.suggest_num_hashes">
+<span class="sig-name descname"><span class="pre">suggest_num_hashes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confidence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.count_min_sketch.suggest_num_hashes" title="Link to this definition"></a></dt>
+<dd><p>Suggests the number of hashes needed to achieve the provided confidence. For example, with 95% confidence, frequency estimates satisfy the ‘relative_error’ guarantee. Returns the number of hash functions that are required in order to achieve the specified confidence of the sketch. confidence = 1 - delta, with delta denoting the sketch failure probability.</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.count_min_sketch.get_estimate">
 <span class="sig-name descname"><span class="pre">get_estimate</span></span><a class="headerlink" href="#datasketches.count_min_sketch.get_estimate" title="Link to this definition"></a></dt>
@@ -210,16 +235,6 @@
 <span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.count_min_sketch.serialize" title="Link to this definition"></a></dt>
 <dd><p>Serializes the sketch into a bytes object</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.count_min_sketch.suggest_num_buckets">
-<span class="sig-name descname"><span class="pre">suggest_num_buckets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.count_min_sketch.suggest_num_buckets" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.count_min_sketch.suggest_num_hashes">
-<span class="sig-name descname"><span class="pre">suggest_num_hashes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.count_min_sketch.suggest_num_hashes" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.count_min_sketch.to_string">

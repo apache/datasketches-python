@@ -165,9 +165,30 @@
              
   <section id="relative-error-quantiles-req-sketch">
 <h1>Relative Error Quantiles (REQ) Sketch<a class="headerlink" href="#relative-error-quantiles-req-sketch" title="Link to this heading"></a></h1>
+<p>This is an implementation based on the <a class="reference external" href="https://arxiv.org/abs/2004.01668">paper</a> “Relative Error Streaming Quantiles” by Graham Cormode, Zohar Karnin, Edo Liberty, Justin Thaler, Pavel Veselý, and loosely derived from a Python prototype written by Pavel Veselý.</p>
+<p>This implementation differs from the algorithm described in the paper in the following:</p>
+<p>The algorithm requires no upper bound on the stream length.
+Instead, each relative-compactor counts the number of compaction operations performed so far (via variable state).
+Initially, the relative-compactor starts with <cite>INIT_NUMBER_OF_SECTIONS</cite>.
+Each time the number of compactions <cite>(variable state) exceeds 2^{numSections - 1}</cite>, we double <cite>numSections</cite>.
+Note that after merging the sketch with another one variable state may not correspond to the number of compactions performed at a particular level, however,
+since the state variable never exceeds the number of compactions, the guarantees of the sketch remain valid.</p>
+<p>The size of each section (variable <cite>k</cite> and <cite>section_size</cite> in the code and parameter <cite>k</cite> in the paper) is
+initialized with a number set by the user via variable <cite>k</cite>.
+When the number of sections doubles, we decrease section_size by a factor of <cite>sqrt(2)</cite>.
+This is applied at each level separately.
+Thus, when we double the number of sections, the nominal compactor size increases by a factor of approx. <cite>sqrt(2) (+/- rounding)</cite>.</p>
+<p>The merge operation here does not perform “special compactions”, which are used in the paper to allow for a tight mathematical analysis of the sketch.
+This implementation provides a number of capabilities not discussed in the paper or provided in the Python prototype.</p>
+<p>The Python prototype only implemented high accuracy for low ranks. This implementation provides the user with the ability to
+choose either high rank accuracy or low rank accuracy at the time of sketch construction.
+The Python prototype only implemented a comparison criterion of <cite>INCLUSIVE</cite>.
+This implementation allows the user to use both the <cite>INCLUSIVE</cite> criterion and the <cite>EXCLUSIVE</cite> criterion.
+This implementation provides extensive debug visibility into the operation of the sketch with two levels of detail output.
+This is not only useful for debugging, but is a powerful tool to help users understand how the sketch works.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.req_ints_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">req_ints_sketch</span></span><a class="headerlink" href="#datasketches.req_ints_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">req_ints_sketch</span></span><a class="headerlink" href="#datasketches.req_ints_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.req_ints_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.req_ints_sketch.deserialize" title="Link to this definition"></a></dt>
@@ -323,7 +344,7 @@ Normalized rank must be a value between 0.0 and 1.0 (inclusive); the number of s
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.req_floats_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">req_floats_sketch</span></span><a class="headerlink" href="#datasketches.req_floats_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">req_floats_sketch</span></span><a class="headerlink" href="#datasketches.req_floats_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.req_floats_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.req_floats_sketch.deserialize" title="Link to this definition"></a></dt>
@@ -479,7 +500,7 @@ Normalized rank must be a value between 0.0 and 1.0 (inclusive); the number of s
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.req_items_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">_datasketches.</span></span><span class="sig-name descname"><span class="pre">req_items_sketch</span></span><a class="headerlink" href="#datasketches.req_items_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">req_items_sketch</span></span><a class="headerlink" href="#datasketches.req_items_sketch" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.req_items_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.req_items_sketch.deserialize" title="Link to this definition"></a></dt>
