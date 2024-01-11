@@ -7,7 +7,7 @@ The *Theta Sketch* sketch is a space-efficient method for estimating cardinaliti
 It can also easily handle set operations (such as union, intersection, difference) while maintaining good accuracy.
 Theta sketch is a practical variant of the K-Minimum Values sketch which avoids the need to sort the stored 
 hash values on every insertion to the sketch.
-It has better error properties than the HyperLogLog sketch for set operations.
+It has better error properties than the HyperLogLog sketch for set operations beyond the simple union.
 
 .. autoclass:: _datasketches.theta_sketch
     :members:

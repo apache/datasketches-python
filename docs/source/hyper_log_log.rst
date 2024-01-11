@@ -8,7 +8,7 @@ This implementation offers three different types of HLL sketch, each with differ
 These types are specified with the target_hll_type parameter.
 
 In terms of accuracy, all three types, for the same lg_config_k, have the same error distribution as a function of n, the number of unique values fed to the sketch.
-The configuration parameter `lg_config_k`` is the log-base-2 of `K`, where `K`` is the number of buckets or slots for the sketch.
+The configuration parameter `lg_config_k` is the log-base-2 of `K`, where `K` is the number of buckets or slots for the sketch.
 
 During warmup, when the sketch has only received a small number of unique items (up to about 10% of `K`), this implementation leverages a new class of estimator algorithms with significantly better accuracy.
 
