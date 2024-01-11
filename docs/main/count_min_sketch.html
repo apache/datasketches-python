@@ -59,19 +59,19 @@
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.deserialize</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_estimate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_lower_bound</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_num_buckets"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_num_buckets</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_num_hashes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_num_hashes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_relative_error"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_relative_error</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_seed"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_seed</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_serialized_size_bytes</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_total_weight"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_total_weight</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_upper_bound</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.is_empty</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.merge"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.merge</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.num_buckets"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.num_buckets</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.num_hashes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.num_hashes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.seed"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.seed</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.serialize</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.suggest_num_buckets"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.suggest_num_buckets</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.suggest_num_hashes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.suggest_num_hashes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.to_string</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.total_weight"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.total_weight</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.update"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.update</span></code></a></li>
 </ul>
 </li>
@@ -142,23 +142,11 @@
 <ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">get_lower_bound(self,</span> <span class="pre">item:</span> <span class="pre">int)</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code></p></li>
 </ol>
-<p>Returns an lower bound on the estimate for the given 64-bit integer value</p>
+<p>Returns a lower bound on the estimate for the given 64-bit integer value</p>
 <ol class="arabic simple" start="2">
 <li><p><code class="docutils literal notranslate"><span class="pre">get_lower_bound(self,</span> <span class="pre">item:</span> <span class="pre">str)</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code></p></li>
 </ol>
-<p>Returns an lower bound on the estimate for the provided string</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.count_min_sketch.get_num_buckets">
-<span class="sig-name descname"><span class="pre">get_num_buckets</span></span><a class="headerlink" href="#datasketches.count_min_sketch.get_num_buckets" title="Link to this definition"></a></dt>
-<dd><p>Returns the configured number of buckets for the sketch</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.count_min_sketch.get_num_hashes">
-<span class="sig-name descname"><span class="pre">get_num_hashes</span></span><a class="headerlink" href="#datasketches.count_min_sketch.get_num_hashes" title="Link to this definition"></a></dt>
-<dd><p>Returns the configured number of hashes for the sketch</p>
+<p>Returns a lower bound on the estimate for the provided string</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -168,21 +156,9 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.count_min_sketch.get_seed">
-<span class="sig-name descname"><span class="pre">get_seed</span></span><a class="headerlink" href="#datasketches.count_min_sketch.get_seed" title="Link to this definition"></a></dt>
-<dd><p>Returns the base hash seed for the sketch</p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.count_min_sketch.get_serialized_size_bytes">
 <span class="sig-name descname"><span class="pre">get_serialized_size_bytes</span></span><a class="headerlink" href="#datasketches.count_min_sketch.get_serialized_size_bytes" title="Link to this definition"></a></dt>
 <dd><p>Returns the size in bytes of the serialized image of the sketch</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.count_min_sketch.get_total_weight">
-<span class="sig-name descname"><span class="pre">get_total_weight</span></span><a class="headerlink" href="#datasketches.count_min_sketch.get_total_weight" title="Link to this definition"></a></dt>
-<dd><p>Returns the total weight currently inserted into the stream</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -211,6 +187,24 @@
 <dd><p>Merges the provided other sketch into this one</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.count_min_sketch.num_buckets">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_buckets</span></span><a class="headerlink" href="#datasketches.count_min_sketch.num_buckets" title="Link to this definition"></a></dt>
+<dd><p>The configured number of buckets for the sketch</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.count_min_sketch.num_hashes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_hashes</span></span><a class="headerlink" href="#datasketches.count_min_sketch.num_hashes" title="Link to this definition"></a></dt>
+<dd><p>The configured number of hashes for the sketch</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.count_min_sketch.seed">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">seed</span></span><a class="headerlink" href="#datasketches.count_min_sketch.seed" title="Link to this definition"></a></dt>
+<dd><p>The base hash seed for the sketch</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.count_min_sketch.serialize">
 <span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.count_min_sketch.serialize" title="Link to this definition"></a></dt>
@@ -231,6 +225,12 @@
 <dt class="sig sig-object py" id="datasketches.count_min_sketch.to_string">
 <span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.count_min_sketch.to_string" title="Link to this definition"></a></dt>
 <dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.count_min_sketch.total_weight">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_weight</span></span><a class="headerlink" href="#datasketches.count_min_sketch.total_weight" title="Link to this definition"></a></dt>
+<dd><p>The total weight currently inserted into the stream</p>
 </dd></dl>
 
 <dl class="py attribute">

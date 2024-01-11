@@ -54,14 +54,14 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Density Sketch</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#datasketches.density_sketch"><code class="docutils literal notranslate"><span class="pre">density_sketch</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">density_sketch.deserialize</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.get_dim"><code class="docutils literal notranslate"><span class="pre">density_sketch.get_dim</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.dim"><code class="docutils literal notranslate"><span class="pre">density_sketch.dim</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">density_sketch.get_estimate</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.get_k"><code class="docutils literal notranslate"><span class="pre">density_sketch.get_k</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.get_n"><code class="docutils literal notranslate"><span class="pre">density_sketch.get_n</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.get_num_retained"><code class="docutils literal notranslate"><span class="pre">density_sketch.get_num_retained</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">density_sketch.is_empty</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.is_estimation_mode"><code class="docutils literal notranslate"><span class="pre">density_sketch.is_estimation_mode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.k"><code class="docutils literal notranslate"><span class="pre">density_sketch.k</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.merge"><code class="docutils literal notranslate"><span class="pre">density_sketch.merge</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.n"><code class="docutils literal notranslate"><span class="pre">density_sketch.n</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.num_retained"><code class="docutils literal notranslate"><span class="pre">density_sketch.num_retained</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">density_sketch.serialize</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">density_sketch.to_string</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.update"><code class="docutils literal notranslate"><span class="pre">density_sketch.update</span></code></a></li>
@@ -117,34 +117,16 @@
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.density_sketch.deserialize" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.density_sketch.get_dim">
-<span class="sig-name descname"><span class="pre">get_dim</span></span><a class="headerlink" href="#datasketches.density_sketch.get_dim" title="Link to this definition"></a></dt>
-<dd><p>Returns the configured parameter dim</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.density_sketch.dim">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dim</span></span><a class="headerlink" href="#datasketches.density_sketch.dim" title="Link to this definition"></a></dt>
+<dd><p>The configured parameter dim</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.density_sketch.get_estimate">
 <span class="sig-name descname"><span class="pre">get_estimate</span></span><a class="headerlink" href="#datasketches.density_sketch.get_estimate" title="Link to this definition"></a></dt>
 <dd><p>Returns an approximate density at the given point</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.density_sketch.get_k">
-<span class="sig-name descname"><span class="pre">get_k</span></span><a class="headerlink" href="#datasketches.density_sketch.get_k" title="Link to this definition"></a></dt>
-<dd><p>Returns the configured parameter k</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.density_sketch.get_n">
-<span class="sig-name descname"><span class="pre">get_n</span></span><a class="headerlink" href="#datasketches.density_sketch.get_n" title="Link to this definition"></a></dt>
-<dd><p>Returns the length of the input stream</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.density_sketch.get_num_retained">
-<span class="sig-name descname"><span class="pre">get_num_retained</span></span><a class="headerlink" href="#datasketches.density_sketch.get_num_retained" title="Link to this definition"></a></dt>
-<dd><p>Returns the number of retained items (samples) in the sketch</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -159,10 +141,28 @@
 <dd><p>Returns True if the sketch is in estimation mode, otherwise False</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.density_sketch.k">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#datasketches.density_sketch.k" title="Link to this definition"></a></dt>
+<dd><p>The configured parameter k</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.density_sketch.merge">
 <span class="sig-name descname"><span class="pre">merge</span></span><a class="headerlink" href="#datasketches.density_sketch.merge" title="Link to this definition"></a></dt>
 <dd><p>Merges the provided sketch into this one</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.density_sketch.n">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#datasketches.density_sketch.n" title="Link to this definition"></a></dt>
+<dd><p>The length of the input stream</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.density_sketch.num_retained">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_retained</span></span><a class="headerlink" href="#datasketches.density_sketch.num_retained" title="Link to this definition"></a></dt>
+<dd><p>The number of retained items (samples) in the sketch</p>
 </dd></dl>
 
 <dl class="py attribute">

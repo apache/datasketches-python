@@ -60,20 +60,20 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Frequent Items</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#datasketches.frequent_items_sketch"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.deserialize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.epsilon"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.epsilon</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.get_apriori_error"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.get_apriori_error</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.get_epsilon_for_lg_size"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.get_epsilon_for_lg_size</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.get_estimate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.get_frequent_items"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.get_frequent_items</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.get_lower_bound</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.get_num_active_items"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.get_num_active_items</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.get_serialized_size_bytes</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.get_sketch_epsilon"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.get_sketch_epsilon</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.get_total_weight"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.get_total_weight</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.get_upper_bound</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.is_empty</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.merge"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.merge</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.num_active_items"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.num_active_items</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.serialize</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.to_string</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.total_weight"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.total_weight</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.frequent_items_sketch.update"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.update</span></code></a></li>
 </ul>
 </li>
@@ -120,6 +120,12 @@
 <span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.frequent_items_sketch.deserialize" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.frequent_items_sketch.epsilon">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">epsilon</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.epsilon" title="Link to this definition"></a></dt>
+<dd><p>The epsilon value used by the sketch to compute error</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.frequent_items_sketch.get_apriori_error">
 <span class="sig-name descname"><span class="pre">get_apriori_error</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.frequent_items_sketch.get_apriori_error" title="Link to this definition"></a></dt>
@@ -149,27 +155,9 @@ Note: The true frequency of a item would be the sum of the counts as a result of
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.frequent_items_sketch.get_num_active_items">
-<span class="sig-name descname"><span class="pre">get_num_active_items</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.get_num_active_items" title="Link to this definition"></a></dt>
-<dd><p>Returns the number of active items in the sketch</p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.frequent_items_sketch.get_serialized_size_bytes">
 <span class="sig-name descname"><span class="pre">get_serialized_size_bytes</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.get_serialized_size_bytes" title="Link to this definition"></a></dt>
 <dd><p>Computes the size needed to serialize the current state of the sketch using the provided serde. This can be expensive since every item needs to be looked at.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.frequent_items_sketch.get_sketch_epsilon">
-<span class="sig-name descname"><span class="pre">get_sketch_epsilon</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.get_sketch_epsilon" title="Link to this definition"></a></dt>
-<dd><p>Returns the epsilon value used by the sketch to compute error</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.frequent_items_sketch.get_total_weight">
-<span class="sig-name descname"><span class="pre">get_total_weight</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.get_total_weight" title="Link to this definition"></a></dt>
-<dd><p>Returns the sum of the weights (frequencies) in the stream seen so far by the sketch</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -190,6 +178,12 @@ Note: The true frequency of a item would be the sum of the counts as a result of
 <dd><p>Merges the given sketch into this one</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.frequent_items_sketch.num_active_items">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_active_items</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.num_active_items" title="Link to this definition"></a></dt>
+<dd><p>The number of active items in the sketch</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.frequent_items_sketch.serialize">
 <span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.serialize" title="Link to this definition"></a></dt>
@@ -200,6 +194,12 @@ Note: The true frequency of a item would be the sum of the counts as a result of
 <dt class="sig sig-object py" id="datasketches.frequent_items_sketch.to_string">
 <span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.to_string" title="Link to this definition"></a></dt>
 <dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.frequent_items_sketch.total_weight">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_weight</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.total_weight" title="Link to this definition"></a></dt>
+<dd><p>The sum of the weights (frequencies) in the stream seen so far by the sketch</p>
 </dd></dl>
 
 <dl class="py attribute">
