@@ -37,7 +37,13 @@ void bind_req_sketch(nb::module_ &m, const char* name) {
   using namespace datasketches;
 
   auto req_class = nb::class_<req_sketch<T, C>>(m, name)
-    .def(nb::init<uint16_t, bool>(), nb::arg("k")=12, nb::arg("is_hra")=true)
+    .def(nb::init<uint16_t, bool>(), nb::arg("k")=12, nb::arg("is_hra")=true,
+         "Creates an REQ sketch instance with the given value of k.\n\n"
+         ":param k: Controls the size/accuracy trade-off of the sketch. Default is 12.\n"
+         ":type k: int, optional\n"
+         ":param is_hra: Specifies whether the skech has High Rank Accuracy (True) or Low Rank Accuracy. Default True.\n"
+         ":type is_hra: bool, optional"
+    )
     .def("__copy__", [](const req_sketch<T, C>& sk){ return req_sketch<T, C>(sk); })
     .def("update", (void (req_sketch<T, C>::*)(const T&)) &req_sketch<T, C>::update, nb::arg("item"),
         "Updates the sketch with the given value")

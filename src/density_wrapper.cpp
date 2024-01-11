@@ -42,7 +42,12 @@ void bind_density_sketch(nb::module_ &m, const char* name) {
         { K holder(kernel);
           new (sk) density_sketch<T, K>(k, dim, holder);
         },
-        nb::arg("k"), nb::arg("dim"), nb::arg("kernel"))
+        nb::arg("k"), nb::arg("dim"), nb::arg("kernel"),
+        "Creates a new density sketch\n\n"
+        ":param k: controls the size and error of the sketch\n:type k: int\n"
+        ":param dim: dimension of the input data\n:type dim: int\n"
+        ":param kernel: instance of a kernel\n:type kernel: KernelFunction\n"
+        )
     .def("__copy__", [](const density_sketch<T,K>& sk){ return density_sketch<T,K>(sk); })
     .def("update", static_cast<void (density_sketch<T, K>::*)(const std::vector<T>&)>(&density_sketch<T, K>::update), nb::arg("vector"),
         "Updates the sketch with the given vector")

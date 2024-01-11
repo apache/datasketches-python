@@ -45,7 +45,8 @@ void init_tuple(nb::module_ &m) {
   // generic tuple_policy:
   // * update sketch policy uses create_summary and update_summary
   // * set operation policies all use __call__
-  nb::class_<tuple_policy, TuplePolicy>(m, "TuplePolicy")
+  nb::class_<tuple_policy, TuplePolicy>(m, "TuplePolicy",
+     "An abstract base class for Tuple Policy objects. All custom policies must extend this class.")
     .def(nb::init())
     .def("create_summary", &tuple_policy::create_summary, "Creates a new Summary object")
     .def("update_summary", &tuple_policy::update_summary, nb::arg("summary"), nb::arg("update"),
@@ -73,7 +74,7 @@ void init_tuple(nb::module_ &m) {
   using py_tuple_a_not_b = tuple_a_not_b<nb::object>;
   using py_tuple_jaccard_similarity = jaccard_similarity_base<tuple_union<nb::object, dummy_jaccard_policy>, tuple_intersection<nb::object, dummy_jaccard_policy>, pair_extract_key<uint64_t, nb::object>>;
 
-  nb::class_<py_tuple_sketch>(m, "tuple_sketch")
+  nb::class_<py_tuple_sketch>(m, "tuple_sketch", "An abstract base class for tuple sketches.")
     .def("__str__", &py_tuple_sketch::to_string,
          "Produces a string summary of the sketch")
     .def("to_string", &py_tuple_sketch::to_string, nb::arg("print_items")=false,
@@ -110,9 +111,17 @@ void init_tuple(nb::module_ &m) {
   ;
 
   nb::class_<py_compact_tuple, py_tuple_sketch>(m, "compact_tuple_sketch")
-    .def(nb::init<const py_tuple_sketch&, bool>(), nb::arg("other"), nb::arg("ordered")=true)
+    .def(nb::init<const py_tuple_sketch&, bool>(), nb::arg("other"), nb::arg("ordered")=true,
+         "Creates a compact_tuple_sketch from an existing tuple_sketch.\n\n"
+         ":param other: a sourch tuple_sketch\n:type other: tuple_sketch\n"
+         ":param ordered: whether the incoming sketch entries are sorted. Default True\n"
+         ":type ordered: bool, optional"
+         )
     .def(nb::init<const theta_sketch&, nb::object&>(), nb::arg("other"), nb::arg("summary"),
-         "Creates a compact tuple sketch from a theta sketch using a fixed summary value.")
+         "Creates a compact_tuple_sketch from a theta_sketch using a fixed summary value.\n\n"
+         ":param other: a source theta sketch\n:type other: theta_sketch\n"
+         ":param summary: a summary to use for every sketch entry\n:type summary: object"
+         )
     .def("__copy__", [](const py_compact_tuple& sk){ return py_compact_tuple(sk); })
     .def(
         "serialize",
@@ -137,9 +146,14 @@ void init_tuple(nb::module_ &m) {
           tuple_policy_holder holder(policy);
           new (sk) py_update_tuple(py_update_tuple::builder(holder).set_lg_k(lg_k).set_p(p).set_seed(seed).build());
         },
-        nb::arg("policy"), nb::arg("lg_k")=theta_constants::DEFAULT_LG_K, nb::arg("p")=1.0, nb::arg("seed")=DEFAULT_SEED
+        nb::arg("policy"), nb::arg("lg_k")=theta_constants::DEFAULT_LG_K, nb::arg("p")=1.0, nb::arg("seed")=DEFAULT_SEED,
+        "Creates an update_tuple_sketch using the provided parameters\n\n"
+        ":param policy: a policy to use when updating\n:type policy: TuplePolicy\n"
+        ":param lg_k: base 2 logarithm of the maximum size of the sketch. Default 12.\n:type lg_k: int, optional\n"
+        ":param p: an initial sampling rate to use. Default 1.0\n:type p: float, optional\n"
+        ":param seed: the seed to use when hashing values\n:type seed: int, optional"
     )
-    .def(nb::init<const py_update_tuple&>())
+    .def("__copy__", [](const py_update_tuple& sk){ return py_update_tuple(sk); })
     .def("update", static_cast<void (py_update_tuple::*)(int64_t, nb::object&)>(&py_update_tuple::update),
          nb::arg("datum"), nb::arg("value"),
          "Updates the sketch with the given integral item and summary value")
@@ -161,7 +175,12 @@ void init_tuple(nb::module_ &m) {
           tuple_policy_holder holder(policy);
           new (u) py_tuple_union(py_tuple_union::builder(holder).set_lg_k(lg_k).set_p(p).set_seed(seed).build());
         },
-        nb::arg("policy"), nb::arg("lg_k")=theta_constants::DEFAULT_LG_K, nb::arg("p")=1.0, nb::arg("seed")=DEFAULT_SEED
+        nb::arg("policy"), nb::arg("lg_k")=theta_constants::DEFAULT_LG_K, nb::arg("p")=1.0, nb::arg("seed")=DEFAULT_SEED,
+        "Creates a tuple_union using the provided parameters\n\n"
+        ":param policy: a policy to use when unioning entries\n:type policy: TuplePolicy\n"
+        ":param lg_k: base 2 logarithm of the maximum size of the union. Default 12.\n:type lg_k: int, optional\n"
+        ":param p: an initial sampling rate to use. Default 1.0\n:type p: float, optional\n"
+        ":param seed: the seed to use when hashing values. Must match any sketch seeds.\n:type seed: int, optional"
     )
     .def("update", &py_tuple_union::update<const py_tuple_sketch&>, nb::arg("sketch"),
          "Updates the union with the given sketch")
@@ -177,7 +196,11 @@ void init_tuple(nb::module_ &m) {
           tuple_policy_holder holder(policy);
           new (sk) py_tuple_intersection(seed, holder);
         },
-        nb::arg("policy"), nb::arg("seed")=DEFAULT_SEED)
+        nb::arg("policy"), nb::arg("seed")=DEFAULT_SEED,
+        "Creates a tuple_intersection using the provided parameters\n\n"
+        ":param policy: a policy to use when intersecting entries\n:type policy: TuplePolicy\n"
+        ":param seed: the seed to use when hashing values. Must match any sketch seeds\n:type seed: int, optional"
+    )
     .def("update", &py_tuple_intersection::update<const py_tuple_sketch&>, nb::arg("sketch"),
          "Intersects the provided sketch with the current intersection state")
     .def("get_result", &py_tuple_intersection::get_result, nb::arg("ordered")=true,
@@ -187,7 +210,10 @@ void init_tuple(nb::module_ &m) {
   ;
 
   nb::class_<py_tuple_a_not_b>(m, "tuple_a_not_b")
-    .def(nb::init<uint64_t>(), nb::arg("seed")=DEFAULT_SEED)
+    .def(nb::init<uint64_t>(), nb::arg("seed")=DEFAULT_SEED,
+        "Creates a tuple_a_not_b object\n\n"
+        ":param seed: the seed to use when hashing values. Must match any sketch seeds.\n:type seed: int, optional"
+    )
     .def(
         "compute",
         &py_tuple_a_not_b::compute<const py_tuple_sketch&, const py_tuple_sketch&>,
@@ -196,7 +222,8 @@ void init_tuple(nb::module_ &m) {
     )
   ;
 
-  nb::class_<py_tuple_jaccard_similarity>(m, "tuple_jaccard_similarity")
+  nb::class_<py_tuple_jaccard_similarity>(m, "tuple_jaccard_similarity",
+     "An object to help compute Jaccard similarity between tuple sketches.")
     .def_static(
         "jaccard",
         [](const py_tuple_sketch& sketch_a, const py_tuple_sketch& sketch_b, uint64_t seed) {

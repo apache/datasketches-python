@@ -31,7 +31,13 @@ void init_cpc(nb::module_ &m) {
   using namespace datasketches;
 
   nb::class_<cpc_sketch>(m, "cpc_sketch")
-    .def(nb::init<uint8_t, uint64_t>(), nb::arg("lg_k")=cpc_constants::DEFAULT_LG_K, nb::arg("seed")=DEFAULT_SEED)
+    .def(nb::init<uint8_t, uint64_t>(), nb::arg("lg_k")=cpc_constants::DEFAULT_LG_K, nb::arg("seed")=DEFAULT_SEED,
+         "Creates a new CPC sketch\n\n"
+         ":param lg_k: base 2 logarithm of the number of bins in the sketch\n"
+         ":type lg_k: int, optional\n"
+         ":param seed: seed value for the hash function\n"
+         ":type seed: int, optional"
+    )
     .def("__copy__", [](const cpc_sketch& sk){ return cpc_sketch(sk); })
     .def("__str__", &cpc_sketch::to_string,
          "Produces a string summary of the sketch")

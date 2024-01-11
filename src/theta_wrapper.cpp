@@ -35,7 +35,7 @@ namespace nb = nanobind;
 void init_theta(nb::module_ &m) {
   using namespace datasketches;
 
-  nb::class_<theta_sketch>(m, "theta_sketch")
+  nb::class_<theta_sketch>(m, "theta_sketch", "An abstract base class for theta sketches")
     .def("__str__", &theta_sketch::to_string, nb::arg("print_items")=false,
          "Produces a string summary of the sketch")
     .def("to_string", &theta_sketch::to_string, nb::arg("print_items")=false,
@@ -75,7 +75,11 @@ void init_theta(nb::module_ &m) {
         [](update_theta_sketch* sk, uint8_t lg_k, double p, uint64_t seed) {
           new (sk) update_theta_sketch(update_theta_sketch::builder().set_lg_k(lg_k).set_p(p).set_seed(seed).build());
         },
-        nb::arg("lg_k")=theta_constants::DEFAULT_LG_K, nb::arg("p")=1.0, nb::arg("seed")=DEFAULT_SEED
+        nb::arg("lg_k")=theta_constants::DEFAULT_LG_K, nb::arg("p")=1.0, nb::arg("seed")=DEFAULT_SEED,
+        "Creates an update_theta_sketch using the provided parameters\n\n"
+        ":param lg_k: base 2 logarithm of the maximum size of the sketch. Default 12.\n:type lg_k: int, optional\n"
+        ":param p: an initial sampling rate to use. Default 1.0\n:type p: float, optional\n"
+        ":param seed: the seed to use when hashing values\n:type seed: int, optional\n"
     )
     .def("__copy__", [](const update_theta_sketch& sk){ return update_theta_sketch(sk); })
     .def("update", (void (update_theta_sketch::*)(int64_t)) &update_theta_sketch::update, nb::arg("datum"),
@@ -91,7 +95,12 @@ void init_theta(nb::module_ &m) {
   ;
 
   nb::class_<compact_theta_sketch, theta_sketch>(m, "compact_theta_sketch")
-    .def(nb::init<const theta_sketch&, bool>())
+    .def(nb::init<const theta_sketch&, bool>(),
+         "Creates a compact_theta_sketch from an existing theta_sketch.\n\n"
+         ":param other: a source theta_sketch\n:type other: theta_sketch\n"
+         ":param ordered: whether the incoming sketch entries are sorted. Default True\n"
+         ":type ordered: bool"
+    )
     .def("__copy__", [](const compact_theta_sketch& sk){ return compact_theta_sketch(sk); })
     .def(
         "serialize",
@@ -115,7 +124,11 @@ void init_theta(nb::module_ &m) {
         [](theta_union* u, uint8_t lg_k, double p, uint64_t seed) {
           new (u) theta_union(theta_union::builder().set_lg_k(lg_k).set_p(p).set_seed(seed).build());
         },
-        nb::arg("lg_k")=theta_constants::DEFAULT_LG_K, nb::arg("p")=1.0, nb::arg("seed")=DEFAULT_SEED
+        nb::arg("lg_k")=theta_constants::DEFAULT_LG_K, nb::arg("p")=1.0, nb::arg("seed")=DEFAULT_SEED,
+        "Creates a theta_union using the provided parameters\n\n"
+        ":param lg_k: base 2 logarithm of the maximum size of the union. Default 12.\n:type lg_k: int, optional\n"
+        ":param p: an initial sampling rate to use. Default 1.0\n:type p: float, optional\n"
+        ":param seed: the seed to use when hashing values. Must match any sketch seeds.\n:type seed: int, optional"
     )
     .def("update", &theta_union::update<const theta_sketch&>, nb::arg("sketch"),
          "Updates the union with the given sketch")
@@ -124,7 +137,10 @@ void init_theta(nb::module_ &m) {
   ;
 
   nb::class_<theta_intersection>(m, "theta_intersection")
-    .def(nb::init<uint64_t>(), nb::arg("seed")=DEFAULT_SEED)
+    .def(nb::init<uint64_t>(), nb::arg("seed")=DEFAULT_SEED,
+        "Creates a theta_intersection using the provided parameters\n\n"
+        ":param seed: the seed to use when hashing values. Must match any sketch seeds\n:type seed: int, optional"         
+    )
     .def("update", &theta_intersection::update<const theta_sketch&>, nb::arg("sketch"),
          "Intersections the provided sketch with the current intersection state")
     .def("get_result", &theta_intersection::get_result, nb::arg("ordered")=true,
@@ -134,7 +150,10 @@ void init_theta(nb::module_ &m) {
   ;
 
   nb::class_<theta_a_not_b>(m, "theta_a_not_b")
-    .def(nb::init<uint64_t>(), nb::arg("seed")=DEFAULT_SEED)
+    .def(nb::init<uint64_t>(), nb::arg("seed")=DEFAULT_SEED,
+        "Creates a tuple_a_not_b object\n\n"
+        ":param seed: the seed to use when hashing values. Must match any sketch seeds.\n:type seed: int, optional"
+    )
     .def(
         "compute",
         &theta_a_not_b::compute<const theta_sketch&, const theta_sketch&>,
@@ -143,7 +162,8 @@ void init_theta(nb::module_ &m) {
     )
   ;
   
-  nb::class_<theta_jaccard_similarity>(m, "theta_jaccard_similarity")
+  nb::class_<theta_jaccard_similarity>(m, "theta_jaccard_similarity",
+    "An object to help compute Jaccard similarity between theta sketches.")
     .def_static(
         "jaccard",
         [](const theta_sketch& sketch_a, const theta_sketch& sketch_b, uint64_t seed) {

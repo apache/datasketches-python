@@ -37,7 +37,11 @@ void bind_kll_sketch(nb::module_ &m, const char* name) {
   using namespace datasketches;
 
   auto kll_class = nb::class_<kll_sketch<T, C>>(m, name)
-    .def(nb::init<uint16_t>(), nb::arg("k")=kll_constants::DEFAULT_K)
+    .def(nb::init<uint16_t>(), nb::arg("k")=kll_constants::DEFAULT_K,
+         "Creates a KLL sketch instance with the given value of k.\n\n"
+         ":param k: Controls the size/accuracy trade-off of the sketch. Default is 200.\n"
+         ":type k: int, optional"
+         )
     .def("__copy__", [](const kll_sketch<T, C>& sk){ return kll_sketch<T, C>(sk); })
     .def("update", static_cast<void (kll_sketch<T, C>::*)(const T&)>(&kll_sketch<T, C>::update), nb::arg("item"),
         "Updates the sketch with the given value")

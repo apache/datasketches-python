@@ -38,7 +38,11 @@ void bind_quantiles_sketch(nb::module_ &m, const char* name) {
   using namespace datasketches;
 
   auto quantiles_class = nb::class_<quantiles_sketch<T, C>>(m, name)
-    .def(nb::init<uint16_t>(), nb::arg("k")=quantiles_constants::DEFAULT_K)
+    .def(nb::init<uint16_t>(), nb::arg("k")=quantiles_constants::DEFAULT_K,
+         "Creates a classic quantiles sketch instance with the given value of k.\n\n"
+         ":param k: Controls the size/accuracy trade-off of the sketch. Default is 128.\n"
+         ":type k: int, optional"
+    )
     .def("__copy__", [](const quantiles_sketch<T, C>& sk) { return quantiles_sketch<T,C>(sk); })
     .def(
         "update",

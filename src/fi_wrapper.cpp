@@ -45,7 +45,12 @@ void bind_fi_sketch(nb::module_ &m, const char* name) {
   using namespace datasketches;
 
   auto fi_class = nb::class_<frequent_items_sketch<T, W, H, E>>(m, name)
-    .def(nb::init<uint8_t>(), nb::arg("lg_max_k"))
+    .def(nb::init<uint8_t>(), nb::arg("lg_max_k"),
+         "Creates an instance of the sketch\n\n"
+         ":param lg_max_k: base 2 logarithm of the maximum size of the internal hash map of the sketch. Maximum "
+         "capacity is 0.75 of this value, which is the maximum number of distinct items the sketch can contain.\n"
+         ":type lg_max_k: int\n"
+         )
     .def("__copy__", [](const frequent_items_sketch<T, W, H, E>& sk){ return frequent_items_sketch<T,W,H,E>(sk); })
     .def("__str__", &frequent_items_sketch<T, W, H, E>::to_string, nb::arg("print_items")=false,
          "Produces a string summary of the sketch")

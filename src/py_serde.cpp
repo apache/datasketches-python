@@ -28,7 +28,8 @@ namespace nb = nanobind;
 
 void init_serde(nb::module_& m) {
   using namespace datasketches;
-  nb::class_<py_object_serde, PyObjectSerDe /* <--- trampoline*/>(m, "PyObjectSerDe")
+  nb::class_<py_object_serde, PyObjectSerDe /* <--- trampoline*/>(m, "PyObjectSerDe",
+    "An abstract base class for serde objects. All custom serdes must extend this class.")
     .def(nb::init<>())
     .def("get_size", &py_object_serde::get_size, nb::arg("item"),
         "Returns the size in bytes of an item")

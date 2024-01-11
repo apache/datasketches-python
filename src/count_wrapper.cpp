@@ -31,7 +31,12 @@ void bind_count_min_sketch(nb::module_ &m, const char* name) {
 
   nb::class_<count_min_sketch<W>>(m, name)
     .def(nb::init<uint8_t, uint32_t, uint64_t>(), nb::arg("num_hashes"), nb::arg("num_buckets"), nb::arg("seed")=DEFAULT_SEED,
-         "Creates an instance of a CountMin sketch using nun_hashes (rows), num_buckets (columns), and hash seed `seed`.")
+         "Creates an instance of a CountMin sketch\n\n"
+         ":param num_hashes: Number of rows in the sketch\n:type num_hashes: int\n"
+         ":param num_buckets: Number of columns in the sketch\n:type num_buckets: int\n"
+         ":param seed: Hash seed to use\n:type seed: int, optional"
+         )
+         // using nun_hashes (rows), num_buckets (columns), and hash seed `seed`.)
     .def("__copy__", [](const count_min_sketch<W>& sk){ return count_min_sketch<W>(sk); })
     .def_static("suggest_num_buckets", &count_min_sketch<W>::suggest_num_buckets, nb::arg("relative_error"),
                 "Suggests the number of buckets needed to achieve an accuracy within the provided "
