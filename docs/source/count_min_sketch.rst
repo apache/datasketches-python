@@ -17,7 +17,6 @@ heavy hitters.
     :members:
     :undoc-members:
     :exclude-members: deserialize, suggest_num_buckets, suggest_num_hashes
-    :member-order: groupwise
 
     .. rubric:: Static Methods:
 

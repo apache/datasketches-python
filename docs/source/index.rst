@@ -55,7 +55,32 @@ Quantile Estimation
    kll
    req
    quantiles_depr
-   
+
+
+Random Sampling
+###############
+
+.. toctree::
+   :maxdepth: 1
+
+   varopt
+   ebpps
+
+Helper Classes
+##############
+
+.. toctree::
+   :maxdepth: 1
+
+   serde
+
+These classes are required for certain sketches or specific functionality withing sketches.
+Some of them are abstract base classes, but in those cases there is at least one reference example of a 
+concrete class.
+
+
+
+
 .. note::
 
    This project is under active development.
@@ -67,15 +92,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-
-.. .. automodule:: datasketches    
-..    :members:
-
-.. .. automodule:: _datasketches
-..     :members:
-
-.. 
-.. 
-
-..    distinct_count

@@ -1,6 +1,7 @@
 Quantiles Sketch (Deprecated)
 -----------------------------
 This is a deprecated quantiles sketch that is included for cross-language compatibility.
+Most new projects will favor the KLL sketch over this one.
 
 This is a stochastic streaming sketch that enables near-real time analysis of the
 approximate distribution from a very large stream in a single pass.
@@ -41,15 +42,55 @@ a confidence of about 99%.
 .. autoclass:: _datasketches.quantiles_ints_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
 
 .. autoclass:: _datasketches.quantiles_floats_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
 
 .. autoclass:: _datasketches.quantiles_doubles_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
 
 .. autoclass:: _datasketches.quantiles_items_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__

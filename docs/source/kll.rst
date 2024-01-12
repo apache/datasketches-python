@@ -104,21 +104,59 @@ Additionally, the interval may be quite large for certain distributions.
 - Then `q_lo ≤ q ≤ q_hi`, with 99% confidence.
 
 
-
-
 .. autoclass:: _datasketches.kll_ints_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
 
 .. autoclass:: _datasketches.kll_floats_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
 
 .. autoclass:: _datasketches.kll_doubles_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
 
 .. autoclass:: _datasketches.kll_items_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
 

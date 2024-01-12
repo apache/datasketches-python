@@ -186,8 +186,8 @@ void init_fi(nb::module_ &m) {
   using namespace datasketches;
 
   nb::enum_<frequent_items_error_type>(m, "frequent_items_error_type")
-    .value("NO_FALSE_POSITIVES", NO_FALSE_POSITIVES)
-    .value("NO_FALSE_NEGATIVES", NO_FALSE_NEGATIVES)
+    .value("NO_FALSE_POSITIVES", NO_FALSE_POSITIVES, "Returns only true positives, but may miss some heavy hitters.")
+    .value("NO_FALSE_NEGATIVES", NO_FALSE_NEGATIVES, "Does not miss any heavy hitters, but may return false positives.")
     .export_values();
 
   bind_fi_sketch<std::string, uint64_t, std::hash<std::string>, std::equal_to<std::string>>(m, "frequent_strings_sketch");

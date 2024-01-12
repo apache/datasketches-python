@@ -9,9 +9,21 @@ https://proceedings.mlr.press/v99/karnin19a/karnin19a.pdf
 
 Inspired by the following implementation: https://github.com/edoliberty/streaming-quantiles/blob/f688c8161a25582457b0a09deb4630a81406293b/gde.py
 
+Requires the use of a `KernelFunction` to compute the distance between two vectors.
+
+.. autoclass:: datasketches.KernelFunction
+    
+    .. automethod:: __call__
+
 .. autoclass:: datasketches.density_sketch
     :members:
     :undoc-members:
-    
-.. autoclass:: datasketches.GaussianKernel
-    :members:
+    :exclude-members: deserialize
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__

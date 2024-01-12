@@ -65,7 +65,18 @@ However, we have ensured that this probability is extremely small.
 For example, if the stream causes one table purge (rebuild), our proof of the worst-case bound applies with a probability of at least `1 - 1E-14`. 
 If the stream causes `1E9` purges, our proof applies with a probability of at least `1 - 1E-5`.
 
-Parameter: <T> The type of item to be tracked by this sketch
+There are two flavors of Frequent Items Sketches, one with generic items (objects) and another specific to strings.
+The string version is a legacy name from before the library supported generic objects and is retained
+only for backwards compatibility.
+
+
+.. autoclass:: _datasketches.frequent_items_error_type
+
+    .. autoattribute:: NO_FALSE_POSITIVES
+        :annotation: : Returns only true positives but may miss some heavy hitters.
+
+    .. autoattribute:: NO_FALSE_NEGATIVES
+        :annotation: : Does not miss any heavy hitters but may return false positives.
 
 
 .. autoclass:: _datasketches.frequent_items_sketch
@@ -81,3 +92,22 @@ Parameter: <T> The type of item to be tracked by this sketch
     .. automethod:: get_apriori_error
 
     .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
+
+
+.. autoclass:: _datasketches.frequent_strings_sketch
+    :members:
+    :undoc-members:
+    :exclude-members: deserialize, get_epsilon_for_lg_size, get_apriori_error
+    :member-order: groupwise
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_epsilon_for_lg_size
+    .. automethod:: get_apriori_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__

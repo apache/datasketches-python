@@ -30,11 +30,41 @@ This is not only useful for debugging, but is a powerful tool to help users unde
 .. autoclass:: _datasketches.req_ints_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_RSE
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_RSE
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
 
 .. autoclass:: _datasketches.req_floats_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_RSE
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_RSE
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
 
 .. autoclass:: _datasketches.req_items_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_RSE
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_RSE
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
