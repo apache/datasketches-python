@@ -103,6 +103,8 @@ Additionally, the interval may be quite large for certain distributions.
 - Let `q_hi = estimated quantile of rank (r + eps)`.
 - Then `q_lo ≤ q ≤ q_hi`, with 99% confidence.
 
+.. note::
+    For the :class:`kll_items_sketch`, objects must be comparable with ``__lt__``.
 
 .. autoclass:: _datasketches.kll_ints_sketch
     :members:

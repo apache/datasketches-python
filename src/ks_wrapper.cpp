@@ -20,6 +20,7 @@
 #include "kolmogorov_smirnov.hpp"
 #include "kll_sketch.hpp"
 #include "quantiles_sketch.hpp"
+#include "py_object_lt.hpp"
 
 #include <nanobind/nanobind.h>
 
@@ -29,38 +30,50 @@ void init_kolmogorov_smirnov(nb::module_ &m) {
   using namespace datasketches;
 
   m.def("ks_test", &kolmogorov_smirnov::test<kll_sketch<int>>, nb::arg("sk_1"), nb::arg("sk_2"), nb::arg("p"),
-    "Performs the Kolmogorov-Smirnov Test between kll_ints_sketches.\n"
+    "Performs the Kolmogorov-Smirnov Test for :code:`kll_ints_sketch` pairs.\n"
     "Note: if the given sketches have insufficient data or if the sketch sizes are too small, "
     "this will return false.\n"
     "Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying "
     "distribution) using the provided p-value, otherwise False.");
   m.def("ks_test", &kolmogorov_smirnov::test<kll_sketch<float>>, nb::arg("sk_1"), nb::arg("sk_2"), nb::arg("p"),
-    "Performs the Kolmogorov-Smirnov Test between kll_floats_sketches.\n"
+    "Performs the Kolmogorov-Smirnov Test for :code:`kll_floats_sketch` pairs.\n"
     "Note: if the given sketches have insufficient data or if the sketch sizes are too small, "
     "this will return false.\n"
     "Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying "
     "distribution) using the provided p-value, otherwise False.");
   m.def("ks_test", &kolmogorov_smirnov::test<kll_sketch<double>>, nb::arg("sk_1"), nb::arg("sk_2"), nb::arg("p"),
-    "Performs the Kolmogorov-Smirnov Test between kll_doubles_sketches.\n"
+    "Performs the Kolmogorov-Smirnov Test for :code:`kll_doubles_sketch` pairs.\n"
+    "Note: if the given sketches have insufficient data or if the sketch sizes are too small, "
+    "this will return false.\n"
+    "Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying "
+    "distribution) using the provided p-value, otherwise False.");
+  m.def("ks_test", &kolmogorov_smirnov::test<kll_sketch<nb::object, py_object_lt>>, nb::arg("sk_1"), nb::arg("sk_2"), nb::arg("p"),
+    "Performs the Kolmogorov-Smirnov Test for :code:`kll_items_sketch` pairs.\n"
     "Note: if the given sketches have insufficient data or if the sketch sizes are too small, "
     "this will return false.\n"
     "Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying "
     "distribution) using the provided p-value, otherwise False.");
 
   m.def("ks_test", &kolmogorov_smirnov::test<quantiles_sketch<int>>, nb::arg("sk_1"), nb::arg("sk_2"), nb::arg("p"),
-    "Performs the Kolmogorov-Smirnov Test between quantiles_ints_sketches.\n"
+    "Performs the Kolmogorov-Smirnov Test for :code:`quantiles_ints_sketch` pairs.\n"
     "Note: if the given sketches have insufficient data or if the sketch sizes are too small, "
     "this will return false.\n"
     "Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying "
     "distribution) using the provided p-value, otherwise False.");
   m.def("ks_test", &kolmogorov_smirnov::test<quantiles_sketch<float>>, nb::arg("sk_1"), nb::arg("sk_2"), nb::arg("p"),
-    "Performs the Kolmogorov-Smirnov Test between quantiles_floats_sketches.\n"
+    "Performs the Kolmogorov-Smirnov Test for :code:`quantiles_floats_sketch` pairs.\n"
     "Note: if the given sketches have insufficient data or if the sketch sizes are too small, "
     "this will return false.\n"
     ":Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying "
     "distribution) using the provided p-value, otherwise False.");
   m.def("ks_test", &kolmogorov_smirnov::test<quantiles_sketch<double>>, nb::arg("sk_1"), nb::arg("sk_2"), nb::arg("p"),
-    "Performs the Kolmogorov-Smirnov Test between quantiles_doubles_sketches.\n"
+    "Performs the Kolmogorov-Smirnov Test for :code:`quantiles_doubles_sketch` pairs.\n"
+    "Note: if the given sketches have insufficient data or if the sketch sizes are too small, "
+    "this will return false.\n"
+    "Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying "
+    "distribution) using the provided p-value, otherwise False.");
+  m.def("ks_test", &kolmogorov_smirnov::test<quantiles_sketch<nb::object, py_object_lt>>, nb::arg("sk_1"), nb::arg("sk_2"), nb::arg("p"),
+    "Performs the Kolmogorov-Smirnov Test for :code:`quantiles_items_sketch` pairs.\n"
     "Note: if the given sketches have insufficient data or if the sketch sizes are too small, "
     "this will return false.\n"
     "Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying "

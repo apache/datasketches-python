@@ -76,6 +76,7 @@ Helper Classes
    kernel
    jaccard
    tuple_policy
+   ks_test
 
 
 These classes are required for certain sketches or specific functionality withing sketches.

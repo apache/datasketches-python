@@ -39,6 +39,9 @@ For example, the median item returned from `get_quantile(0.5)` will be between t
 from the hypothetically sorted array of input items at normalized ranks of 0.483 and 0.517, with
 a confidence of about 99%.
 
+.. note::
+    For the :class:`quantiles_items_sketch`, objects must be comparable with ``__lt__``.
+
 .. autoclass:: _datasketches.quantiles_ints_sketch
     :members:
     :undoc-members:

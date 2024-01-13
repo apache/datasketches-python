@@ -27,6 +27,9 @@ This implementation allows the user to use both the `INCLUSIVE` criterion and th
 This implementation provides extensive debug visibility into the operation of the sketch with two levels of detail output. 
 This is not only useful for debugging, but is a powerful tool to help users understand how the sketch works.
 
+.. note::
+    For the :class:`req_items_sketch`, objects must be comparable with ``__lt__``.
+
 .. autoclass:: _datasketches.req_ints_sketch
     :members:
     :undoc-members:
