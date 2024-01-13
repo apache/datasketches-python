@@ -15,6 +15,9 @@ Set operations (union, intersection, A-not-B) are performed through the use of d
 Several `Jaccard similarity <https://en.wikipedia.org/wiki/Jaccard_similarity>`_
 measures can be computed between theta sketches with the :class:`tuple_jaccard_similarity` class.
 
+.. note::
+    Serializing and deserializing this sketch requires the use of a :class:`PyObjectSerDe`.
+
 .. autoclass:: tuple_sketch
     :members:
     :undoc-members:

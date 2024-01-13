@@ -1,5 +1,8 @@
 KLL Sketch
 ----------
+
+.. currentmodule:: datasketches
+
 Implementation of a very compact quantiles sketch with lazy compaction scheme
 and nearly optimal accuracy per retained item.
 See `Optimal Quantile Approximation in Streams`.
@@ -106,7 +109,11 @@ Additionally, the interval may be quite large for certain distributions.
 .. note::
     For the :class:`kll_items_sketch`, objects must be comparable with ``__lt__``.
 
-.. autoclass:: _datasketches.kll_ints_sketch
+.. note::
+    Serializing and deserializing a :class:`kll_items_sketch` requires the use of a :class:`PyObjectSerDe`.
+
+
+.. autoclass:: kll_ints_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_normalized_rank_error
@@ -120,7 +127,7 @@ Additionally, the interval may be quite large for certain distributions.
 
     .. automethod:: __init__
 
-.. autoclass:: _datasketches.kll_floats_sketch
+.. autoclass:: kll_floats_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_normalized_rank_error
@@ -134,7 +141,7 @@ Additionally, the interval may be quite large for certain distributions.
 
     .. automethod:: __init__
 
-.. autoclass:: _datasketches.kll_doubles_sketch
+.. autoclass:: kll_doubles_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_normalized_rank_error
@@ -148,7 +155,7 @@ Additionally, the interval may be quite large for certain distributions.
 
     .. automethod:: __init__
 
-.. autoclass:: _datasketches.kll_items_sketch
+.. autoclass:: kll_items_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_normalized_rank_error

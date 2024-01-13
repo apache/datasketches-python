@@ -1,7 +1,11 @@
 Quantiles Sketch (Deprecated)
 -----------------------------
+
+.. currentmodule:: datasketches
+
 This is a deprecated quantiles sketch that is included for cross-language compatibility.
-Most new projects will favor the KLL sketch over this one.
+Most new projects will favor the KLL sketch over this one, or the REQ sketch for higher accuracy
+at the very edge of a distribution.
 
 This is a stochastic streaming sketch that enables near-real time analysis of the
 approximate distribution from a very large stream in a single pass.
@@ -42,7 +46,10 @@ a confidence of about 99%.
 .. note::
     For the :class:`quantiles_items_sketch`, objects must be comparable with ``__lt__``.
 
-.. autoclass:: _datasketches.quantiles_ints_sketch
+.. note::
+    Serializing and deserializing a :class:`quantiles_items_sketch` requires the use of a :class:`PyObjectSerDe`.
+
+.. autoclass:: quantiles_ints_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_normalized_rank_error
@@ -56,7 +63,7 @@ a confidence of about 99%.
 
     .. automethod:: __init__
 
-.. autoclass:: _datasketches.quantiles_floats_sketch
+.. autoclass:: quantiles_floats_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_normalized_rank_error
@@ -70,7 +77,7 @@ a confidence of about 99%.
 
     .. automethod:: __init__
 
-.. autoclass:: _datasketches.quantiles_doubles_sketch
+.. autoclass:: quantiles_doubles_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_normalized_rank_error
@@ -84,7 +91,7 @@ a confidence of about 99%.
 
     .. automethod:: __init__
 
-.. autoclass:: _datasketches.quantiles_items_sketch
+.. autoclass:: quantiles_items_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_normalized_rank_error

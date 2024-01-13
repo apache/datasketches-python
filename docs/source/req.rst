@@ -1,5 +1,8 @@
 Relative Error Quantiles (REQ) Sketch
 -------------------------------------
+
+.. currentmodule:: datasketches
+
 This is an implementation based on the `paper <https://arxiv.org/abs/2004.01668>`_ "Relative Error Streaming Quantiles" by Graham Cormode, Zohar Karnin, Edo Liberty, Justin Thaler, Pavel Veselý, and loosely derived from a Python prototype written by Pavel Veselý.
 
 This implementation differs from the algorithm described in the paper in the following:
@@ -30,7 +33,10 @@ This is not only useful for debugging, but is a powerful tool to help users unde
 .. note::
     For the :class:`req_items_sketch`, objects must be comparable with ``__lt__``.
 
-.. autoclass:: _datasketches.req_ints_sketch
+.. note::
+    Serializing and deserializing a :class:`req_items_sketch` requires the use of a :class:`PyObjectSerDe`.
+
+.. autoclass:: req_ints_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_RSE
@@ -44,7 +50,7 @@ This is not only useful for debugging, but is a powerful tool to help users unde
 
     .. automethod:: __init__
 
-.. autoclass:: _datasketches.req_floats_sketch
+.. autoclass:: req_floats_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_RSE
@@ -58,7 +64,7 @@ This is not only useful for debugging, but is a powerful tool to help users unde
 
     .. automethod:: __init__
 
-.. autoclass:: _datasketches.req_items_sketch
+.. autoclass:: req_items_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_RSE
