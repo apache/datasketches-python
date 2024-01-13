@@ -1,5 +1,8 @@
 Density Sketch
 --------------
+
+.. currentmodule:: datasketches
+
 Builds a coreset from the given set of input points. 
 Provides density estimate at a given point.
 
@@ -9,13 +12,9 @@ https://proceedings.mlr.press/v99/karnin19a/karnin19a.pdf
 
 Inspired by the following implementation: https://github.com/edoliberty/streaming-quantiles/blob/f688c8161a25582457b0a09deb4630a81406293b/gde.py
 
-Requires the use of a `KernelFunction` to compute the distance between two vectors.
+Requires the use of a :class:`KernelFunction` to compute the distance between two vectors.
 
-.. autoclass:: datasketches.KernelFunction
-    
-    .. automethod:: __call__
-
-.. autoclass:: datasketches.density_sketch
+.. autoclass:: density_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize

@@ -34,10 +34,10 @@ import struct
 
 class PyStringsSerDe(PyObjectSerDe):
   '''Implements a simple string-encoding scheme where a string is
-     written as <num_bytes> <string_contents>, with no null termination.
+     written as `<num_bytes> <string_contents>`, with no null termination.
      This format allows pre-allocating each string, at the cost of
      additional storage. Using this format, the serialized string consumes
-     4 + len(item) bytes.'''
+     ``4 + len(item)`` bytes.'''
   def get_size(self, item):
     return int(4 + len(item))
 

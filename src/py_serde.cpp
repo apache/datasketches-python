@@ -34,19 +34,19 @@ void init_serde(nb::module_& m) {
     .def("get_size", &py_object_serde::get_size, nb::arg("item"),
         "Returns the size in bytes of an item\n\n"
         ":param item: The specified object\n:type item: object\n"
-        ":return: The size of the item, in bytes\n:rtype: int"
+        ":return: The size of the item in bytes\n:rtype: int"
         )
     .def("to_bytes", &py_object_serde::to_bytes, nb::arg("item"),
         "Retuns a bytes object with a serialized version of an item\n\n"
         ":param item: The specified object\n:type item: object\n"
-        ":return: A bytes object with the serialized object\n:rtype: bytes"
+        ":return: A :class:`bytes` object with the serialized object\n:rtype: bytes"
         )
     .def("from_bytes", &py_object_serde::from_bytes, nb::arg("data"), nb::arg("offset"),
         "Reads a bytes object starting from the given offest and returns a tuple of the reconstructed "
         "object and the number of additional bytes read\n\n"
-        ":param data: A bytes object to deserialize\n:type data: bytes\n"
+        ":param data: A :class:`bytes` object from which to deserialize\n:type data: bytes\n"
         ":param offset: The offset, in bytes, at which to start reading\n:type offset: int\n"
-        ":return: A tuple with the reconstructed object and the number of bytes read\n"
+        ":return: A :class:`tuple` with the reconstructed object and the number of bytes read\n"
         ":rtype: tuple(object, int)"
         )
     ;

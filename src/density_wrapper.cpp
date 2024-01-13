@@ -108,11 +108,14 @@ void init_density(nb::module_ &m) {
 
   // generic kernel function
   nb::class_<kernel_function, KernelFunction>(m, "KernelFunction",
-     "KernelFunction provicdes a generic base class from which user-defined kernels must inherit. \
-     The class contains only a __call__ method that must be overridden.")
+     "A generic base class from which user-defined kernels must inherit.")
     .def(nb::init())
     .def("__call__", &kernel_function::operator(), nb::arg("a"), nb::arg("b"),
-     "A method to evaluate a kernel with given inputs a and b.")
+      "A method to evaluate a kernel with given inputs a and b.\n\n"
+      ":param a: An input vector\n:type a: numpy array\n"
+      ":param b: An input vector\n:type b: numpy array\n"
+      ":return: A vector similarity score\n:rtype: float"
+      )
     ;
 
   // the old sketch names can almost be defined, but the kernel_function_holder won't work in init()

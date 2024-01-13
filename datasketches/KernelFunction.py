@@ -24,8 +24,12 @@ from _datasketches import KernelFunction
 # Each implementation must extend the KernelFunction class
 # and define the __call__ method
 
-# Implements a basic Gaussian Kernel
 class GaussianKernel(KernelFunction):
+  '''Implements a basic Gaussian kernel
+
+     :param bandwidth: The kernel bandwidth, default 1.0
+     :type bandwidth: float
+    '''
   def __init__(self, bandwidth: float=1.0):
     KernelFunction.__init__(self)
     self._bw = bandwidth

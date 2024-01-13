@@ -73,6 +73,10 @@ Helper Classes
    :maxdepth: 1
 
    serde
+   kernel
+   jaccard
+   tuple_policy
+
 
 These classes are required for certain sketches or specific functionality withing sketches.
 Some of them are abstract base classes, but in those cases there is at least one reference example of a 
