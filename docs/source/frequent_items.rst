@@ -3,8 +3,8 @@ Frequent Items
 
 .. currentmodule:: datasketches
 
-This sketch is useful for tracking approximate frequencies of items of type `<T>` with optional associated counts `(<T> item, int count)` 
-that are members of a multiset of such items. 
+This sketch is useful for tracking approximate frequencies of items (``object`` or ``string``) with optional associated
+integer counts that are members of a multiset of such items. 
 The true frequency of an item is defined to be the sum of associated counts.
 
 This implementation provides the following capabilities:
@@ -23,18 +23,18 @@ The maximum map size is always a power of 2, defined through the variables ``lg_
 
 The hash map starts at a very small size (8 entries) and grows as needed up to the specified maximum map size.
 
-Excluding external space required for the item objects, the internal memory space usage of this sketch is `18 * ``mapSize`` bytes` (assuming 8 bytes for each reference), 
+Excluding external space required for the item objects, the internal memory space usage of this sketch is ``18 * mapSize`` bytes (assuming 8 bytes for each reference), 
 plus a small constant number of additional bytes. 
-The internal memory space usage of this sketch will never exceed `18 * ``maxMapSize`` ` bytes, plus a small constant number of additional bytes.
+The internal memory space usage of this sketch will never exceed ``18 * maxMapSize`` bytes, plus a small constant number of additional bytes.
 
 **Maximum Capacity of the Sketch**
 
 The ``LOAD_FACTOR`` for the hash map is internally set at :math:`75\%`, which means at any time the map capacity of ``(item, count)`` pairs is ``mapCap = 0.75 * mapSize``. 
-The maximum capacity of ``(item, count)`` pairs of the sketch is `maxMapCap = 0.75 * maxMapSize`.
+The maximum capacity of ``(item, count)`` pairs of the sketch is ``maxMapCap = 0.75 * maxMapSize``.
 
 **Updating the sketch with ``(item, count)`` pairs**
 
-If the item is found in the hash map, the mapped count field (the "counter") is incremented by the incoming count; otherwise, a new counter `"(item, count) pair"` is created. 
+If the item is found in the hash map, the mapped count field (the "counter") is incremented by the incoming count; otherwise, a new counter ``(item, count)`` pair is created. 
 If the number of tracked counters reaches the maximum capacity of the hash map, the sketch decrements all of the counters (by an approximately computed median) 
 and removes any non-positive counters.
 
