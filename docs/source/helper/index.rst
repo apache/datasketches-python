@@ -1,5 +1,5 @@
-Helper Clsses
-=============
+Helper Classes
+==============
 
 .. currentmodule:: dataksetches
 
