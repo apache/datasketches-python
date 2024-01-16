@@ -1,7 +1,7 @@
 Frequent Items
 --------------
 
-.. currentmodule:: dataskethches
+.. currentmodule:: datasketches
 
 This sketch is useful for tracking approximate frequencies of items of type `<T>` with optional associated counts `(<T> item, int count)` 
 that are members of a multiset of such items. 
