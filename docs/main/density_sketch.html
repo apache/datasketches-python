@@ -53,7 +53,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Density Sketch</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#datasketches.density_sketch"><code class="docutils literal notranslate"><span class="pre">density_sketch</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">density_sketch.deserialize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">density_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">density_sketch.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.dim"><code class="docutils literal notranslate"><span class="pre">density_sketch.dim</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">density_sketch.get_estimate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">density_sketch.is_empty</span></code></a></li>
@@ -67,7 +68,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.density_sketch.update"><code class="docutils literal notranslate"><span class="pre">density_sketch.update</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#datasketches.GaussianKernel"><code class="docutils literal notranslate"><span class="pre">GaussianKernel</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -81,6 +81,17 @@
 <li class="toctree-l1"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="varopt.html">Variance Optimal Sampling (VarOpt)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ebpps.html">Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="serde.html">Serialize/Deserialize (SerDe)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jaccard.html">Jaccard Similarity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tuple_policy.html">Tuple Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ks_test.html">Kolmogorov-Smirnov Test</a></li>
 </ul>
 
         </div>
@@ -115,13 +126,32 @@ Provides density estimate at a given point.</p>
 “Discrepancy, Coresets, and Sketches in Machine Learning”
 <a class="reference external" href="https://proceedings.mlr.press/v99/karnin19a/karnin19a.pdf">https://proceedings.mlr.press/v99/karnin19a/karnin19a.pdf</a></p>
 <p>Inspired by the following implementation: <a class="reference external" href="https://github.com/edoliberty/streaming-quantiles/blob/f688c8161a25582457b0a09deb4630a81406293b/gde.py">https://github.com/edoliberty/streaming-quantiles/blob/f688c8161a25582457b0a09deb4630a81406293b/gde.py</a></p>
+<p>Requires the use of a <a class="reference internal" href="kernel.html#datasketches.KernelFunction" title="datasketches.KernelFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">KernelFunction</span></code></a> to compute the distance between two vectors.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.density_sketch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">density_sketch</span></span><a class="headerlink" href="#datasketches.density_sketch" title="Link to this definition"></a></dt>
-<dd><dl class="py attribute">
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.density_sketch.deserialize">
-<span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.density_sketch.deserialize" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kernel.html#datasketches.KernelFunction" title="_datasketches.KernelFunction"><span class="pre">_datasketches.KernelFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.density_sketch" title="_datasketches.density_sketch"><span class="pre">_datasketches.density_sketch</span></a></span></span><a class="headerlink" href="#datasketches.density_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Reads a bytes object and returns the corresponding density_sketch</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.density_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kernel.html#datasketches.KernelFunction" title="_datasketches.KernelFunction"><span class="pre">_datasketches.KernelFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.density_sketch.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a new density sketch</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>int</em>) – controls the size and error of the sketch</p></li>
+<li><p><strong>dim</strong> (<em>int</em>) – dimension of the input data</p></li>
+<li><p><strong>kernel</strong> (<a class="reference internal" href="kernel.html#datasketches.KernelFunction" title="datasketches.KernelFunction"><em>KernelFunction</em></a>) – instance of a kernel</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.density_sketch.dim">
@@ -190,11 +220,6 @@ Provides density estimate at a given point.</p>
 </dd></dl>
 
 </dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="datasketches.GaussianKernel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GaussianKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.GaussianKernel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 </section>
 

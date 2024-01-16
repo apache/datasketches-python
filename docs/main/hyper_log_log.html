@@ -46,10 +46,17 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">HyperLogLog (HLL)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#datasketches.tgt_hll_type"><code class="docutils literal notranslate"><span class="pre">tgt_hll_type</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.tgt_hll_type.HLL_4"><code class="docutils literal notranslate"><span class="pre">tgt_hll_type.HLL_4</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.tgt_hll_type.HLL_6"><code class="docutils literal notranslate"><span class="pre">tgt_hll_type.HLL_6</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.tgt_hll_type.HLL_8"><code class="docutils literal notranslate"><span class="pre">tgt_hll_type.HLL_8</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#datasketches.hll_sketch"><code class="docutils literal notranslate"><span class="pre">hll_sketch</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">hll_sketch.deserialize()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_sketch.get_max_updatable_serialization_bytes"><code class="docutils literal notranslate"><span class="pre">hll_sketch.get_max_updatable_serialization_bytes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_sketch.get_rel_err"><code class="docutils literal notranslate"><span class="pre">hll_sketch.get_rel_err()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">hll_sketch.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_sketch.get_compact_serialization_bytes"><code class="docutils literal notranslate"><span class="pre">hll_sketch.get_compact_serialization_bytes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">hll_sketch.get_estimate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">hll_sketch.get_lower_bound</span></code></a></li>
@@ -64,6 +71,19 @@
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_sketch.tgt_type"><code class="docutils literal notranslate"><span class="pre">hll_sketch.tgt_type</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">hll_sketch.to_string</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_sketch.update"><code class="docutils literal notranslate"><span class="pre">hll_sketch.update</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#datasketches.hll_union"><code class="docutils literal notranslate"><span class="pre">hll_union</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_union.get_rel_err"><code class="docutils literal notranslate"><span class="pre">hll_union.get_rel_err()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_union.__init__"><code class="docutils literal notranslate"><span class="pre">hll_union.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_union.get_estimate"><code class="docutils literal notranslate"><span class="pre">hll_union.get_estimate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_union.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">hll_union.get_lower_bound</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_union.get_result"><code class="docutils literal notranslate"><span class="pre">hll_union.get_result</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_union.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">hll_union.get_upper_bound</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_union.is_empty"><code class="docutils literal notranslate"><span class="pre">hll_union.is_empty</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_union.lg_config_k"><code class="docutils literal notranslate"><span class="pre">hll_union.lg_config_k</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_union.reset"><code class="docutils literal notranslate"><span class="pre">hll_union.reset</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_union.update"><code class="docutils literal notranslate"><span class="pre">hll_union.update</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -85,6 +105,17 @@
 <li class="toctree-l1"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="varopt.html">Variance Optimal Sampling (VarOpt)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ebpps.html">Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="serde.html">Serialize/Deserialize (SerDe)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jaccard.html">Jaccard Similarity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tuple_policy.html">Tuple Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ks_test.html">Kolmogorov-Smirnov Test</a></li>
 </ul>
 
         </div>
@@ -117,21 +148,34 @@
 <p>If the ONLY use case for sketching is counting uniques and merging, the HLL sketch is a reasonable choice, although the highest performing in terms of accuracy for storage space consumed is CPC (Compressed Probabilistic Counting). For large enough counts, this HLL version (with HLL_4) can be 2 to 16 times smaller than the Theta sketch family for the same accuracy.</p>
 <p>This implementation offers three different types of HLL sketch, each with different trade-offs with accuracy, space and performance.
 These types are specified with the target_hll_type parameter.</p>
-<p>In terms of accuracy, all three types, for the same lg_config_k, have the same error distribution as a function of n, the number of unique values fed to the sketch.
-The configuration parameter <cite>lg_config_k</cite> is the log-base-2 of <cite>K</cite>, where <cite>K</cite> is the number of buckets or slots for the sketch.</p>
-<p>During warmup, when the sketch has only received a small number of unique items (up to about 10% of <cite>K</cite>), this implementation leverages a new class of estimator algorithms with significantly better accuracy.</p>
-<p>This sketch also offers the capability of operating off-heap.
-Given a WritableMemory object created by the user, the sketch will perform all of its updates and internal phase transitions in that object, which can actually reside either on-heap or off-heap based on how it is configured.
-In large systems that must update and merge many millions of sketches, having the sketch operate off-heap avoids the serialization and deserialization costs of moving sketches to and from off-heap memory-mapped files, for example, and eliminates big garbage collection delays.</p>
+<p>In terms of accuracy, all three types, for the same lg_config_k, have the same error distribution as a function of <code class="docutils literal notranslate"><span class="pre">n</span></code>, the number of unique values fed to the sketch.
+The configuration parameter <code class="docutils literal notranslate"><span class="pre">lg_config_k</span></code> is the log-base-2 of <code class="docutils literal notranslate"><span class="pre">k</span></code>, where <code class="docutils literal notranslate"><span class="pre">k</span></code> is the number of buckets or slots for the sketch.</p>
+<p>During warmup, when the sketch has only received a small number of unique items (up to about 10% of <code class="docutils literal notranslate"><span class="pre">k</span></code>), this implementation leverages a new class of estimator algorithms with significantly better accuracy.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.tgt_hll_type">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tgt_hll_type</span></span><a class="headerlink" href="#datasketches.tgt_hll_type" title="Link to this definition"></a></dt>
+<dd><p>Target HLL flavor</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tgt_hll_type.HLL_4">
+<span class="sig-name descname"><span class="pre">HLL_4</span></span><em class="property"><span class="w"> </span><span class="pre">:</span> <span class="pre">4</span> <span class="pre">bits</span> <span class="pre">per</span> <span class="pre">entry</span></em><a class="headerlink" href="#datasketches.tgt_hll_type.HLL_4" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tgt_hll_type.HLL_6">
+<span class="sig-name descname"><span class="pre">HLL_6</span></span><em class="property"><span class="w"> </span><span class="pre">:</span> <span class="pre">6</span> <span class="pre">bits</span> <span class="pre">per</span> <span class="pre">entry</span></em><a class="headerlink" href="#datasketches.tgt_hll_type.HLL_6" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tgt_hll_type.HLL_8">
+<span class="sig-name descname"><span class="pre">HLL_8</span></span><em class="property"><span class="w"> </span><span class="pre">:</span> <span class="pre">8</span> <span class="pre">bits</span> <span class="pre">per</span> <span class="pre">entry</span></em><a class="headerlink" href="#datasketches.tgt_hll_type.HLL_8" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.hll_sketch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hll_sketch</span></span><a class="headerlink" href="#datasketches.hll_sketch" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Member-order<span class="colon">:</span></dt>
-<dd class="field-odd"><p>groupwise</p>
-</dd>
-</dl>
-<p class="rubric">Static Methods:</p>
+<dd><p class="rubric">Static Methods:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="datasketches.hll_sketch.deserialize">
 <span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.hll_sketch" title="_datasketches.hll_sketch"><span class="pre">_datasketches.hll_sketch</span></a></span></span><a class="headerlink" href="#datasketches.hll_sketch.deserialize" title="Link to this definition"></a></dt>
@@ -140,7 +184,7 @@ In large systems that must update and merge many millions of sketches, having th
 
 <dl class="py method">
 <dt class="sig sig-object py" id="datasketches.hll_sketch.get_max_updatable_serialization_bytes">
-<span class="sig-name descname"><span class="pre">get_max_updatable_serialization_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lg_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tgt_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_datasketches.tgt_hll_type</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.get_max_updatable_serialization_bytes" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_max_updatable_serialization_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lg_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tgt_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.tgt_hll_type" title="_datasketches.tgt_hll_type"><span class="pre">_datasketches.tgt_hll_type</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.get_max_updatable_serialization_bytes" title="Link to this definition"></a></dt>
 <dd><p>Provides a likely upper bound on serialization size for the given parameters</p>
 </dd></dl>
 
@@ -151,6 +195,21 @@ In large systems that must update and merge many millions of sketches, having th
 </dd></dl>
 
 <p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lg_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tgt_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.tgt_hll_type" title="_datasketches.tgt_hll_type"><span class="pre">_datasketches.tgt_hll_type</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">_datasketches.tgt_hll_type.HLL_8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_max_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.__init__" title="Link to this definition"></a></dt>
+<dd><p>Constructs a new HLL sketch</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lg_config_k</strong> (<em>int</em>) – A full sketch can hold 2^lg_config_k rows. Must be between 7 and 21, inclusive,</p></li>
+<li><p><strong>tgt_type</strong> (<a class="reference internal" href="#datasketches.tgt_hll_type" title="_datasketches.tgt_hll_type"><em>tgt_hll_type</em></a>) – The HLL mode to use, if/when the sketch reaches estimation mode</p></li>
+<li><p><strong>start_full_size</strong> (<em>bool</em>) – Indicates whether to start in HLL mode, keeping memory use constant (if HLL_6 or HLL_8) at the cost of much higher initial memory use. Default (and recommended) is False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.hll_sketch.get_compact_serialization_bytes">
 <span class="sig-name descname"><span class="pre">get_compact_serialization_bytes</span></span><a class="headerlink" href="#datasketches.hll_sketch.get_compact_serialization_bytes" title="Link to this definition"></a></dt>
@@ -245,6 +304,94 @@ In large systems that must update and merge many millions of sketches, having th
 <li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">datum:</span> <span class="pre">str)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
 </ol>
 <p>Updates the sketch with the given string value</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.hll_union">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hll_union</span></span><a class="headerlink" href="#datasketches.hll_union" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_union.get_rel_err">
+<span class="sig-name descname"><span class="pre">get_rel_err</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">upper_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unioned</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lg_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_std_devs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.hll_union.get_rel_err" title="Link to this definition"></a></dt>
+<dd><p>Returns the a priori relative error bound for the given parameters</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_union.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lg_max_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.hll_union.__init__" title="Link to this definition"></a></dt>
+<dd><p>Construct an hll_union object if the given size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lg_max_k</strong> (<em>int</em>) – The maximum size, in log2, of k. Must be between 7 and 21, inclusive.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.hll_union.get_estimate">
+<span class="sig-name descname"><span class="pre">get_estimate</span></span><a class="headerlink" href="#datasketches.hll_union.get_estimate" title="Link to this definition"></a></dt>
+<dd><p>Estimate of the distinct count of the input stream</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.hll_union.get_lower_bound">
+<span class="sig-name descname"><span class="pre">get_lower_bound</span></span><a class="headerlink" href="#datasketches.hll_union.get_lower_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns the approximate lower error bound given the specified number of standard deviations in {1, 2, 3}</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.hll_union.get_result">
+<span class="sig-name descname"><span class="pre">get_result</span></span><a class="headerlink" href="#datasketches.hll_union.get_result" title="Link to this definition"></a></dt>
+<dd><p>Returns a sketch of the target type representing the current union state</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.hll_union.get_upper_bound">
+<span class="sig-name descname"><span class="pre">get_upper_bound</span></span><a class="headerlink" href="#datasketches.hll_union.get_upper_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns the approximate upper error bound given the specified number of standard deviations in {1, 2, 3}</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.hll_union.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><a class="headerlink" href="#datasketches.hll_union.is_empty" title="Link to this definition"></a></dt>
+<dd><p>True if the union is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.hll_union.lg_config_k">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lg_config_k</span></span><a class="headerlink" href="#datasketches.hll_union.lg_config_k" title="Link to this definition"></a></dt>
+<dd><p>Configured lg_k value for the union</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.hll_union.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><a class="headerlink" href="#datasketches.hll_union.reset" title="Link to this definition"></a></dt>
+<dd><p>Resets the union to the empty state</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.hll_union.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.hll_union.update" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">sketch:</span> <span class="pre">_datasketches.hll_sketch)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the union with the given HLL sketch</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">datum:</span> <span class="pre">int)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the union with the given integral value</p>
+<ol class="arabic simple" start="3">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">datum:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the union with the given floating point value</p>
+<ol class="arabic simple" start="4">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">datum:</span> <span class="pre">str)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the union with the given string value</p>
 </dd></dl>
 
 </dd></dl>

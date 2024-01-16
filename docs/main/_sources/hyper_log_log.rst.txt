@@ -7,21 +7,28 @@ If the ONLY use case for sketching is counting uniques and merging, the HLL sket
 This implementation offers three different types of HLL sketch, each with different trade-offs with accuracy, space and performance. 
 These types are specified with the target_hll_type parameter.
 
-In terms of accuracy, all three types, for the same lg_config_k, have the same error distribution as a function of n, the number of unique values fed to the sketch.
-The configuration parameter `lg_config_k` is the log-base-2 of `K`, where `K` is the number of buckets or slots for the sketch.
+In terms of accuracy, all three types, for the same lg_config_k, have the same error distribution as a function of ``n``, the number of unique values fed to the sketch.
+The configuration parameter ``lg_config_k`` is the log-base-2 of ``k``, where ``k`` is the number of buckets or slots for the sketch.
 
-During warmup, when the sketch has only received a small number of unique items (up to about 10% of `K`), this implementation leverages a new class of estimator algorithms with significantly better accuracy.
+During warmup, when the sketch has only received a small number of unique items (up to about 10% of ``k``), this implementation leverages a new class of estimator algorithms with significantly better accuracy.
 
-This sketch also offers the capability of operating off-heap. 
-Given a WritableMemory object created by the user, the sketch will perform all of its updates and internal phase transitions in that object, which can actually reside either on-heap or off-heap based on how it is configured. 
-In large systems that must update and merge many millions of sketches, having the sketch operate off-heap avoids the serialization and deserialization costs of moving sketches to and from off-heap memory-mapped files, for example, and eliminates big garbage collection delays.
+
+.. autoclass:: _datasketches.tgt_hll_type
+
+    .. autoattribute:: HLL_4
+        :annotation: : 4 bits per entry
+
+    .. autoattribute:: HLL_6
+        :annotation: : 6 bits per entry
+
+    .. autoattribute:: HLL_8
+        :annotation: : 8 bits per entry
+
 
 .. autoclass:: _datasketches.hll_sketch
     :members:
     :undoc-members:
     :exclude-members: deserialize, get_max_updatable_serialization_bytes, get_rel_err 
-
-    :member-order: groupwise
 
     .. rubric:: Static Methods:
 
@@ -30,3 +37,19 @@ In large systems that must update and merge many millions of sketches, having th
     .. automethod:: get_rel_err
 
     .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
+
+.. autoclass:: _datasketches.hll_union
+    :members:
+    :undoc-members:
+    :exclude-members: get_rel_err 
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: get_rel_err
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
+    

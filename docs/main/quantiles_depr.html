@@ -21,6 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Variance Optimal Sampling (VarOpt)" href="varopt.html" />
     <link rel="prev" title="Relative Error Quantiles (REQ) Sketch" href="req.html" /> 
 </head>
 
@@ -63,11 +64,12 @@
 <li class="toctree-l1"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quantiles Sketch (Deprecated)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#datasketches.quantiles_ints_sketch"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.deserialize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_cdf"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_cdf</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_max_value"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_max_value</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_min_value"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_min_value</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_normalized_rank_error</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_pmf"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_pmf</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_quantile"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_quantile</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_ints_sketch.get_quantiles"><code class="docutils literal notranslate"><span class="pre">quantiles_ints_sketch.get_quantiles</span></code></a></li>
@@ -85,11 +87,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#datasketches.quantiles_floats_sketch"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.deserialize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_cdf"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_cdf</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_max_value"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_max_value</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_min_value"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_min_value</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_normalized_rank_error</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_pmf"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_pmf</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_quantile"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_quantile</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_floats_sketch.get_quantiles"><code class="docutils literal notranslate"><span class="pre">quantiles_floats_sketch.get_quantiles</span></code></a></li>
@@ -107,11 +110,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.deserialize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_cdf"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_cdf</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_max_value"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_max_value</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_min_value"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_min_value</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_normalized_rank_error</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_pmf"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_pmf</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_quantile"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_quantile</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch.get_quantiles"><code class="docutils literal notranslate"><span class="pre">quantiles_doubles_sketch.get_quantiles</span></code></a></li>
@@ -129,11 +133,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#datasketches.quantiles_items_sketch"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.deserialize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_normalized_rank_error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_cdf"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_cdf</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_max_value"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_max_value</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_min_value"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_min_value</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_normalized_rank_error"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_normalized_rank_error</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_pmf"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_pmf</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_quantile"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_quantile</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.quantiles_items_sketch.get_quantiles"><code class="docutils literal notranslate"><span class="pre">quantiles_items_sketch.get_quantiles</span></code></a></li>
@@ -152,6 +157,17 @@
 </li>
 </ul>
 </li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="varopt.html">Variance Optimal Sampling (VarOpt)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ebpps.html">Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="serde.html">Serialize/Deserialize (SerDe)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jaccard.html">Jaccard Similarity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tuple_policy.html">Tuple Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ks_test.html">Kolmogorov-Smirnov Test</a></li>
 </ul>
 
         </div>
@@ -180,7 +196,9 @@
              
   <section id="quantiles-sketch-deprecated">
 <h1>Quantiles Sketch (Deprecated)<a class="headerlink" href="#quantiles-sketch-deprecated" title="Link to this heading"></a></h1>
-<p>This is a deprecated quantiles sketch that is included for cross-language compatibility.</p>
+<p>This is a deprecated quantiles sketch that is included for cross-language compatibility.
+Most new projects will favor the KLL sketch over this one, or the REQ sketch for higher accuracy
+at the very edge of a distribution.</p>
 <p>This is a stochastic streaming sketch that enables near-real time analysis of the
 approximate distribution from a very large stream in a single pass.
 The analysis is obtained using <cite>get_rank()</cite> and <cite>get_quantile()</cite> functions,
@@ -212,13 +230,44 @@ the normalized rank. A <cite>k</cite> of 128 produces a normalized, rank error o
 For example, the median item returned from <cite>get_quantile(0.5)</cite> will be between the actual items
 from the hypothetically sorted array of input items at normalized ranks of 0.483 and 0.517, with
 a confidence of about 99%.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For the <a class="reference internal" href="#datasketches.quantiles_items_sketch" title="datasketches.quantiles_items_sketch"><code class="xref py py-class docutils literal notranslate"><span class="pre">quantiles_items_sketch</span></code></a>, objects must be comparable with <code class="docutils literal notranslate"><span class="pre">__lt__</span></code>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Serializing and deserializing a <a class="reference internal" href="#datasketches.quantiles_items_sketch" title="datasketches.quantiles_items_sketch"><code class="xref py py-class docutils literal notranslate"><span class="pre">quantiles_items_sketch</span></code></a> requires the use of a <a class="reference internal" href="serde.html#datasketches.PyObjectSerDe" title="datasketches.PyObjectSerDe"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyObjectSerDe</span></code></a>.</p>
+</div>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quantiles_ints_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch" title="Link to this definition"></a></dt>
-<dd><dl class="py attribute">
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.deserialize">
-<span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_ints_sketch.deserialize" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_normalized_rank_error">
+<span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error given parameters k and the pmf flag.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a classic quantiles sketch instance with the given value of k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – Controls the size/accuracy trade-off of the sketch. Default is 128.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_cdf">
@@ -242,11 +291,6 @@ It is not necessary to include either the min or max values in these split point
 <span class="sig-name descname"><span class="pre">get_min_value</span></span><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_min_value" title="Link to this definition"></a></dt>
 <dd><p>Returns the minimum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_normalized_rank_error">
-<span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_ints_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_ints_sketch.get_pmf">
@@ -358,10 +402,33 @@ Constants were derived as the best fit to 99 percentile empirically measured max
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quantiles_floats_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch" title="Link to this definition"></a></dt>
-<dd><dl class="py attribute">
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.deserialize">
-<span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_floats_sketch.deserialize" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_normalized_rank_error">
+<span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error given parameters k and the pmf flag.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a classic quantiles sketch instance with the given value of k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – Controls the size/accuracy trade-off of the sketch. Default is 128.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_cdf">
@@ -385,11 +452,6 @@ It is not necessary to include either the min or max values in these split point
 <span class="sig-name descname"><span class="pre">get_min_value</span></span><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_min_value" title="Link to this definition"></a></dt>
 <dd><p>Returns the minimum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_normalized_rank_error">
-<span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_floats_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_floats_sketch.get_pmf">
@@ -501,10 +563,33 @@ Constants were derived as the best fit to 99 percentile empirically measured max
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quantiles_doubles_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch" title="Link to this definition"></a></dt>
-<dd><dl class="py attribute">
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.deserialize">
-<span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.deserialize" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_normalized_rank_error">
+<span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error given parameters k and the pmf flag.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a classic quantiles sketch instance with the given value of k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – Controls the size/accuracy trade-off of the sketch. Default is 128.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_cdf">
@@ -528,11 +613,6 @@ It is not necessary to include either the min or max values in these split point
 <span class="sig-name descname"><span class="pre">get_min_value</span></span><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_min_value" title="Link to this definition"></a></dt>
 <dd><p>Returns the minimum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_normalized_rank_error">
-<span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_doubles_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_doubles_sketch.get_pmf">
@@ -644,10 +724,33 @@ Constants were derived as the best fit to 99 percentile empirically measured max
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.quantiles_items_sketch">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quantiles_items_sketch</span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch" title="Link to this definition"></a></dt>
-<dd><dl class="py attribute">
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.deserialize">
-<span class="sig-name descname"><span class="pre">deserialize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_items_sketch.deserialize" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object using the provided serde.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_normalized_rank_error">
+<span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_pmf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
+<dd><p>Gets the normalized rank error given parameters k and the pmf flag.
+If pmf is True, returns the ‘double-sided’ normalized rank error for the get_PMF() function.
+Otherwise, it is the ‘single-sided’ normalized rank error for all the other queries.
+Constants were derived as the best fit to 99 percentile empirically measured max error in thousands of trials</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a classic quantiles sketch instance with the given value of k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – Controls the size/accuracy trade-off of the sketch. Default is 128.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_cdf">
@@ -671,11 +774,6 @@ It is not necessary to include either the min or max values in these split point
 <span class="sig-name descname"><span class="pre">get_min_value</span></span><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_min_value" title="Link to this definition"></a></dt>
 <dd><p>Returns the minimum value from the stream. If empty, quantiles_floats_sketch returns nan; quantiles_ints_sketch throws a RuntimeError</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_normalized_rank_error">
-<span class="sig-name descname"><span class="pre">get_normalized_rank_error</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nanobind.nb_func</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#datasketches.quantiles_items_sketch.get_normalized_rank_error" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.quantiles_items_sketch.get_pmf">
@@ -783,6 +881,7 @@ Constants were derived as the best fit to 99 percentile empirically measured max
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="req.html" class="btn btn-neutral float-left" title="Relative Error Quantiles (REQ) Sketch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="varopt.html" class="btn btn-neutral float-right" title="Variance Optimal Sampling (VarOpt)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
