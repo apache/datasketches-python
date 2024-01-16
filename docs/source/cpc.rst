@@ -13,8 +13,7 @@ For additional security this sketch can be configured with a user-specified hash
 .. autoclass:: _datasketches.cpc_sketch
     :members:
     :undoc-members:
-    :exclude-members: deserialize,
-    :member-order: groupwise
+    :exclude-members: deserialize
 
     .. rubric:: Static Methods:
 
@@ -22,3 +21,12 @@ For additional security this sketch can be configured with a user-specified hash
 
     .. rubric:: Non-static Methods:
 
+    .. automethod:: __init__
+
+
+.. autoclass:: _datasketches.cpc_union
+    :members:
+    :undoc-members:
+    :exclude-members: deserialize
+
+    .. automethod:: __init__

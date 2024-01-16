@@ -22,16 +22,17 @@ from _datasketches import TuplePolicy
 # This file provides an example Python Tuple Policy implementation.
 #
 # Each implementation must extend the PyTuplePolicy class and define
-# two methods:
+# the following methods:
 #   * create_summary() returns a new Summary object
 #   * update_summary(summary, update) applies the relevant policy to update the
 #     provided summary with the data in update.
 #   * __call__ may be similar to update_summary but allows a different
 #     implementation for set operations (union and intersection)
 
-# Implements an accumulator summary policy, where new values are
-# added to the existing value.
 class AccumulatorPolicy(TuplePolicy):
+  '''Implements an accumulatory summary policy, where new values
+  are added to the existing value.'''
+
   def __init__(self):
     TuplePolicy.__init__(self)
 
@@ -47,8 +48,9 @@ class AccumulatorPolicy(TuplePolicy):
     return summary
 
 
-# Implements a MAX rule, where the largest integer value is always kept
 class MaxIntPolicy(TuplePolicy):
+  '''Implements a MAX rule, where the largest integer value is always kept.'''
+
   def __init__(self):
     TuplePolicy.__init__(self)
 
@@ -62,8 +64,9 @@ class MaxIntPolicy(TuplePolicy):
     return max(summary, update)
 
 
-# Implements a MIN rule, where the smallest integer value is always kept
 class MinIntPolicy(TuplePolicy):
+  '''Implements a MIN rule, where the smallest integer value is always kept.'''
+
   def __init__(self):
     TuplePolicy.__init__(self)
 

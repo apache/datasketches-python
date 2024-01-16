@@ -48,11 +48,22 @@ void init_tuple(nb::module_ &m) {
   nb::class_<tuple_policy, TuplePolicy>(m, "TuplePolicy",
      "An abstract base class for Tuple Policy objects. All custom policies must extend this class.")
     .def(nb::init())
-    .def("create_summary", &tuple_policy::create_summary, "Creates a new Summary object")
+    .def("create_summary", &tuple_policy::create_summary,
+         "Creates a new Summary object\n\n"
+         ":return: a Summary object\n:rtype: :class:`object`"
+         )
     .def("update_summary", &tuple_policy::update_summary, nb::arg("summary"), nb::arg("update"),
-         "applies the relevant policy to update the provided summary with the data in update.")
+         "Applies the relevant policy to update the provided summary with the data in update.\n\n"
+         ":param summary: An existing Summary\n:type summary: :class:`object`\n"
+         ":param update: An update to apply to the Summary\n:type update: :class:`object`\n"
+         ":return: The updated Summary\n:rtype: :class:`object`"
+         )
     .def("__call__", &tuple_policy::operator(), nb::arg("summary"), nb::arg("update"),
-         "Similar to update_summary but allows a different implementation for set operations (union and intersection)")
+         "Similar to update_summary but allows a different implementation for set operations (union and intersection)\n\n"
+         ":param summary: An existing Summary\n:type summary: :class:`object`\n"
+         ":param update: An update to apply to the Summary\n:type update: :class:`object`\n"
+         ":return: The updated Summary\n:rtype: :class:`object`"
+         )
   ;
 
   // potentially useful for debugging but not needed as a permanent

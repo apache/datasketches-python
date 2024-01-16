@@ -163,6 +163,10 @@ class QuantilesTest(unittest.TestCase):
       self.assertEqual(quantiles.get_quantile(0.7), new_quantiles.get_quantile(0.7))
       self.assertEqual(quantiles.get_rank(str(n/4)), new_quantiles.get_rank(str(n/4)))
 
+      # The sketches are identical so we cannot reject the null hypothesis that they
+      # reflect the same underlying distribtion
+      self.assertFalse(ks_test(quantiles, new_quantiles, 0.001))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -128,7 +128,7 @@ void init_theta(nb::module_ &m) {
         "Creates a theta_union using the provided parameters\n\n"
         ":param lg_k: base 2 logarithm of the maximum size of the union. Default 12.\n:type lg_k: int, optional\n"
         ":param p: an initial sampling rate to use. Default 1.0\n:type p: float, optional\n"
-        ":param seed: the seed to use when hashing values. Must match any sketch seeds.\n:type seed: int, optional"
+        ":param seed: the seed to use when hashing values. Must match all sketch seeds.\n:type seed: int, optional"
     )
     .def("update", &theta_union::update<const theta_sketch&>, nb::arg("sketch"),
          "Updates the union with the given sketch")
@@ -139,7 +139,7 @@ void init_theta(nb::module_ &m) {
   nb::class_<theta_intersection>(m, "theta_intersection")
     .def(nb::init<uint64_t>(), nb::arg("seed")=DEFAULT_SEED,
         "Creates a theta_intersection using the provided parameters\n\n"
-        ":param seed: the seed to use when hashing values. Must match any sketch seeds\n:type seed: int, optional"         
+        ":param seed: the seed to use when hashing values. Must match all sketch seeds\n:type seed: int, optional"         
     )
     .def("update", &theta_intersection::update<const theta_sketch&>, nb::arg("sketch"),
          "Intersections the provided sketch with the current intersection state")
@@ -152,7 +152,7 @@ void init_theta(nb::module_ &m) {
   nb::class_<theta_a_not_b>(m, "theta_a_not_b")
     .def(nb::init<uint64_t>(), nb::arg("seed")=DEFAULT_SEED,
         "Creates a tuple_a_not_b object\n\n"
-        ":param seed: the seed to use when hashing values. Must match any sketch seeds.\n:type seed: int, optional"
+        ":param seed: the seed to use when hashing values. Must match all sketch seeds.\n:type seed: int, optional"
     )
     .def(
         "compute",

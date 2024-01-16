@@ -32,12 +32,12 @@ import struct
 #     returns a tuple with the newly reconstructed object and the
 #     total number of bytes beyond the offset read from the input data.
 
-# Implements a simple string-encoding scheme where a string is
-# written as <num_bytes> <string_contents>, with no null termination.
-# This format allows pre-allocating each string, at the cost of
-# additional storage. Using this format, the serialized string consumes
-# 4 + len(item) bytes.
 class PyStringsSerDe(PyObjectSerDe):
+  '''Implements a simple string-encoding scheme where a string is
+     written as `<num_bytes> <string_contents>`, with no null termination.
+     This format allows pre-allocating each string, at the cost of
+     additional storage. Using this format, the serialized string consumes
+     ``4 + len(item)`` bytes.'''
   def get_size(self, item):
     return int(4 + len(item))
 
@@ -54,9 +54,9 @@ class PyStringsSerDe(PyObjectSerDe):
     str = data[offset+4:offset+4+num_chars].decode()
     return (str, 4+num_chars)
 
-# Implements an integer encoding scheme where each integer is written
-# as a 32-bit (4 byte) little-endian value.
 class PyIntsSerDe(PyObjectSerDe):
+  '''Implements an integer encoding scheme where each integer is written
+     as a 32-bit (4 byte) little-endian value.'''
   def get_size(self, item):
     return int(4)
 
@@ -68,9 +68,9 @@ class PyIntsSerDe(PyObjectSerDe):
     return (val, 4)
 
 
-# Implements an integer encoding scheme where each integer is written
-# as a 64-bit (8 byte) little-endian value.
 class PyLongsSerDe(PyObjectSerDe):
+  '''Implements an integer encoding scheme where each integer is written
+     as a 64-bit (8 byte) little-endian value.'''
   def get_size(self, item):
     return int(8)
 
@@ -82,9 +82,9 @@ class PyLongsSerDe(PyObjectSerDe):
     return (val, 8)
 
 
-# Implements a floating point encoding scheme where each value is written
-# as a 32-bit floating point value.
 class PyFloatsSerDe(PyObjectSerDe):
+  '''Implements a floating point encoding scheme where each value is written
+     as a 32-bit floating point value.'''
   def get_size(self, item):
     return int(4)
 
@@ -96,9 +96,9 @@ class PyFloatsSerDe(PyObjectSerDe):
     return (val, 4)
 
 
-# Implements a floating point encoding scheme where each value is written
-# as a 64-bit floating point value.
 class PyDoublesSerDe(PyObjectSerDe):
+  '''Implements a floating point encoding scheme where each value is written
+     as a 64-bit floating point value.'''
   def get_size(self, item):
     return int(8)
 

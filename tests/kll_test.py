@@ -163,6 +163,10 @@ class KllTest(unittest.TestCase):
       self.assertEqual(kll.get_quantile(0.7), new_kll.get_quantile(0.7))
       self.assertEqual(kll.get_rank(str(n/4)), new_kll.get_rank(str(n/4)))
 
+      # The sketches are identical so we cannot reject the null hypothesis that they
+      # reflect the same underlying distribtion
+      self.assertFalse(ks_test(kll, new_kll, 0.001))
+
 
 if __name__ == '__main__':
     unittest.main()
