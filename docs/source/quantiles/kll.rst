@@ -1,5 +1,8 @@
 KLL Sketch
 ----------
+
+.. currentmodule:: datasketches
+
 Implementation of a very compact quantiles sketch with lazy compaction scheme
 and nearly optimal accuracy per retained item.
 See `Optimal Quantile Approximation in Streams`.
@@ -103,22 +106,66 @@ Additionally, the interval may be quite large for certain distributions.
 - Let `q_hi = estimated quantile of rank (r + eps)`.
 - Then `q_lo ≤ q ≤ q_hi`, with 99% confidence.
 
+.. note::
+    For the :class:`kll_items_sketch`, objects must be comparable with ``__lt__``.
+
+.. note::
+    Serializing and deserializing a :class:`kll_items_sketch` requires the use of a :class:`PyObjectSerDe`.
 
 
-
-.. autoclass:: _datasketches.kll_ints_sketch
+.. autoclass:: kll_ints_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
 
-.. autoclass:: _datasketches.kll_floats_sketch
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
+
+.. autoclass:: kll_floats_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
 
-.. autoclass:: _datasketches.kll_doubles_sketch
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
+
+.. autoclass:: kll_doubles_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
 
-.. autoclass:: _datasketches.kll_items_sketch
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
+
+.. autoclass:: kll_items_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_normalized_rank_error
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_normalized_rank_error
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
 

@@ -1,5 +1,8 @@
 Relative Error Quantiles (REQ) Sketch
 -------------------------------------
+
+.. currentmodule:: datasketches
+
 This is an implementation based on the `paper <https://arxiv.org/abs/2004.01668>`_ "Relative Error Streaming Quantiles" by Graham Cormode, Zohar Karnin, Edo Liberty, Justin Thaler, Pavel Veselý, and loosely derived from a Python prototype written by Pavel Veselý.
 
 This implementation differs from the algorithm described in the paper in the following:
@@ -27,14 +30,50 @@ This implementation allows the user to use both the `INCLUSIVE` criterion and th
 This implementation provides extensive debug visibility into the operation of the sketch with two levels of detail output. 
 This is not only useful for debugging, but is a powerful tool to help users understand how the sketch works.
 
-.. autoclass:: _datasketches.req_ints_sketch
-    :members:
-    :undoc-members:
+.. note::
+    For the :class:`req_items_sketch`, objects must be comparable with ``__lt__``.
 
-.. autoclass:: _datasketches.req_floats_sketch
-    :members:
-    :undoc-members:
+.. note::
+    Serializing and deserializing a :class:`req_items_sketch` requires the use of a :class:`PyObjectSerDe`.
 
-.. autoclass:: _datasketches.req_items_sketch
+.. autoclass:: req_ints_sketch
     :members:
     :undoc-members:
+    :exclude-members: deserialize, get_RSE
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_RSE
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
+
+.. autoclass:: req_floats_sketch
+    :members:
+    :undoc-members:
+    :exclude-members: deserialize, get_RSE
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_RSE
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
+
+.. autoclass:: req_items_sketch
+    :members:
+    :undoc-members:
+    :exclude-members: deserialize, get_RSE
+
+    .. rubric:: Static Methods:
+
+    .. automethod:: deserialize
+    .. automethod:: get_RSE
+
+    .. rubric:: Non-static Methods:
+
+    .. automethod:: __init__
