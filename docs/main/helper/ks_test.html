@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kolmogorov-Smirnov Test &mdash; datasketches 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Kernel Function" href="kernel.html" />
+    <link rel="prev" title="Tuple Policy" href="tuple_policy.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            datasketches
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../distinct_counting/index.html">Distinct Counting</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantiles/index.html">Quantiles Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../frequency/index.html">Frequency Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../vector/index.html">Vector Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Random Sampling Sketches</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Helper Classes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="serde.html">Serialize/Deserialize (SerDe)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jaccard.html">Jaccard Similarity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tuple_policy.html">Tuple Policy</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Kolmogorov-Smirnov Test</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.ks_test"><code class="docutils literal notranslate"><span class="pre">ks_test()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">datasketches</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Helper Classes</a></li>
+      <li class="breadcrumb-item active">Kolmogorov-Smirnov Test</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/helper/ks_test.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="kolmogorov-smirnov-test">
+<h1>Kolmogorov-Smirnov Test<a class="headerlink" href="#kolmogorov-smirnov-test" title="Link to this heading"></a></h1>
+<p>A <cite>Kolmogorov-Smirnov Test &lt;https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test&gt;`_</cite> is
+a test of equality of two distributions to determine if they are likely to have come from the same
+underlying distribution.
+The DataSketches library provides a modified form of the test that takes into account the error
+in each underlying sketch in the analysis.</p>
+<p>Currently, the test assumes both input sketches are of the same family and data type.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="datasketches.ks_test">
+<span class="sig-name descname"><span class="pre">ks_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sk_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/kll.html#datasketches.kll_ints_sketch" title="_datasketches.kll_ints_sketch"><span class="pre">_datasketches.kll_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/kll.html#datasketches.kll_ints_sketch" title="_datasketches.kll_ints_sketch"><span class="pre">_datasketches.kll_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.ks_test" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ks_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sk_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/kll.html#datasketches.kll_floats_sketch" title="_datasketches.kll_floats_sketch"><span class="pre">_datasketches.kll_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/kll.html#datasketches.kll_floats_sketch" title="_datasketches.kll_floats_sketch"><span class="pre">_datasketches.kll_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ks_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sk_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/kll.html#datasketches.kll_doubles_sketch" title="_datasketches.kll_doubles_sketch"><span class="pre">_datasketches.kll_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/kll.html#datasketches.kll_doubles_sketch" title="_datasketches.kll_doubles_sketch"><span class="pre">_datasketches.kll_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ks_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sk_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/kll.html#datasketches.kll_items_sketch" title="_datasketches.kll_items_sketch"><span class="pre">_datasketches.kll_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/kll.html#datasketches.kll_items_sketch" title="_datasketches.kll_items_sketch"><span class="pre">_datasketches.kll_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ks_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sk_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/quantiles_depr.html#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/quantiles_depr.html#datasketches.quantiles_ints_sketch" title="_datasketches.quantiles_ints_sketch"><span class="pre">_datasketches.quantiles_ints_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ks_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sk_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/quantiles_depr.html#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/quantiles_depr.html#datasketches.quantiles_floats_sketch" title="_datasketches.quantiles_floats_sketch"><span class="pre">_datasketches.quantiles_floats_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ks_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sk_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/quantiles_depr.html#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/quantiles_depr.html#datasketches.quantiles_doubles_sketch" title="_datasketches.quantiles_doubles_sketch"><span class="pre">_datasketches.quantiles_doubles_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ks_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sk_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/quantiles_depr.html#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../quantiles/quantiles_depr.html#datasketches.quantiles_items_sketch" title="_datasketches.quantiles_items_sketch"><span class="pre">_datasketches.quantiles_items_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ks_test(sk_1:</span> <span class="pre">_datasketches.kll_ints_sketch,</span> <span class="pre">sk_2:</span> <span class="pre">_datasketches.kll_ints_sketch,</span> <span class="pre">p:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+</ol>
+<p>Performs the Kolmogorov-Smirnov Test for <code class="code docutils literal notranslate"><span class="pre">kll_ints_sketch</span></code> pairs.
+Note: if the given sketches have insufficient data or if the sketch sizes are too small, this will return false.
+Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying distribution) using the provided p-value, otherwise False.</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">ks_test(sk_1:</span> <span class="pre">_datasketches.kll_floats_sketch,</span> <span class="pre">sk_2:</span> <span class="pre">_datasketches.kll_floats_sketch,</span> <span class="pre">p:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+</ol>
+<p>Performs the Kolmogorov-Smirnov Test for <code class="code docutils literal notranslate"><span class="pre">kll_floats_sketch</span></code> pairs.
+Note: if the given sketches have insufficient data or if the sketch sizes are too small, this will return false.
+Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying distribution) using the provided p-value, otherwise False.</p>
+<ol class="arabic simple" start="3">
+<li><p><code class="docutils literal notranslate"><span class="pre">ks_test(sk_1:</span> <span class="pre">_datasketches.kll_doubles_sketch,</span> <span class="pre">sk_2:</span> <span class="pre">_datasketches.kll_doubles_sketch,</span> <span class="pre">p:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+</ol>
+<p>Performs the Kolmogorov-Smirnov Test for <code class="code docutils literal notranslate"><span class="pre">kll_doubles_sketch</span></code> pairs.
+Note: if the given sketches have insufficient data or if the sketch sizes are too small, this will return false.
+Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying distribution) using the provided p-value, otherwise False.</p>
+<ol class="arabic simple" start="4">
+<li><p><code class="docutils literal notranslate"><span class="pre">ks_test(sk_1:</span> <span class="pre">_datasketches.kll_items_sketch,</span> <span class="pre">sk_2:</span> <span class="pre">_datasketches.kll_items_sketch,</span> <span class="pre">p:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+</ol>
+<p>Performs the Kolmogorov-Smirnov Test for <code class="code docutils literal notranslate"><span class="pre">kll_items_sketch</span></code> pairs.
+Note: if the given sketches have insufficient data or if the sketch sizes are too small, this will return false.
+Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying distribution) using the provided p-value, otherwise False.</p>
+<ol class="arabic simple" start="5">
+<li><p><code class="docutils literal notranslate"><span class="pre">ks_test(sk_1:</span> <span class="pre">_datasketches.quantiles_ints_sketch,</span> <span class="pre">sk_2:</span> <span class="pre">_datasketches.quantiles_ints_sketch,</span> <span class="pre">p:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+</ol>
+<p>Performs the Kolmogorov-Smirnov Test for <code class="code docutils literal notranslate"><span class="pre">quantiles_ints_sketch</span></code> pairs.
+Note: if the given sketches have insufficient data or if the sketch sizes are too small, this will return false.
+Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying distribution) using the provided p-value, otherwise False.</p>
+<ol class="arabic simple" start="6">
+<li><p><code class="docutils literal notranslate"><span class="pre">ks_test(sk_1:</span> <span class="pre">_datasketches.quantiles_floats_sketch,</span> <span class="pre">sk_2:</span> <span class="pre">_datasketches.quantiles_floats_sketch,</span> <span class="pre">p:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+</ol>
+<p>Performs the Kolmogorov-Smirnov Test for <code class="code docutils literal notranslate"><span class="pre">quantiles_floats_sketch</span></code> pairs.
+Note: if the given sketches have insufficient data or if the sketch sizes are too small, this will return false.
+:Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying distribution) using the provided p-value, otherwise False.</p>
+<ol class="arabic simple" start="7">
+<li><p><code class="docutils literal notranslate"><span class="pre">ks_test(sk_1:</span> <span class="pre">_datasketches.quantiles_doubles_sketch,</span> <span class="pre">sk_2:</span> <span class="pre">_datasketches.quantiles_doubles_sketch,</span> <span class="pre">p:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+</ol>
+<p>Performs the Kolmogorov-Smirnov Test for <code class="code docutils literal notranslate"><span class="pre">quantiles_doubles_sketch</span></code> pairs.
+Note: if the given sketches have insufficient data or if the sketch sizes are too small, this will return false.
+Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying distribution) using the provided p-value, otherwise False.</p>
+<ol class="arabic simple" start="8">
+<li><p><code class="docutils literal notranslate"><span class="pre">ks_test(sk_1:</span> <span class="pre">_datasketches.quantiles_items_sketch,</span> <span class="pre">sk_2:</span> <span class="pre">_datasketches.quantiles_items_sketch,</span> <span class="pre">p:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+</ol>
+<p>Performs the Kolmogorov-Smirnov Test for <code class="code docutils literal notranslate"><span class="pre">quantiles_items_sketch</span></code> pairs.
+Note: if the given sketches have insufficient data or if the sketch sizes are too small, this will return false.
+Returns True if we can reject the null hypothesis (that the sketches reflect the same underlying distribution) using the provided p-value, otherwise False.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tuple_policy.html" class="btn btn-neutral float-left" title="Tuple Policy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="kernel.html" class="btn btn-neutral float-right" title="Kernel Function" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

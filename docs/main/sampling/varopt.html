@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Variance Optimal Sampling (VarOpt) &mdash; datasketches 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
+    <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=2709fde1"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling" href="ebpps.html" />
-    <link rel="prev" title="Quantiles Sketch (Deprecated)" href="quantiles_depr.html" /> 
+    <link rel="prev" title="Random Sampling Sketches" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -33,11 +33,11 @@
 
           
           
-          <a href="index.html" class="icon icon-home">
+          <a href="../index.html" class="icon icon-home">
             datasketches
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -45,62 +45,53 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="hyper_log_log.html">HyperLogLog (HLL)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cpc.html">Compressed Probabilistic Counting (CPC)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theta.html">Theta Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tuple.html">Tuple Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distinct_counting/index.html">Distinct Counting</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="density_sketch.html">Density Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantiles/index.html">Quantiles Sketches</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="count_min_sketch.html">CountMin Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../frequency/index.html">Frequency Sketches</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="frequent_items.html">Frequent Items</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vector/index.html">Vector Sketches</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Variance Optimal Sampling (VarOpt)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#datasketches.var_opt_sketch"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.deserialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch.estimate_subset_sum"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.estimate_subset_sum</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.get_serialized_size_bytes</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.is_empty</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch.k"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.k</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch.n"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.n</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch.num_samples"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.num_samples</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.serialize</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.to_string</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch.update"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.update</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Random Sampling Sketches</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Variance Optimal Sampling (VarOpt)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.estimate_subset_sum"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.estimate_subset_sum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.get_serialized_size_bytes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.is_empty</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.k"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.k</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.n"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.n</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.num_samples"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.num_samples</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.serialize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.to_string</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.update"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.update</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#datasketches.var_opt_union"><code class="docutils literal notranslate"><span class="pre">var_opt_union</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_union.deserialize"><code class="docutils literal notranslate"><span class="pre">var_opt_union.deserialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_union.__init__"><code class="docutils literal notranslate"><span class="pre">var_opt_union.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_union.get_result"><code class="docutils literal notranslate"><span class="pre">var_opt_union.get_result</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_union.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">var_opt_union.get_serialized_size_bytes</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_union.reset"><code class="docutils literal notranslate"><span class="pre">var_opt_union.reset</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_union.serialize"><code class="docutils literal notranslate"><span class="pre">var_opt_union.serialize</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_union.to_string"><code class="docutils literal notranslate"><span class="pre">var_opt_union.to_string</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_union.update"><code class="docutils literal notranslate"><span class="pre">var_opt_union.update</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_union"><code class="docutils literal notranslate"><span class="pre">var_opt_union</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.deserialize"><code class="docutils literal notranslate"><span class="pre">var_opt_union.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.__init__"><code class="docutils literal notranslate"><span class="pre">var_opt_union.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.get_result"><code class="docutils literal notranslate"><span class="pre">var_opt_union.get_result</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">var_opt_union.get_serialized_size_bytes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.reset"><code class="docutils literal notranslate"><span class="pre">var_opt_union.reset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.serialize"><code class="docutils literal notranslate"><span class="pre">var_opt_union.serialize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.to_string"><code class="docutils literal notranslate"><span class="pre">var_opt_union.to_string</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.update"><code class="docutils literal notranslate"><span class="pre">var_opt_union.update</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ebpps.html">Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ebpps.html">Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling</a></li>
+</ul>
+</li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="serde.html">Serialize/Deserialize (SerDe)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jaccard.html">Jaccard Similarity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tuple_policy.html">Tuple Policy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ks_test.html">Kolmogorov-Smirnov Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../helper/index.html">Helper Classes</a></li>
 </ul>
 
         </div>
@@ -109,17 +100,18 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">datasketches</a>
+          <a href="../index.html">datasketches</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Random Sampling Sketches</a></li>
       <li class="breadcrumb-item active">Variance Optimal Sampling (VarOpt)</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/varopt.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/sampling/varopt.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -138,7 +130,7 @@ weight of all items presented to the sketch.</p>
 Feeding the sketch items with a uniform weight value will produce a sample equivalent to reservoir sampling.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Serializing and deserializing this sketch requires the use of a <a class="reference internal" href="serde.html#datasketches.PyObjectSerDe" title="datasketches.PyObjectSerDe"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyObjectSerDe</span></code></a>.</p>
+<p>Serializing and deserializing this sketch requires the use of a <a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="datasketches.PyObjectSerDe"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyObjectSerDe</span></code></a>.</p>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch">
@@ -146,7 +138,7 @@ Feeding the sketch items with a uniform weight value will produce a sample equiv
 <dd><p class="rubric">Static Methods:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch.deserialize">
-<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.var_opt_sketch" title="_datasketches.var_opt_sketch"><span class="pre">_datasketches.var_opt_sketch</span></a></span></span><a class="headerlink" href="#datasketches.var_opt_sketch.deserialize" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.var_opt_sketch" title="_datasketches.var_opt_sketch"><span class="pre">_datasketches.var_opt_sketch</span></a></span></span><a class="headerlink" href="#datasketches.var_opt_sketch.deserialize" title="Link to this definition"></a></dt>
 <dd><p>Reads a bytes object and returns the corresponding var opt sketch</p>
 </dd></dl>
 
@@ -224,7 +216,7 @@ Feeding the sketch items with a uniform weight value will produce a sample equiv
 <dd><p class="rubric">Static Methods:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_union.deserialize">
-<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.var_opt_union" title="_datasketches.var_opt_union"><span class="pre">_datasketches.var_opt_union</span></a></span></span><a class="headerlink" href="#datasketches.var_opt_union.deserialize" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.var_opt_union" title="_datasketches.var_opt_union"><span class="pre">_datasketches.var_opt_union</span></a></span></span><a class="headerlink" href="#datasketches.var_opt_union.deserialize" title="Link to this definition"></a></dt>
 <dd><p>Constructs a var opt union from the given bytes using the provided serde</p>
 </dd></dl>
 
@@ -278,7 +270,7 @@ Feeding the sketch items with a uniform weight value will produce a sample equiv
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="quantiles_depr.html" class="btn btn-neutral float-left" title="Quantiles Sketch (Deprecated)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Random Sampling Sketches" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="ebpps.html" class="btn btn-neutral float-right" title="Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

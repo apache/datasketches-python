@@ -7,89 +7,63 @@ Apache DataSketches
 =================================================
 
 **DataSketches** are highly-efficient algorithms to analyze big data quickly.
-
-
+   
+   
 Counting Distincts
 ##################
 ..
    maxdepth: 1 means only the heading is printed in the contents
 .. toctree::
-   :maxdepth: 1 
+   :maxdepth: 2
 
-   hyper_log_log
-   cpc
-   theta 
-   tuple
-
-Density Sketch
-##############
-.. toctree::
-   :maxdepth: 1 
-
-   density_sketch
-
-Frequency Estimation
-##########################
-
-.. toctree::
-   :maxdepth: 1 
-
-   count_min_sketch
-
-
-Frequent Items
-##########################
-This problem may also be known as **heavy hitters** or **TopK**
-
-.. toctree::
-   :maxdepth: 1 
-
-   frequent_items
+   distinct_counting/index
 
 Quantile Estimation
 ###################
 
 .. toctree::
-   :maxdepth: 1 
+   :maxdepth: 2
 
-   kll
-   req
-   quantiles_depr
+   quantiles/index
+
+Frequency Sketches
+##################
+This problem may also be known as **heavy hitters** or **TopK**
+
+.. toctree::
+   :maxdepth: 2 
+
+   frequency/index
+
+Vector Sketches
+###############
+
+.. toctree::
+   :maxdepth: 2 
+
+   vector/index
 
 
 Random Sampling
 ###############
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   varopt
-   ebpps
+   sampling/index
 
 Helper Classes
 ##############
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   serde
-   kernel
-   jaccard
-   tuple_policy
-   ks_test
+   helper/index
 
-
-These classes are required for certain sketches or specific functionality withing sketches.
-Some of them are abstract base classes, but in those cases there is at least one reference example of a 
-concrete class.
-
-
-
-
+   
 .. note::
 
    This project is under active development.
-
 
 Indices and tables
 ==================

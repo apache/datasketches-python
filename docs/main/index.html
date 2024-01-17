@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="HyperLogLog (HLL)" href="hyper_log_log.html" /> 
+    <link rel="next" title="Distinct Counting" href="distinct_counting/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,35 +44,22 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="hyper_log_log.html">HyperLogLog (HLL)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cpc.html">Compressed Probabilistic Counting (CPC)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theta.html">Theta Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tuple.html">Tuple Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distinct_counting/index.html">Distinct Counting</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="density_sketch.html">Density Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quantiles/index.html">Quantiles Sketches</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="count_min_sketch.html">CountMin Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frequency/index.html">Frequency Sketches</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="frequent_items.html">Frequent Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vector/index.html">Vector Sketches</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampling/index.html">Random Sampling Sketches</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="varopt.html">Variance Optimal Sampling (VarOpt)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ebpps.html">Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="serde.html">Serialize/Deserialize (SerDe)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jaccard.html">Jaccard Similarity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tuple_policy.html">Tuple Policy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ks_test.html">Kolmogorov-Smirnov Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helper/index.html">Helper Classes</a></li>
 </ul>
 
         </div>
@@ -106,35 +93,13 @@
 <h2>Counting Distincts<a class="headerlink" href="#counting-distincts" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="hyper_log_log.html">HyperLogLog (HLL)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cpc.html">Compressed Probabilistic Counting (CPC)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theta.html">Theta Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tuple.html">Tuple Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distinct_counting/index.html">Distinct Counting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="distinct_counting/hyper_log_log.html">HyperLogLog (HLL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distinct_counting/cpc.html">Compressed Probabilistic Counting (CPC)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distinct_counting/theta.html">Theta Sketch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distinct_counting/tuple.html">Tuple Sketch</a></li>
 </ul>
-</div>
-</section>
-<section id="density-sketch">
-<h2>Density Sketch<a class="headerlink" href="#density-sketch" title="Link to this heading"></a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="density_sketch.html">Density Sketch</a></li>
-</ul>
-</div>
-</section>
-<section id="frequency-estimation">
-<h2>Frequency Estimation<a class="headerlink" href="#frequency-estimation" title="Link to this heading"></a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="count_min_sketch.html">CountMin Sketch</a></li>
-</ul>
-</div>
-</section>
-<section id="frequent-items">
-<h2>Frequent Items<a class="headerlink" href="#frequent-items" title="Link to this heading"></a></h2>
-<p>This problem may also be known as <strong>heavy hitters</strong> or <strong>TopK</strong></p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="frequent_items.html">Frequent Items</a></li>
+</li>
 </ul>
 </div>
 </section>
@@ -142,9 +107,36 @@
 <h2>Quantile Estimation<a class="headerlink" href="#quantile-estimation" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quantiles/index.html">Quantiles Sketches</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantiles/kll.html">KLL Sketch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantiles/req.html">Relative Error Quantiles (REQ) Sketch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantiles/quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="frequency-sketches">
+<h2>Frequency Sketches<a class="headerlink" href="#frequency-sketches" title="Link to this heading"></a></h2>
+<p>This problem may also be known as <strong>heavy hitters</strong> or <strong>TopK</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="frequency/index.html">Frequency Sketches</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="frequency/frequent_items.html">Frequent Items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frequency/count_min_sketch.html">CountMin Sketch</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="vector-sketches">
+<h2>Vector Sketches<a class="headerlink" href="#vector-sketches" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="vector/index.html">Vector Sketches</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vector/density_sketch.html">Density Sketch</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -152,8 +144,11 @@
 <h2>Random Sampling<a class="headerlink" href="#random-sampling" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="varopt.html">Variance Optimal Sampling (VarOpt)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ebpps.html">Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampling/index.html">Random Sampling Sketches</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sampling/varopt.html">Variance Optimal Sampling (VarOpt)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sampling/ebpps.html">Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -161,16 +156,16 @@
 <h2>Helper Classes<a class="headerlink" href="#helper-classes" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="serde.html">Serialize/Deserialize (SerDe)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jaccard.html">Jaccard Similarity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tuple_policy.html">Tuple Policy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ks_test.html">Kolmogorov-Smirnov Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helper/index.html">Helper Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="helper/serde.html">Serialize/Deserialize (SerDe)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helper/jaccard.html">Jaccard Similarity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helper/tuple_policy.html">Tuple Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helper/ks_test.html">Kolmogorov-Smirnov Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helper/kernel.html">Kernel Function</a></li>
+</ul>
+</li>
 </ul>
 </div>
-<p>These classes are required for certain sketches or specific functionality withing sketches.
-Some of them are abstract base classes, but in those cases there is at least one reference example of a
-concrete class.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This project is under active development.</p>
@@ -190,7 +185,7 @@ concrete class.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="hyper_log_log.html" class="btn btn-neutral float-right" title="HyperLogLog (HLL)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="distinct_counting/index.html" class="btn btn-neutral float-right" title="Distinct Counting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

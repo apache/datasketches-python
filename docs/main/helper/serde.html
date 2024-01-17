@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Serialize/Deserialize (SerDe) &mdash; datasketches 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
+    <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=2709fde1"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Kernel Function" href="kernel.html" />
-    <link rel="prev" title="Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling" href="ebpps.html" /> 
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Jaccard Similarity" href="jaccard.html" />
+    <link rel="prev" title="Helper Classes" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -33,11 +33,11 @@
 
           
           
-          <a href="index.html" class="icon icon-home">
+          <a href="../index.html" class="icon icon-home">
             datasketches
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -45,48 +45,42 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="hyper_log_log.html">HyperLogLog (HLL)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cpc.html">Compressed Probabilistic Counting (CPC)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theta.html">Theta Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tuple.html">Tuple Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distinct_counting/index.html">Distinct Counting</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="density_sketch.html">Density Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantiles/index.html">Quantiles Sketches</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="count_min_sketch.html">CountMin Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../frequency/index.html">Frequency Sketches</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="frequent_items.html">Frequent Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vector/index.html">Vector Sketches</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="varopt.html">Variance Optimal Sampling (VarOpt)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ebpps.html">Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Random Sampling Sketches</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Serialize/Deserialize (SerDe)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#datasketches.PyObjectSerDe"><code class="docutils literal notranslate"><span class="pre">PyObjectSerDe</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.PyObjectSerDe.get_size"><code class="docutils literal notranslate"><span class="pre">PyObjectSerDe.get_size()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.PyObjectSerDe.to_bytes"><code class="docutils literal notranslate"><span class="pre">PyObjectSerDe.to_bytes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.PyObjectSerDe.from_bytes"><code class="docutils literal notranslate"><span class="pre">PyObjectSerDe.from_bytes()</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Helper Classes</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Serialize/Deserialize (SerDe)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.PyObjectSerDe"><code class="docutils literal notranslate"><span class="pre">PyObjectSerDe</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.PyObjectSerDe.get_size"><code class="docutils literal notranslate"><span class="pre">PyObjectSerDe.get_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.PyObjectSerDe.to_bytes"><code class="docutils literal notranslate"><span class="pre">PyObjectSerDe.to_bytes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.PyObjectSerDe.from_bytes"><code class="docutils literal notranslate"><span class="pre">PyObjectSerDe.from_bytes()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#datasketches.PyStringsSerDe"><code class="docutils literal notranslate"><span class="pre">PyStringsSerDe</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#datasketches.PyIntsSerDe"><code class="docutils literal notranslate"><span class="pre">PyIntsSerDe</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#datasketches.PyLongsSerDe"><code class="docutils literal notranslate"><span class="pre">PyLongsSerDe</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#datasketches.PyFloatsSerDe"><code class="docutils literal notranslate"><span class="pre">PyFloatsSerDe</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#datasketches.PyDoublesSerDe"><code class="docutils literal notranslate"><span class="pre">PyDoublesSerDe</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.PyStringsSerDe"><code class="docutils literal notranslate"><span class="pre">PyStringsSerDe</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.PyIntsSerDe"><code class="docutils literal notranslate"><span class="pre">PyIntsSerDe</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.PyLongsSerDe"><code class="docutils literal notranslate"><span class="pre">PyLongsSerDe</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.PyFloatsSerDe"><code class="docutils literal notranslate"><span class="pre">PyFloatsSerDe</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.PyDoublesSerDe"><code class="docutils literal notranslate"><span class="pre">PyDoublesSerDe</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jaccard.html">Jaccard Similarity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tuple_policy.html">Tuple Policy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ks_test.html">Kolmogorov-Smirnov Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jaccard.html">Jaccard Similarity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tuple_policy.html">Tuple Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ks_test.html">Kolmogorov-Smirnov Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -95,17 +89,18 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">datasketches</a>
+          <a href="../index.html">datasketches</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Helper Classes</a></li>
       <li class="breadcrumb-item active">Serialize/Deserialize (SerDe)</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/serde.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/helper/serde.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -228,8 +223,8 @@ as a 64-bit floating point value.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="ebpps.html" class="btn btn-neutral float-left" title="Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="kernel.html" class="btn btn-neutral float-right" title="Kernel Function" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Helper Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="jaccard.html" class="btn btn-neutral float-right" title="Jaccard Similarity" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CountMin Sketch &mdash; datasketches 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
   
   <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
+    <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=2709fde1"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Frequent Items" href="frequent_items.html" />
-    <link rel="prev" title="Density Sketch" href="density_sketch.html" /> 
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Vector Sketches" href="../vector/index.html" />
+    <link rel="prev" title="Frequent Items" href="frequent_items.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -34,11 +34,11 @@
 
           
           
-          <a href="index.html" class="icon icon-home">
+          <a href="../index.html" class="icon icon-home">
             datasketches
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -46,57 +46,48 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="hyper_log_log.html">HyperLogLog (HLL)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cpc.html">Compressed Probabilistic Counting (CPC)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="theta.html">Theta Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tuple.html">Tuple Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distinct_counting/index.html">Distinct Counting</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="density_sketch.html">Density Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantiles/index.html">Quantiles Sketches</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">CountMin Sketch</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#datasketches.count_min_sketch"><code class="docutils literal notranslate"><span class="pre">count_min_sketch</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.deserialize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.suggest_num_buckets"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.suggest_num_buckets()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.suggest_num_hashes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.suggest_num_hashes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_estimate</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_lower_bound</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_relative_error"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_relative_error</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_serialized_size_bytes</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_upper_bound</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.is_empty</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.merge"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.merge</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.num_buckets"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.num_buckets</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.num_hashes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.num_hashes</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.seed"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.seed</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.serialize</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.to_string</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.total_weight"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.total_weight</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch.update"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.update</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Frequency Sketches</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="frequent_items.html">Frequent Items</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CountMin Sketch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.count_min_sketch"><code class="docutils literal notranslate"><span class="pre">count_min_sketch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.suggest_num_buckets"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.suggest_num_buckets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.suggest_num_hashes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.suggest_num_hashes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_estimate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_lower_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.get_relative_error"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_relative_error</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_serialized_size_bytes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.get_upper_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.is_empty</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.merge"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.merge</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.num_buckets"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.num_buckets</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.num_hashes"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.num_hashes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.seed"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.seed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.serialize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.to_string</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.total_weight"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.total_weight</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.count_min_sketch.update"><code class="docutils literal notranslate"><span class="pre">count_min_sketch.update</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="frequent_items.html">Frequent Items</a></li>
+</li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vector/index.html">Vector Sketches</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="varopt.html">Variance Optimal Sampling (VarOpt)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ebpps.html">Exact and Bounded, Probabilitiy Proportional to Size (EBPPS) Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Random Sampling Sketches</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="serde.html">Serialize/Deserialize (SerDe)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jaccard.html">Jaccard Similarity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tuple_policy.html">Tuple Policy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ks_test.html">Kolmogorov-Smirnov Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../helper/index.html">Helper Classes</a></li>
 </ul>
 
         </div>
@@ -105,17 +96,18 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">datasketches</a>
+          <a href="../index.html">datasketches</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Frequency Sketches</a></li>
       <li class="breadcrumb-item active">CountMin Sketch</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/count_min_sketch.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/frequency/count_min_sketch.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -281,8 +273,8 @@ heavy hitters.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="density_sketch.html" class="btn btn-neutral float-left" title="Density Sketch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="frequent_items.html" class="btn btn-neutral float-right" title="Frequent Items" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="frequent_items.html" class="btn btn-neutral float-left" title="Frequent Items" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../vector/index.html" class="btn btn-neutral float-right" title="Vector Sketches" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

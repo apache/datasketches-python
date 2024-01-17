@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jaccard Similarity &mdash; datasketches 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tuple Policy" href="tuple_policy.html" />
+    <link rel="prev" title="Serialize/Deserialize (SerDe)" href="serde.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            datasketches
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../distinct_counting/index.html">Distinct Counting</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantiles/index.html">Quantiles Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../frequency/index.html">Frequency Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../vector/index.html">Vector Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Random Sampling Sketches</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Helper Classes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="serde.html">Serialize/Deserialize (SerDe)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Jaccard Similarity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.theta_jaccard_similarity"><code class="docutils literal notranslate"><span class="pre">theta_jaccard_similarity</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.theta_jaccard_similarity.jaccard"><code class="docutils literal notranslate"><span class="pre">theta_jaccard_similarity.jaccard()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.theta_jaccard_similarity.exactly_equal"><code class="docutils literal notranslate"><span class="pre">theta_jaccard_similarity.exactly_equal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.theta_jaccard_similarity.similarity_test"><code class="docutils literal notranslate"><span class="pre">theta_jaccard_similarity.similarity_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.theta_jaccard_similarity.dissimilarity_test"><code class="docutils literal notranslate"><span class="pre">theta_jaccard_similarity.dissimilarity_test()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.tuple_jaccard_similarity"><code class="docutils literal notranslate"><span class="pre">tuple_jaccard_similarity</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_jaccard_similarity.jaccard"><code class="docutils literal notranslate"><span class="pre">tuple_jaccard_similarity.jaccard()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_jaccard_similarity.exactly_equal"><code class="docutils literal notranslate"><span class="pre">tuple_jaccard_similarity.exactly_equal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_jaccard_similarity.similarity_test"><code class="docutils literal notranslate"><span class="pre">tuple_jaccard_similarity.similarity_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_jaccard_similarity.dissimilarity_test"><code class="docutils literal notranslate"><span class="pre">tuple_jaccard_similarity.dissimilarity_test()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tuple_policy.html">Tuple Policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ks_test.html">Kolmogorov-Smirnov Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">datasketches</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Helper Classes</a></li>
+      <li class="breadcrumb-item active">Jaccard Similarity</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/helper/jaccard.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="jaccard-similarity">
+<h1>Jaccard Similarity<a class="headerlink" href="#jaccard-similarity" title="Link to this heading"></a></h1>
+<p>These objects provide measures related to the <a class="reference external" href="https://en.wikipedia.org/wiki/Jaccard_similarity">Jaccard similarity</a>
+of <a class="reference internal" href="../distinct_counting/theta.html#datasketches.theta_sketch" title="datasketches.theta_sketch"><code class="xref py py-class docutils literal notranslate"><span class="pre">theta_sketch</span></code></a> and <a class="reference internal" href="../distinct_counting/tuple.html#datasketches.tuple_sketch" title="datasketches.tuple_sketch"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple_sketch</span></code></a> objects.</p>
+<p>Note that there are separate classes to be used for theta and tuple sketches.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.theta_jaccard_similarity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">theta_jaccard_similarity</span></span><a class="headerlink" href="#datasketches.theta_jaccard_similarity" title="Link to this definition"></a></dt>
+<dd><p>An object to help compute Jaccard similarity between theta sketches.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_jaccard_similarity.jaccard">
+<span class="sig-name descname"><span class="pre">jaccard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/theta.html#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/theta.html#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.theta_jaccard_similarity.jaccard" title="Link to this definition"></a></dt>
+<dd><p>Returns a list with {lower_bound, estimate, upper_bound} of the Jaccard similarity between sketches</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_jaccard_similarity.exactly_equal">
+<span class="sig-name descname"><span class="pre">exactly_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/theta.html#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/theta.html#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.theta_jaccard_similarity.exactly_equal" title="Link to this definition"></a></dt>
+<dd><p>Returns True if sketch_a and sketch_b are equivalent, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_jaccard_similarity.similarity_test">
+<span class="sig-name descname"><span class="pre">similarity_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/theta.html#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/theta.html#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.theta_jaccard_similarity.similarity_test" title="Link to this definition"></a></dt>
+<dd><p>Tests similarity of an actual sketch against an expected sketch. Computers the lower bound of the Jaccard index J_{LB} of the actual and expected sketches. If J_{LB} &gt;= threshold, then the sketches are considered to be similar with a confidence of 97.7% and returns True, otherwise False.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.theta_jaccard_similarity.dissimilarity_test">
+<span class="sig-name descname"><span class="pre">dissimilarity_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/theta.html#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/theta.html#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.theta_jaccard_similarity.dissimilarity_test" title="Link to this definition"></a></dt>
+<dd><p>Tests dissimilarity of an actual sketch against an expected sketch. Computers the lower bound of the Jaccard index J_{UB} of the actual and expected sketches. If J_{UB} &lt;= threshold, then the sketches are considered to be dissimilar with a confidence of 97.7% and returns True, otherwise False.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.tuple_jaccard_similarity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tuple_jaccard_similarity</span></span><a class="headerlink" href="#datasketches.tuple_jaccard_similarity" title="Link to this definition"></a></dt>
+<dd><p>An object to help compute Jaccard similarity between tuple sketches.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.tuple_jaccard_similarity.jaccard">
+<span class="sig-name descname"><span class="pre">jaccard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/tuple.html#datasketches.tuple_sketch" title="_datasketches.tuple_sketch"><span class="pre">_datasketches.tuple_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/tuple.html#datasketches.tuple_sketch" title="_datasketches.tuple_sketch"><span class="pre">_datasketches.tuple_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datasketches.tuple_jaccard_similarity.jaccard" title="Link to this definition"></a></dt>
+<dd><p>Returns a list with {lower_bound, estimate, upper_bound} of the Jaccard similarity between sketches</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.tuple_jaccard_similarity.exactly_equal">
+<span class="sig-name descname"><span class="pre">exactly_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/tuple.html#datasketches.tuple_sketch" title="_datasketches.tuple_sketch"><span class="pre">_datasketches.tuple_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/tuple.html#datasketches.tuple_sketch" title="_datasketches.tuple_sketch"><span class="pre">_datasketches.tuple_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.tuple_jaccard_similarity.exactly_equal" title="Link to this definition"></a></dt>
+<dd><p>Returns True if sketch_a and sketch_b are equivalent, otherwise False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.tuple_jaccard_similarity.similarity_test">
+<span class="sig-name descname"><span class="pre">similarity_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/tuple.html#datasketches.tuple_sketch" title="_datasketches.tuple_sketch"><span class="pre">_datasketches.tuple_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/tuple.html#datasketches.tuple_sketch" title="_datasketches.tuple_sketch"><span class="pre">_datasketches.tuple_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.tuple_jaccard_similarity.similarity_test" title="Link to this definition"></a></dt>
+<dd><p>Tests similarity of an actual sketch against an expected sketch. Computes the lower bound of the Jaccard index J_{LB} of the actual and expected sketches. If J_{LB} &gt;= threshold, then the sketches are considered to be similar with a confidence of 97.7% and returns True, otherwise False.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.tuple_jaccard_similarity.dissimilarity_test">
+<span class="sig-name descname"><span class="pre">dissimilarity_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/tuple.html#datasketches.tuple_sketch" title="_datasketches.tuple_sketch"><span class="pre">_datasketches.tuple_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../distinct_counting/tuple.html#datasketches.tuple_sketch" title="_datasketches.tuple_sketch"><span class="pre">_datasketches.tuple_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.tuple_jaccard_similarity.dissimilarity_test" title="Link to this definition"></a></dt>
+<dd><p>Tests dissimilarity of an actual sketch against an expected sketch. Computes the upper bound of the Jaccard index J_{UB} of the actual and expected sketches. If J_{UB} &lt;= threshold, then the sketches are considered to be dissimilar with a confidence of 97.7% and returns True, otherwise False.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="serde.html" class="btn btn-neutral float-left" title="Serialize/Deserialize (SerDe)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tuple_policy.html" class="btn btn-neutral float-right" title="Tuple Policy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
