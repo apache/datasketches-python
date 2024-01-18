@@ -1,0 +1,22 @@
+# Eclipse project files 
+.cproject
+.project
+.settings/
+
+# Visual Studio Code
+.vscode/
+
+# OSX files
+.DS_Store
+
+# Python created files
+.eggs/
+.tox/
+dist/
+datasketches.egg-info/
+datasketches/__pycache__/
+tests/__pycache__/
+
+# build aritfacts
+build/
+docs/build/
