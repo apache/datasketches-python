@@ -82,7 +82,7 @@ jobs:
           platforms: arm64
 
       - name: Install Python dependencies
-        run: python -m pip install cibuildwheel==2.16.2
+        run: python -m pip install cibuildwheel>=2.16.2,<3.0
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir dist
@@ -93,8 +93,9 @@ jobs:
           CIBW_BUILD: "*-${{ matrix.config.cibw-arch }}"
           CIBW_BEFORE_BUILD_LINUX: "yum remove -y cmake"
           CIBW_BEFORE_BUILD: "python -m pip install cmake>=3.18"
-          CIBW_SKIP: "*-win32 pp*-aarch64 pp*-macosx"
-
+          CIBW_SKIP: "*-win32 pp* cp36-* cp37-*"
+          MACOSX_DEPLOYMENT_TARGET: 10.14
+          
       - uses: actions/upload-artifact@v3
         with:
           path: ./dist/*.whl
