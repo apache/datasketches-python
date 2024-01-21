@@ -29,7 +29,7 @@ skip = ["cp36-*", "cp37-*", "pp*", "*-win32"]
 #before-build = "python -m pip install cmake>=3.16"
 
 [tool.cibuildwheel.windows]
-archs = ["win_amd64"]
+archs = ["auto64"]
 
 [tool.cibuildwheel.linux]
 archs = ["auto", "aarch64"]
