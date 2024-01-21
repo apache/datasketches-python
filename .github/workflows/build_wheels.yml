@@ -88,7 +88,7 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir dist
         env:
-          CIBW_ENVIRONMENT_MACOS: CMAKE_OSX_ARCHITECTURES=${{ matrix.config.cibw-arch == 'macosx_x86_64' && 'x86_64' || matrix.config.cibw-arch == 'macosx_arm64' && 'arm64' || '' }}
+          #CIBW_ENVIRONMENT_MACOS: CMAKE_OSX_ARCHITECTURES=${{ matrix.config.cibw-arch == 'macosx_x86_64' && 'x86_64' || matrix.config.cibw-arch == 'macosx_arm64' && 'arm64' || '' }}
           CIBW_BUILD: "*-${{ matrix.config.cibw-arch }}"
 
       - uses: actions/upload-artifact@v3
