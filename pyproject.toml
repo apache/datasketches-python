@@ -25,11 +25,11 @@ build-backend = "setuptools.build_meta"
 
 [tool.cibuildwheel]
 build-verbosity = 0  # options: 1, 2, or 3 
-skip = ["cp36-*", "cp37-*", "pp*"]
+skip = ["cp36-*", "cp37-*", "pp*", "*-win32"]
 #before-build = "python -m pip install cmake>=3.16"
 
 [tool.cibuildwheel.windows]
-skip = "*-win32"
+archs = ["win_amd64"]
 
 [tool.cibuildwheel.linux]
 archs = ["auto", "aarch64"]
@@ -39,4 +39,4 @@ before-build = "yum remove -y cmake"
 archs = ["x86_64", "arm64"]
 
 # Minimum version for proper C++17 support on MacOS
-environment-pass = [ "MACOSX_DEPLOYMENT_TARGET=10.14" ]
+environment = { MACOSX_DEPLOYMENT_TARGET = "10.14" }
