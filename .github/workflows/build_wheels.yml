@@ -5,6 +5,7 @@ on:
   
 env:
   BUILD_TYPE: Release
+  CIBUILDWHEEL_VERSION: 2.16.2
 
 jobs:
   build_sdist:
@@ -82,18 +83,13 @@ jobs:
           platforms: arm64
 
       - name: Install Python dependencies
-        run: python -m pip install cibuildwheel==2.16.2
+        run: python -m pip install cibuildwheel>=${CIBUILDWHEEL_VERSION}
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir dist
         env:
-          CIBW_ARCHS_LINUX: "auto aarch64"
-          CIBW_ARCHS_MACOS: "x86_64 arm64"
           CIBW_ENVIRONMENT_MACOS: CMAKE_OSX_ARCHITECTURES=${{ matrix.config.cibw-arch == 'macosx_x86_64' && 'x86_64' || matrix.config.cibw-arch == 'macosx_arm64' && 'arm64' || '' }}
           CIBW_BUILD: "*-${{ matrix.config.cibw-arch }}"
-          CIBW_BEFORE_BUILD_LINUX: "yum remove -y cmake"
-          CIBW_BEFORE_BUILD: "python -m pip install cmake>=3.18"
-          CIBW_SKIP: "*-win32 pp*-aarch64 pp*-macosx"
 
       - uses: actions/upload-artifact@v3
         with:

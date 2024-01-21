@@ -19,6 +19,25 @@
 requires = ["wheel",
             "setuptools >= 30.3.0",
             "cmake >= 3.16",
-            "numpy",
+            "numpy < 2.0",
             "nanobind >= 1.6"]
 build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+build-verbosity = 0  # options: 1, 2, or 3 
+skip = ["cp36-*", "cp37-*", "pp*"]
+#before-build = "python -m pip install cmake>=3.16"
+
+[tool.cibuildwheel.windows]
+skip = "*-win32"
+
+[tool.cibuildwheel.linux]
+archs = ["auto", "aarch64"]
+before-build = "yum remove -y cmake"
+
+[tool.cibuildwheel.macos]
+archs = ["x86_64", "arm64"]
+
+# Minimum version for proper C++17 support on MacOS
+[tool.cibuildwheel.macos.environment]
+MACOS_DEPLOYMENT_TARGET = "10.14"
