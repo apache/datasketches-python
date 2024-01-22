@@ -65,7 +65,7 @@ find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
 endif()
 
 if(Python_VERSION VERSION_LESS "3.8")
-  message(FATAL_ERROR "DataSketches requires at least Python3.")
+  message(FATAL_ERROR "DataSketches requires at least Python3.8")
 endif()
 
 execute_process(
