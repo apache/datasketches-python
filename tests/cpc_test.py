@@ -60,6 +60,10 @@ class CpcTest(unittest.TestCase):
     new_cpc = cpc_sketch.deserialize(sk_bytes)
     self.assertFalse(new_cpc.is_empty())
 
+    # finally just check that printing works as expected
+    self.assertGreater(len(cpc.to_string()), 0)
+    self.assertEqual(len(cpc.__str__()), len(cpc.to_string()))
+
   def test_cpc_get_lg_k(self):
     lgk = 10
     cpc = cpc_sketch(lgk)

@@ -39,7 +39,7 @@ void bind_ebpps_sketch(nb::module_ &m, const char* name) {
          ":param k: Maximum number of samples in the sketch\n:type k: int\n"
          )
     .def("__copy__", [](const ebpps_sketch<T>& sk){ return ebpps_sketch<T>(sk); })
-    .def("__str__", &ebpps_sketch<T>::to_string,
+    .def("__str__", [](const ebpps_sketch<T>& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
     .def("to_string",
          [](const ebpps_sketch<T>& sk, bool print_items) {

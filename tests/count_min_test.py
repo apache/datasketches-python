@@ -82,5 +82,9 @@ class CountMinTest(unittest.TestCase):
     for i in range(0, 2 * n):
       self.assertEqual(cm.get_estimate(i), new_cm.get_estimate(i))
 
+    # finally just check that printing works as expected
+    self.assertGreater(len(cm.to_string()), 0)
+    self.assertEqual(len(cm.__str__()), len(cm.to_string()))
+
 if __name__ == '__main__':
     unittest.main()

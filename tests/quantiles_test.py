@@ -167,6 +167,9 @@ class QuantilesTest(unittest.TestCase):
       # reflect the same underlying distribtion
       self.assertFalse(ks_test(quantiles, new_quantiles, 0.001))
 
+      # check that printing works as expected
+      self.assertGreater(len(quantiles.to_string(True, True)), 0)
+      self.assertEqual(len(quantiles.__str__()), len(quantiles.to_string()))
 
 if __name__ == '__main__':
     unittest.main()

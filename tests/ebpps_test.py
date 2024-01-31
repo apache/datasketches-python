@@ -109,5 +109,9 @@ class EbppsTest(unittest.TestCase):
     self.assertEqual(sk.c, rebuilt.c)
     self.assertEqual(sk.n, rebuilt.n)
 
+    # check that printing works as expected
+    self.assertGreater(len(sk.to_string(True)), 0)
+    self.assertEqual(len(sk.__str__()), len(sk.to_string()))
+
 if __name__ == '__main__':
   unittest.main()

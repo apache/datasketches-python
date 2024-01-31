@@ -52,7 +52,7 @@ void bind_quantiles_sketch(nb::module_ &m, const char* name) {
     )
     .def("merge", (void (quantiles_sketch<T, C>::*)(const quantiles_sketch<T, C>&)) &quantiles_sketch<T, C>::merge, nb::arg("sketch"),
          "Merges the provided sketch into this one")
-    .def("__str__", &quantiles_sketch<T, C>::to_string,
+    .def("__str__", [](const quantiles_sketch<T, C>& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
     .def("to_string", &quantiles_sketch<T, C>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
          "Produces a string summary of the sketch")

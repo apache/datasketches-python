@@ -128,5 +128,14 @@ class VoTest(unittest.TestCase):
     self.assertEqual(summary1['estimate'], summary2['estimate'])
     self.assertEqual(summary1['total_sketch_weight'], summary2['total_sketch_weight'])
 
+    # check that printing works as expected
+    self.assertGreater(len(result.to_string(True)), 0)
+    self.assertEqual(len(result.__str__()), len(result.to_string()))
+
+    self.assertGreater(len(union.to_string()), 0)
+    self.assertEqual(len(union.__str__()), len(union.to_string()))
+
+
+
 if __name__ == '__main__':
   unittest.main()

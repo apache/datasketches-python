@@ -40,7 +40,7 @@ void bind_vo_sketch(nb::module_ &m, const char* name) {
          ":param k: Maximum number of samples in the sketch\n:type k: int\n"
     )
     .def("__copy__", [](const var_opt_sketch<T>& sk){ return var_opt_sketch<T>(sk); })
-    .def("__str__", &var_opt_sketch<T>::to_string,
+    .def("__str__", [](const var_opt_sketch<T>& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
     .def("to_string",
          [](const var_opt_sketch<T>& sk, bool print_items) {
@@ -105,7 +105,7 @@ void bind_vo_union(nb::module_ &m, const char* name) {
 
   nb::class_<var_opt_union<T>>(m, name)
     .def(nb::init<uint32_t>(), nb::arg("max_k"))
-    .def("__str__", &var_opt_union<T>::to_string,
+    .def("__str__", [](const var_opt_union<T>& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
     .def("to_string", &var_opt_union<T>::to_string,
          "Produces a string summary of the sketch")

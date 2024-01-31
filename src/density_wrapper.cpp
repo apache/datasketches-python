@@ -20,7 +20,8 @@
 #include <vector>
 #include <memory>
 #include <nanobind/nanobind.h>
-#include <nanobind/stl/shared_ptr.h>
+#include <nanobind/intrusive/counter.h>
+#include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
 #include <nanobind/make_iterator.h>
 
@@ -38,7 +39,7 @@ void bind_density_sketch(nb::module_ &m, const char* name) {
   using namespace datasketches;
 
   nb::class_<density_sketch<T, K>>(m, name)
-    .def("__init__", [](density_sketch<T, K>* sk, uint16_t k, uint32_t dim, std::shared_ptr<kernel_function> kernel)
+    .def("__init__", [](density_sketch<T, K>* sk, uint16_t k, uint32_t dim, kernel_function* kernel)
         { K holder(kernel);
           new (sk) density_sketch<T, K>(k, dim, holder);
         },
@@ -67,7 +68,7 @@ void bind_density_sketch(nb::module_ &m, const char* name) {
         "Returns True if the sketch is in estimation mode, otherwise False")
     .def("get_estimate", &density_sketch<T, K>::get_estimate, nb::arg("point"),
         "Returns an approximate density at the given point")
-    .def("__str__", &density_sketch<T, K>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
+    .def("__str__", [](const density_sketch<T, K>& sk) { return sk.to_string(); },
         "Produces a string summary of the sketch")
     .def("to_string", &density_sketch<T, K>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
         "Produces a string summary of the sketch")
@@ -87,7 +88,7 @@ void bind_density_sketch(nb::module_ &m, const char* name) {
     )
     .def_static(
         "deserialize",
-        [](const nb::bytes& bytes, std::shared_ptr<kernel_function> kernel) {
+          [](const nb::bytes& bytes, kernel_function* kernel) {
           K holder(kernel);
           return density_sketch<T, K>::deserialize(bytes.c_str(), bytes.size(), holder);
         },
@@ -108,6 +109,8 @@ void init_density(nb::module_ &m) {
 
   // generic kernel function
   nb::class_<kernel_function, KernelFunction>(m, "KernelFunction",
+      nb::intrusive_ptr<kernel_function>(
+      [](kernel_function *kf, PyObject *po) noexcept { kf->set_self_py(po); }),
      "A generic base class from which user-defined kernels must inherit.")
     .def(nb::init())
     .def("__call__", &kernel_function::operator(), nb::arg("a"), nb::arg("b"),
