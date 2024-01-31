@@ -18,6 +18,11 @@
  */
 
 #include <nanobind/nanobind.h>
+#include <nanobind/intrusive/counter.h>
+
+// needed for sketches such as Density and Tuple which rely
+// on a joint C++/Python object
+#include <nanobind/intrusive/counter.inl>
 
 namespace nb = nanobind;
 
@@ -41,6 +46,18 @@ void init_kolmogorov_smirnov(nb::module_& m);
 void init_serde(nb::module_& m);
 
 NB_MODULE(_datasketches, m) {
+  // needed in conjunction with the counter.inl include above
+  nb::intrusive_init(
+    [](PyObject *o) noexcept {
+        nb::gil_scoped_acquire guard;
+        Py_INCREF(o);
+    },
+    [](PyObject *o) noexcept {
+        nb::gil_scoped_acquire guard;
+        Py_DECREF(o);
+    }
+  );
+
   init_hll(m);
   init_kll(m);
   init_fi(m);

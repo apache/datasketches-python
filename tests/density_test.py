@@ -61,6 +61,10 @@ class densityTest(unittest.TestCase):
     sketch2 = density_sketch.deserialize(sk_bytes, GaussianKernel())
     self.assertEqual(sketch.get_estimate([1.5, 2.5, 3.5]), sketch2.get_estimate([1.5, 2.5, 3.5]))
 
+    # check that printing works as expected
+    self.assertGreater(len(sketch.to_string(True, True)), 0)
+    self.assertEqual(len(sketch.__str__()), len(sketch.to_string()))
+
   def test_density_merge(self):
     sketch1 = density_sketch(10, 2, GaussianKernel())
     sketch1.update([0, 0])

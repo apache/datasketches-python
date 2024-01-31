@@ -67,6 +67,10 @@ class HllTest(unittest.TestCase):
         new_hll.reset()
         self.assertTrue(new_hll.is_empty())
 
+        # check that printing works as expected
+        self.assertGreater(len(hll.to_string(True, True, True, True)), 0)
+        self.assertEqual(len(hll.__str__()), len(hll.to_string()))
+
     def test_hll_sketch(self):
         lgk = 8
         n = 117

@@ -44,7 +44,7 @@ void init_hll(nb::module_ &m) {
          "HLL_8) at the cost of much higher initial memory use. Default (and recommended) is False.\n"
          ":type start_full_size: bool"
      )
-    .def("__str__", (std::string (hll_sketch::*)(bool,bool,bool,bool) const) &hll_sketch::to_string,
+    .def("__str__", [](const hll_sketch& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
     .def("to_string", (std::string (hll_sketch::*)(bool,bool,bool,bool) const) &hll_sketch::to_string,
          nb::arg("summary")=true, nb::arg("detail")=false, nb::arg("aux_detail")=false, nb::arg("all")=false,

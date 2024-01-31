@@ -49,7 +49,7 @@ void bind_req_sketch(nb::module_ &m, const char* name) {
         "Updates the sketch with the given value")
     .def("merge", (void (req_sketch<T, C>::*)(const req_sketch<T, C>&)) &req_sketch<T, C>::merge, nb::arg("sketch"),
         "Merges the provided sketch into this one")
-    .def("__str__", &req_sketch<T, C>::to_string,
+    .def("__str__", [](const req_sketch<T, C>& sk) { return sk.to_string(); },
         "Produces a string summary of the sketch")
     .def("to_string", &req_sketch<T, C>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
         "Produces a string summary of the sketch")

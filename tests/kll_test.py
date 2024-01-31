@@ -167,6 +167,9 @@ class KllTest(unittest.TestCase):
       # reflect the same underlying distribtion
       self.assertFalse(ks_test(kll, new_kll, 0.001))
 
+      # check that printing works as expected
+      self.assertGreater(len(kll.to_string(True, True)), 0)
+      self.assertEqual(len(kll.__str__()), len(kll.to_string()))
 
 if __name__ == '__main__':
     unittest.main()

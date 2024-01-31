@@ -132,6 +132,9 @@ class FiTest(unittest.TestCase):
     self.assertGreater(new_fi.num_active_items, 0)
     self.assertEqual(5 * wt, new_fi.total_weight)
 
+    # check that printing works as expected
+    self.assertGreater(len(fi.to_string(True)), 0)
+    self.assertEqual(len(fi.__str__()), len(fi.to_string()))
 
   def test_fi_sketch(self):
     # only testing a few things not used in the above example

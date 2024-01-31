@@ -50,7 +50,7 @@ void bind_count_min_sketch(nb::module_ &m, const char* name) {
                 "with 95% confidence, frequency estimates satisfy the 'relative_error' guarantee. "
                 "Returns the number of hash functions that are required in order to achieve the specified "
                 "confidence of the sketch. confidence = 1 - delta, with delta denoting the sketch failure probability.")
-    .def("__str__", &count_min_sketch<W>::to_string,
+    .def("__str__", [](const count_min_sketch<W>& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
     .def("to_string", &count_min_sketch<W>::to_string,
          "Produces a string summary of the sketch")

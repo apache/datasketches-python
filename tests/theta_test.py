@@ -48,6 +48,10 @@ class ThetaTest(unittest.TestCase):
         self.assertFalse(sk.is_empty())
         self.assertEqual(sk.get_estimate(), new_sk.get_estimate())
 
+        # check that printing works as expected
+        self.assertGreater(len(sk.to_string(True)), 0)
+        self.assertEqual(len(sk.__str__()), len(sk.to_string()))
+
         count = 0
         for hash in new_sk:
           self.assertLess(hash, new_sk.theta64)

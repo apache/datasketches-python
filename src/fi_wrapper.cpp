@@ -52,7 +52,7 @@ void bind_fi_sketch(nb::module_ &m, const char* name) {
          ":type lg_max_k: int\n"
          )
     .def("__copy__", [](const frequent_items_sketch<T, W, H, E>& sk){ return frequent_items_sketch<T,W,H,E>(sk); })
-    .def("__str__", &frequent_items_sketch<T, W, H, E>::to_string, nb::arg("print_items")=false,
+    .def("__str__", [](const frequent_items_sketch<T, W, H, E>& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
     .def("to_string", &frequent_items_sketch<T, W, H, E>::to_string, nb::arg("print_items")=false,
          "Produces a string summary of the sketch")

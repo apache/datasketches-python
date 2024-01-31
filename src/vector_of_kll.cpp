@@ -539,11 +539,11 @@ void bind_vector_of_kll_sketches(nb::module_ &m, const char* name) {
     .def("update", &vector_of_kll_sketches<T>::update, nb::arg("items"), nb::arg("order") = "C",
          "Updates the sketch(es) with value(s).  Must be a 1D array of size equal to the number of sketches.  Can also be 2D array of shape (n_updates, n_sketches).  If a sketch does not have a value to update, use np.nan. "
          " Order 'F' specifies a column-major (Fortran style) matrix; any other value assumes row-major (C style) matrix.")
-    .def("__str__", &vector_of_kll_sketches<T>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
-         "Produces a string summary of all sketches. Users should split the returned string by '\n\n'")
+    .def("__str__", [](const vector_of_kll_sketches<T>& sk) { return sk.to_string(); },
+         "Produces a string summary of all sketches. Users should split the returned string by '\\n\\n'")
     .def("to_string", &vector_of_kll_sketches<T>::to_string, nb::arg("print_levels")=false,
                                                              nb::arg("print_items")=false,
-         "Produces a string summary of all sketches. Users should split the returned string by '\n\n'")
+         "Produces a string summary of all sketches. Users should split the returned string by '\\n\\n'")
     .def("is_empty", &vector_of_kll_sketches<T>::is_empty,
          "Returns whether the sketch(es) is(are) empty of not")
     .def("get_n", &vector_of_kll_sketches<T>::get_n, 

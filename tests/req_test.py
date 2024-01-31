@@ -162,6 +162,9 @@ class reqTest(unittest.TestCase):
       self.assertEqual(req.get_quantile(0.7), new_req.get_quantile(0.7))
       self.assertEqual(req.get_rank(str(n/4)), new_req.get_rank(str(n/4)))
 
+      # check that printing works as expected
+      self.assertGreater(len(req.to_string(True, True)), 0)
+      self.assertEqual(len(req.__str__()), len(req.to_string()))
 
 if __name__ == '__main__':
     unittest.main()

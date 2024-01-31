@@ -39,7 +39,7 @@ void init_cpc(nb::module_ &m) {
          ":type seed: int, optional"
     )
     .def("__copy__", [](const cpc_sketch& sk){ return cpc_sketch(sk); })
-    .def("__str__", &cpc_sketch::to_string,
+    .def("__str__", [](const cpc_sketch& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
     .def("to_string", &cpc_sketch::to_string,
          "Produces a string summary of the sketch")
