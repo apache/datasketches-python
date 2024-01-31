@@ -21,8 +21,8 @@
 #include <string>
 #include <nanobind/nanobind.h>
 #include <nanobind/make_iterator.h>
+#include <nanobind/intrusive/counter.h>
 #include <nanobind/stl/array.h>
-#include <nanobind/stl/shared_ptr.h>
 #include <nanobind/stl/string.h>
 
 #include "py_serde.hpp"
@@ -46,6 +46,8 @@ void init_tuple(nb::module_ &m) {
   // * update sketch policy uses create_summary and update_summary
   // * set operation policies all use __call__
   nb::class_<tuple_policy, TuplePolicy>(m, "TuplePolicy",
+      nb::intrusive_ptr<tuple_policy>(
+      [](tuple_policy *tp, PyObject *po) noexcept { tp->set_self_py(po); }),
      "An abstract base class for Tuple Policy objects. All custom policies must extend this class.")
     .def(nb::init())
     .def("create_summary", &tuple_policy::create_summary,
@@ -66,17 +68,6 @@ void init_tuple(nb::module_ &m) {
          )
   ;
 
-  // potentially useful for debugging but not needed as a permanent
-  // object type in the library
-  /*
-  nb::class_<tuple_policy_holder>(m, "TuplePolicyHolder")
-    .def(nb::init<std::shared_ptr<tuple_policy>>(), nb::arg("policy"))
-    .def("create", &tuple_policy_holder::create, "Creates a new Summary object")
-    .def("update", &tuple_policy_holder::update, nb::arg("summary"), nb::arg("update"),
-         "Updates the provided summary using the data in update")
-  ;
-  */
-
   using py_tuple_sketch = tuple_sketch<nb::object>;
   using py_update_tuple = update_tuple_sketch<nb::object, nb::object, tuple_policy_holder>;
   using py_compact_tuple = compact_tuple_sketch<nb::object>;
@@ -86,7 +77,7 @@ void init_tuple(nb::module_ &m) {
   using py_tuple_jaccard_similarity = jaccard_similarity_base<tuple_union<nb::object, dummy_jaccard_policy>, tuple_intersection<nb::object, dummy_jaccard_policy>, pair_extract_key<uint64_t, nb::object>>;
 
   nb::class_<py_tuple_sketch>(m, "tuple_sketch", "An abstract base class for tuple sketches.")
-    .def("__str__", &py_tuple_sketch::to_string,
+    .def("__str__", [](const py_tuple_sketch& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
     .def("to_string", &py_tuple_sketch::to_string, nb::arg("print_items")=false,
          "Produces a string summary of the sketch")
@@ -153,7 +144,7 @@ void init_tuple(nb::module_ &m) {
 
   nb::class_<py_update_tuple, py_tuple_sketch>(m, "update_tuple_sketch")
     .def("__init__",
-        [](py_update_tuple* sk, std::shared_ptr<tuple_policy> policy, uint8_t lg_k, double p, uint64_t seed) {
+        [](py_update_tuple* sk, tuple_policy* policy, uint8_t lg_k, double p, uint64_t seed) {
           tuple_policy_holder holder(policy);
           new (sk) py_update_tuple(py_update_tuple::builder(holder).set_lg_k(lg_k).set_p(p).set_seed(seed).build());
         },
@@ -182,7 +173,7 @@ void init_tuple(nb::module_ &m) {
 
   nb::class_<py_tuple_union>(m, "tuple_union")
     .def("__init__",
-        [](py_tuple_union* u, std::shared_ptr<tuple_policy> policy, uint8_t lg_k, double p, uint64_t seed) {
+        [](py_tuple_union* u, tuple_policy* policy, uint8_t lg_k, double p, uint64_t seed) {
           tuple_policy_holder holder(policy);
           new (u) py_tuple_union(py_tuple_union::builder(holder).set_lg_k(lg_k).set_p(p).set_seed(seed).build());
         },
@@ -203,7 +194,7 @@ void init_tuple(nb::module_ &m) {
 
   nb::class_<py_tuple_intersection>(m, "tuple_intersection")
     .def("__init__",
-        [](py_tuple_intersection* sk, std::shared_ptr<tuple_policy> policy, uint64_t seed) {
+        [](py_tuple_intersection* sk, tuple_policy* policy, uint64_t seed) {
           tuple_policy_holder holder(policy);
           new (sk) py_tuple_intersection(seed, holder);
         },

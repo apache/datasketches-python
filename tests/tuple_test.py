@@ -75,6 +75,10 @@ class TupleTest(unittest.TestCase):
           cumSum += pair[1]
         self.assertEqual(cumSum, 5 * cts.num_retained)
 
+        # check that printing works as expected
+        self.assertGreater(len(sk.to_string(True)), 0)
+        self.assertEqual(len(sk.__str__()), len(sk.to_string()))
+
         num = sk.num_retained
         sk.trim()
         self.assertLessEqual(sk.num_retained, num)

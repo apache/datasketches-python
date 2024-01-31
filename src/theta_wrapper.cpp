@@ -36,9 +36,9 @@ void init_theta(nb::module_ &m) {
   using namespace datasketches;
 
   nb::class_<theta_sketch>(m, "theta_sketch", "An abstract base class for theta sketches")
-    .def("__str__", &theta_sketch::to_string, nb::arg("print_items")=false,
+    .def("__str__", [](const theta_sketch& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
-    .def("to_string", &theta_sketch::to_string, nb::arg("print_items")=false,
+    .def("to_string", [](const theta_sketch& sk, bool print_items) { return sk.to_string(print_items); }, nb::arg("print_items")=false,
          "Produces a string summary of the sketch")
     .def("is_empty", static_cast<bool (theta_sketch::*)() const>(&theta_sketch::is_empty),
          "Returns True if the sketch is empty, otherwise False")

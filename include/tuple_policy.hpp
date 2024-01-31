@@ -20,6 +20,8 @@
 #include <memory>
 #include <nanobind/nanobind.h>
 #include <nanobind/trampoline.h>
+#include <nanobind/intrusive/counter.h>
+#include <nanobind/intrusive/ref.h>
 
 #ifndef _TUPLE_POLICY_HPP_
 #define _TUPLE_POLICY_HPP_
@@ -33,10 +35,10 @@ namespace datasketches {
  *        which native Python policies ultimately inherit. The actual
  *        policies implement TuplePolicy, as shown in TuplePolicy.py
  */
-struct tuple_policy {
-  virtual nb::object create_summary() = 0;
-  virtual nb::object update_summary(nb::object& summary, const nb::object& update) = 0;
-  virtual nb::object operator()(nb::object& summary, const nb::object& update) = 0;
+struct tuple_policy : public nb::intrusive_base {
+  virtual nb::object create_summary() const = 0;
+  virtual nb::object update_summary(nb::object& summary, const nb::object& update) const = 0;
+  virtual nb::object operator()(nb::object& summary, const nb::object& update) const = 0;
   virtual ~tuple_policy() = default;
 };
 
@@ -53,7 +55,7 @@ struct TuplePolicy : public tuple_policy {
    * 
    * @return nb::object representing a new summary
    */
-  nb::object create_summary() override {
+  nb::object create_summary() const override {
     NB_OVERRIDE_PURE(
       create_summary,      // Name of function in C++ (must match Python name)
                            // Argument(s) -- if any
@@ -67,7 +69,7 @@ struct TuplePolicy : public tuple_policy {
    * @param update The new value with which to update the summary
    * @return nb::object The updated summary
    */
-  nb::object update_summary(nb::object& summary, const nb::object& update) override {
+  nb::object update_summary(nb::object& summary, const nb::object& update) const override {
     NB_OVERRIDE_PURE(
       update_summary,      // Name of function in C++ (must match Python name)
       summary, update      // Arguments
@@ -81,7 +83,7 @@ struct TuplePolicy : public tuple_policy {
    * @param update An update to apply to the current summary
    * @return nb::object The potentially modified summary
    */
-  nb::object operator()(nb::object& summary, const nb::object& update) override {
+  nb::object operator()(nb::object& summary, const nb::object& update) const override {
     NB_OVERRIDE_PURE_NAME(
       "__call__",          // Name of function in python
       operator(),          // Name of function in C++
@@ -96,7 +98,7 @@ struct TuplePolicy : public tuple_policy {
  * never need to use this directly.
  */
 struct tuple_policy_holder {
-  explicit tuple_policy_holder(std::shared_ptr<tuple_policy> policy) : _policy(policy) {}
+  explicit tuple_policy_holder(tuple_policy* policy) : _policy(policy) {}
   tuple_policy_holder(const tuple_policy_holder& other) : _policy(other._policy) {}
   tuple_policy_holder(tuple_policy_holder&& other) : _policy(std::move(other._policy)) {}
   tuple_policy_holder& operator=(const tuple_policy_holder& other) { _policy = other._policy; return *this; }
@@ -113,7 +115,7 @@ struct tuple_policy_holder {
   }
 
   private:
-    std::shared_ptr<tuple_policy> _policy;
+    nb::ref<tuple_policy> _policy;
 };
 
 /* A degenerate policy used to enable Jaccard Similarity on tuple sketches,

@@ -74,7 +74,7 @@ execute_process(
 list(APPEND CMAKE_PREFIX_PATH "${NB_DIR}")
 find_package(nanobind CONFIG REQUIRED)
 
-nanobind_add_module(python MODULE LTO STABLE_ABI NB_STATIC)
+nanobind_add_module(python MODULE LTO NOMINSIZE STABLE_ABI NB_STATIC)
 
 set_target_properties(python PROPERTIES
   PREFIX ""

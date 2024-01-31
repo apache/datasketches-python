@@ -20,7 +20,8 @@
 #include <nanobind/nanobind.h>
 #include <nanobind/trampoline.h>
 #include <nanobind/ndarray.h>
-#include <nanobind/stl/shared_ptr.h>
+#include <nanobind/intrusive/counter.h>
+#include <nanobind/intrusive/ref.h>
 #include <nanobind/stl/vector.h>
 
 #include <numpy/arrayobject.h>
@@ -37,7 +38,7 @@ namespace datasketches {
  *        which native Python kernels ultimately inherit. The actual
  *        kernels implement KernelFunction, as shown in KernelFunction.py
  */
-struct kernel_function {
+struct kernel_function : public nb::intrusive_base {
   virtual double operator()(nb::handle& a, nb::handle& b) const = 0;
   virtual ~kernel_function() = default;
 };
@@ -71,7 +72,7 @@ struct KernelFunction : public kernel_function {
  * never need to use this directly.
  */
 struct kernel_function_holder {
-  explicit kernel_function_holder(std::shared_ptr<kernel_function> kernel) : _kernel(kernel) {}
+  explicit kernel_function_holder(kernel_function* kernel) : _kernel(kernel) {}
   kernel_function_holder(const kernel_function_holder& other) : _kernel(other._kernel) {}
   kernel_function_holder(kernel_function_holder&& other) : _kernel(std::move(other._kernel)) {}
   kernel_function_holder& operator=(const kernel_function_holder& other) { _kernel = other._kernel; return *this; }
@@ -99,7 +100,7 @@ struct kernel_function_holder {
   }
 
   private:
-    std::shared_ptr<kernel_function> _kernel;
+    nb::ref<kernel_function> _kernel;
 };
 
 }

@@ -127,6 +127,11 @@ class VectorOfKllSketchesTest(unittest.TestCase):
       np.testing.assert_allclose(kll.get_min_values(), smin)
       np.testing.assert_allclose(kll.get_max_values(), smax)
 
+      # check that printing works as expected
+      self.assertGreater(len(kll.to_string(True, True)), 0)
+      self.assertEqual(len(kll.__str__()), len(kll.to_string()))
+
+
     def test_kll_3Dupdates(self):
       # now test 3D update, which should fail
       k = 200

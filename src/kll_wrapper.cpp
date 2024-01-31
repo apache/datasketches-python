@@ -47,7 +47,7 @@ void bind_kll_sketch(nb::module_ &m, const char* name) {
         "Updates the sketch with the given value")
     .def("merge", (void (kll_sketch<T, C>::*)(const kll_sketch<T, C>&)) &kll_sketch<T, C>::merge, nb::arg("sketch"),
         "Merges the provided sketch into this one")
-    .def("__str__", &kll_sketch<T, C>::to_string,
+    .def("__str__", [](const kll_sketch<T, C>& sk) { return sk.to_string(); },
         "Produces a string summary of the sketch")
     .def("to_string", &kll_sketch<T, C>::to_string, nb::arg("print_levels")=false, nb::arg("print_items")=false,
         "Produces a string summary of the sketch")
