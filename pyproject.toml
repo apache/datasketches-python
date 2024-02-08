@@ -36,6 +36,3 @@ before-build = "yum remove -y cmake"
 
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "arm64"]
-
-# Minimum version for proper C++17 support on MacOS
-environment = { MACOSX_DEPLOYMENT_TARGET = "10.14" }

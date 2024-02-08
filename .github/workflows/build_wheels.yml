@@ -69,10 +69,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python 3.x
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
@@ -88,8 +88,12 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir dist
         env:
+          CIBW_ENVIRONMENT_MACOS: CMAKE_OSX_ARCHITECTURES=${{ matrix.config.cibw-arch == 'macosx_x86_64' && 'x86_64' || matrix.config.cibw-arch == 'macosx_arm64' && 'arm64' || '' }}
           CIBW_BUILD: "*-${{ matrix.config.cibw-arch }}"
+          MACOSX_DEPLOYMENT_TARGET: "10.14" # min supporting c++17
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
+          name: pypi_wheels
           path: ./dist/*.whl
+          compression-level: 0 # contents are already compressed
