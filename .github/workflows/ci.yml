@@ -35,9 +35,9 @@ jobs:
             
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up Python 3.x
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         # 3.x uses the latest minor version of python3. This may break briefly when there is a new version
         # but dependent libraries (e.g. numpy) have not yet released a compatible update.
         # May need to enable version pinning (e.g. 3.10) temporarily at times.
