@@ -6,7 +6,7 @@ on:
 env:
   BUILD_TYPE: Release
   MIN_CIBUILDWHEEL_VERSION: 2.16.2
-  PYTHON_VERSION: 3.11
+  PYTHON_VERSION: 3.x
 
 jobs:
   build_sdist:
@@ -75,14 +75,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python ${{ env.PYTHON_VERSION }}
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Set up QEMU for linux/arm64 builds
         if: runner.os == 'Linux' && matrix.config.use-qemu == true
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: arm64
 
@@ -98,13 +98,13 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wheel-${{ matrix.config.os }}-${{ matrix.config.cibw-arch }}
+          name: wheels-${{ matrix.config.os }}-${{ matrix.config.cibw-arch }}
           path: ./dist/*.whl
           compression-level: 0 # contents are already compressed
 
 
-  aggregate_artifact:
-    name: Aggregate artifact
+  aggregate_artifacts:
+    name: Aggregate artifacts
     runs-on: ubuntu-latest
     needs: [build_sdist, build_wheels]
     steps:
