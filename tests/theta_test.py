@@ -48,6 +48,16 @@ class ThetaTest(unittest.TestCase):
         self.assertFalse(sk.is_empty())
         self.assertEqual(sk.get_estimate(), new_sk.get_estimate())
 
+        # can also serialze in a compressed format
+        sk_compresed_bytes = sk.compact().serialize(compress=True)
+        self.assertLess(len(sk_compresed_bytes), len(sk_bytes))
+        sk_from_compressed = compact_theta_sketch.deserialize(sk_compresed_bytes)
+
+        # compressed and non-compressed sketches should match
+        self.assertEqual(sk_from_compressed.get_estimate(), new_sk.get_estimate())
+        self.assertEqual(sk_from_compressed.get_upper_bound(1), new_sk.get_upper_bound(1))
+        self.assertEqual(sk_from_compressed.get_lower_bound(1), new_sk.get_lower_bound(1))
+
         # check that printing works as expected
         self.assertGreater(len(sk.to_string(True)), 0)
         self.assertEqual(len(sk.__str__()), len(sk.to_string()))

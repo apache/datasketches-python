@@ -104,11 +104,11 @@ void init_theta(nb::module_ &m) {
     .def("__copy__", [](const compact_theta_sketch& sk){ return compact_theta_sketch(sk); })
     .def(
         "serialize",
-        [](const compact_theta_sketch& sk) {
-          auto bytes = sk.serialize();
+        [](const compact_theta_sketch& sk, bool compress) {
+          auto bytes = compress ? sk.serialize_compressed() : sk.serialize();
           return nb::bytes(reinterpret_cast<const char*>(bytes.data()), bytes.size());
-        },
-        "Serializes the sketch into a bytes object"
+        }, nb::arg("compress")=false,
+        "Serializes the sketch into a bytes object, optionally compressing the data"
     )
     .def_static(
         "deserialize",
