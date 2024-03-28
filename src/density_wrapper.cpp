@@ -98,7 +98,7 @@ void bind_density_sketch(nb::module_ &m, const char* name) {
 }
 
 int prepare_numpy() {
-  import_array();
+  import_array1(0);
   return 0;
 }
 
