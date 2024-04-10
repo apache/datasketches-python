@@ -30,8 +30,8 @@ skip = ["cp36-*", "cp37-*", "pp*", "*-win32"]
 [tool.cibuildwheel.windows]
 archs = ["auto64"]
 
-#[tool.cibuildwheel.linux]
-#archs = ["auto", "aarch64"]
+[tool.cibuildwheel.linux]
+archs = ["auto", "aarch64"]
 #before-build = "yum remove -y cmake"
 
 [tool.cibuildwheel.macos]
