@@ -61,14 +61,14 @@ jobs:
             use-qemu: true
           }
         - {
-            name: "Ubuntu Latest (x86_64, muslinux)",
+            name: "Ubuntu Latest (x86_64, musllinux)",
             os: ubuntu-latest,
-            cibw-arch: muslinux_x86_64
+            cibw-arch: musllinux_x86_64
           }
         - {
-            name: "Ubuntu Latest (ARM64, muslinux)",
+            name: "Ubuntu Latest (ARM64, musllinux)",
             os: ubuntu-latest,
-            cibw-arch: muslinux_aarch64,
+            cibw-arch: musllinux_aarch64,
             use-qemu: true
           }
         - {
