@@ -2,7 +2,7 @@ name: Build Python Wheels
 
 on:
   workflow_dispatch:
-  
+
 env:
   BUILD_TYPE: Release
   MIN_CIBUILDWHEEL_VERSION: 2.16.2
@@ -50,20 +50,26 @@ jobs:
             cibw-arch: macosx_arm64
           }
         - {
-            name: "Ubuntu Latest (x86_64)",
+            name: "Ubuntu Latest (x86_64, manylinux)",
             os: ubuntu-latest,
             cibw-arch: manylinux_x86_64
           }
         - {
-            name: "Ubuntu Latest (ARM64)",
+            name: "Ubuntu Latest (ARM64, manylinux)",
             os: ubuntu-latest,
             cibw-arch: manylinux_aarch64,
             use-qemu: true
           }
         - {
-            name: "Ubuntu Latest (i686)",
+            name: "Ubuntu Latest (x86_64, muslinux)",
             os: ubuntu-latest,
-            cibw-arch: manylinux_i686
+            cibw-arch: muslinux_x86_64
+          }
+        - {
+            name: "Ubuntu Latest (ARM64, muslinux)",
+            os: ubuntu-latest,
+            cibw-arch: muslinux_aarch64,
+            use-qemu: true
           }
         - {
             name: "Windows Latest",
