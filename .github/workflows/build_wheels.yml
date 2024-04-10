@@ -53,13 +53,11 @@ jobs:
             name: "Ubuntu Latest (x86_64, manylinux)",
             os: ubuntu-latest,
             cibw-arch: manylinux_x86_64,
-            CIBW_BEFORE_BUILD: "yum remove -y cmake"
           }
         - {
             name: "Ubuntu Latest (ARM64, manylinux)",
             os: ubuntu-latest,
             cibw-arch: manylinux_aarch64,
-            CIBW_BEFORE_BUILD: "yum remove -y cmake",
             use-qemu: true
           }
         - {
