@@ -24,7 +24,7 @@ requires = ["wheel",
 build-backend = "setuptools.build_meta"
 
 [tool.cibuildwheel]
-build-verbosity = 0  # options: 1, 2, or 3 
+build-verbosity = 0  # options: 1, 2, or 3
 skip = ["cp36-*", "cp37-*", "pp*", "*-win32"]
 
 [tool.cibuildwheel.windows]
@@ -32,7 +32,6 @@ archs = ["auto64"]
 
 [tool.cibuildwheel.linux]
 archs = ["auto", "aarch64"]
-before-build = "yum remove -y cmake"
 
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "arm64"]
