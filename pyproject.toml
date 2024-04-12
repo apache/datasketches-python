@@ -32,7 +32,6 @@ archs = ["auto64"]
 
 [tool.cibuildwheel.linux]
 archs = ["auto", "aarch64"]
-#before-build = "yum remove -y cmake"
 
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "arm64"]
