@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tuple Sketch &mdash; datasketches 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Quantiles Sketches" href="../quantiles/index.html" />
+    <link rel="prev" title="Theta Sketch" href="theta.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            datasketches
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Distinct Counting</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="hyper_log_log.html">HyperLogLog (HLL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpc.html">Compressed Probabilistic Counting (CPC)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theta.html">Theta Sketch</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tuple Sketch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.tuple_sketch"><code class="docutils literal notranslate"><span class="pre">tuple_sketch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.DEFAULT_SEED"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.DEFAULT_SEED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.get_estimate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.get_lower_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.get_seed_hash"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.get_seed_hash</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.get_upper_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.is_empty</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.is_estimation_mode"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.is_estimation_mode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.is_ordered"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.is_ordered</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.num_retained"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.num_retained</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.theta"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.theta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.theta64"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.theta64</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">tuple_sketch.to_string</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.update_tuple_sketch"><code class="docutils literal notranslate"><span class="pre">update_tuple_sketch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.update_tuple_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">update_tuple_sketch.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.update_tuple_sketch.compact"><code class="docutils literal notranslate"><span class="pre">update_tuple_sketch.compact</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.update_tuple_sketch.reset"><code class="docutils literal notranslate"><span class="pre">update_tuple_sketch.reset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.update_tuple_sketch.trim"><code class="docutils literal notranslate"><span class="pre">update_tuple_sketch.trim</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.update_tuple_sketch.update"><code class="docutils literal notranslate"><span class="pre">update_tuple_sketch.update</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.compact_tuple_sketch"><code class="docutils literal notranslate"><span class="pre">compact_tuple_sketch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.compact_tuple_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">compact_tuple_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.compact_tuple_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">compact_tuple_sketch.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.compact_tuple_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">compact_tuple_sketch.serialize</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.tuple_union"><code class="docutils literal notranslate"><span class="pre">tuple_union</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_union.__init__"><code class="docutils literal notranslate"><span class="pre">tuple_union.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_union.get_result"><code class="docutils literal notranslate"><span class="pre">tuple_union.get_result</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_union.reset"><code class="docutils literal notranslate"><span class="pre">tuple_union.reset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_union.update"><code class="docutils literal notranslate"><span class="pre">tuple_union.update</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.tuple_intersection"><code class="docutils literal notranslate"><span class="pre">tuple_intersection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_intersection.__init__"><code class="docutils literal notranslate"><span class="pre">tuple_intersection.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_intersection.get_result"><code class="docutils literal notranslate"><span class="pre">tuple_intersection.get_result</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_intersection.has_result"><code class="docutils literal notranslate"><span class="pre">tuple_intersection.has_result</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_intersection.update"><code class="docutils literal notranslate"><span class="pre">tuple_intersection.update</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.tuple_a_not_b"><code class="docutils literal notranslate"><span class="pre">tuple_a_not_b</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_a_not_b.__init__"><code class="docutils literal notranslate"><span class="pre">tuple_a_not_b.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tuple_a_not_b.compute"><code class="docutils literal notranslate"><span class="pre">tuple_a_not_b.compute</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantiles/index.html">Quantiles Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../frequency/index.html">Frequency Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../vector/index.html">Vector Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Random Sampling Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helper/index.html">Helper Classes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">datasketches</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Distinct Counting</a></li>
+      <li class="breadcrumb-item active">Tuple Sketch</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/distinct_counting/tuple.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tuple-sketch">
+<h1>Tuple Sketch<a class="headerlink" href="#tuple-sketch" title="Link to this heading"></a></h1>
+<p>Tuple sketches are an extension of Theta sketches, meaning they provide estimate of distinct counts, that
+allow the keeping of arbitrary summaries associated with each retained key
+(for example, a count for every key). The use of a <a class="reference internal" href="#datasketches.tuple_sketch" title="datasketches.tuple_sketch"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple_sketch</span></code></a> requires a <a class="reference internal" href="../helper/tuple_policy.html#datasketches.TuplePolicy" title="datasketches.TuplePolicy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TuplePolicy</span></code></a> which
+defines how summaries are created, updated, merged, or intersected. The library provides a few basic
+examples of <a class="reference internal" href="../helper/tuple_policy.html#datasketches.TuplePolicy" title="datasketches.TuplePolicy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TuplePolicy</span></code></a> implementations, but the right custom summary and policy can allow very
+complicated analysis to be performed quite easily.</p>
+<p>Set operations (union, intersection, A-not-B) are performed through the use of dedicated objects.</p>
+<p>Several <a class="reference external" href="https://en.wikipedia.org/wiki/Jaccard_similarity">Jaccard similarity</a>
+measures can be computed between theta sketches with the <a class="reference internal" href="../helper/jaccard.html#datasketches.tuple_jaccard_similarity" title="datasketches.tuple_jaccard_similarity"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple_jaccard_similarity</span></code></a> class.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Serializing and deserializing this sketch requires the use of a <a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="datasketches.PyObjectSerDe"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyObjectSerDe</span></code></a>.</p>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tuple_sketch</span></span><a class="headerlink" href="#datasketches.tuple_sketch" title="Link to this definition"></a></dt>
+<dd><p>An abstract base class for tuple sketches.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.DEFAULT_SEED">
+<span class="sig-name descname"><span class="pre">DEFAULT_SEED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9001</span></em><a class="headerlink" href="#datasketches.tuple_sketch.DEFAULT_SEED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.get_estimate">
+<span class="sig-name descname"><span class="pre">get_estimate</span></span><a class="headerlink" href="#datasketches.tuple_sketch.get_estimate" title="Link to this definition"></a></dt>
+<dd><p>Estimate of the distinct count of the input stream</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.get_lower_bound">
+<span class="sig-name descname"><span class="pre">get_lower_bound</span></span><a class="headerlink" href="#datasketches.tuple_sketch.get_lower_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximate lower bound on the estimate at standard deviations in {1, 2, 3}</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.get_seed_hash">
+<span class="sig-name descname"><span class="pre">get_seed_hash</span></span><a class="headerlink" href="#datasketches.tuple_sketch.get_seed_hash" title="Link to this definition"></a></dt>
+<dd><p>Returns a hash of the seed used in the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.get_upper_bound">
+<span class="sig-name descname"><span class="pre">get_upper_bound</span></span><a class="headerlink" href="#datasketches.tuple_sketch.get_upper_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximate upper bound on the estimate at standard deviations in {1, 2, 3}</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><a class="headerlink" href="#datasketches.tuple_sketch.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.is_estimation_mode">
+<span class="sig-name descname"><span class="pre">is_estimation_mode</span></span><a class="headerlink" href="#datasketches.tuple_sketch.is_estimation_mode" title="Link to this definition"></a></dt>
+<dd><p>Returns True if sketch is in estimation mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.is_ordered">
+<span class="sig-name descname"><span class="pre">is_ordered</span></span><a class="headerlink" href="#datasketches.tuple_sketch.is_ordered" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch entries are sorted, otherwise False</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.num_retained">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_retained</span></span><a class="headerlink" href="#datasketches.tuple_sketch.num_retained" title="Link to this definition"></a></dt>
+<dd><p>The number of items currently in the sketch</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.theta">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">theta</span></span><a class="headerlink" href="#datasketches.tuple_sketch.theta" title="Link to this definition"></a></dt>
+<dd><p>Theta (effective sampling rate) as a fraction from 0 to 1</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.theta64">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">theta64</span></span><a class="headerlink" href="#datasketches.tuple_sketch.theta64" title="Link to this definition"></a></dt>
+<dd><p>Theta as 64-bit value</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_sketch.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.tuple_sketch.to_string" title="Link to this definition"></a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.update_tuple_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_tuple_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.update_tuple_sketch" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="datasketches.update_tuple_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/tuple_policy.html#datasketches.TuplePolicy" title="_datasketches.TuplePolicy"><span class="pre">_datasketches.TuplePolicy</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lg_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.update_tuple_sketch.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates an update_tuple_sketch using the provided parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>policy</strong> (<a class="reference internal" href="../helper/tuple_policy.html#datasketches.TuplePolicy" title="datasketches.TuplePolicy"><em>TuplePolicy</em></a>) – a policy to use when updating</p></li>
+<li><p><strong>lg_k</strong> (<em>int</em><em>, </em><em>optional</em>) – base 2 logarithm of the maximum size of the sketch. Default 12.</p></li>
+<li><p><strong>p</strong> (<em>float</em><em>, </em><em>optional</em>) – an initial sampling rate to use. Default 1.0</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – the seed to use when hashing values</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.update_tuple_sketch.compact">
+<span class="sig-name descname"><span class="pre">compact</span></span><a class="headerlink" href="#datasketches.update_tuple_sketch.compact" title="Link to this definition"></a></dt>
+<dd><p>Returns a compacted form of the sketch, optionally sorting it</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.update_tuple_sketch.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><a class="headerlink" href="#datasketches.update_tuple_sketch.reset" title="Link to this definition"></a></dt>
+<dd><p>Resets the sketch to the initial empty state</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.update_tuple_sketch.trim">
+<span class="sig-name descname"><span class="pre">trim</span></span><a class="headerlink" href="#datasketches.update_tuple_sketch.trim" title="Link to this definition"></a></dt>
+<dd><p>Removes retained entries in excess of the nominal size k (if any)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.update_tuple_sketch.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.update_tuple_sketch.update" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">datum:</span> <span class="pre">int,</span> <span class="pre">value:</span> <span class="pre">object)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the given integral item and summary value</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">datum:</span> <span class="pre">float,</span> <span class="pre">value:</span> <span class="pre">object)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the given floating point item and summary value</p>
+<ol class="arabic simple" start="3">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">datum:</span> <span class="pre">str,</span> <span class="pre">value:</span> <span class="pre">object)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the given string item and summary value</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.compact_tuple_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compact_tuple_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.compact_tuple_sketch" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.compact_tuple_sketch.deserialize">
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.compact_tuple_sketch" title="_datasketches.compact_tuple_sketch"><span class="pre">_datasketches.compact_tuple_sketch</span></a></span></span><a class="headerlink" href="#datasketches.compact_tuple_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Reads a bytes object and returns the corresponding compact_tuple_sketch</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.compact_tuple_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.tuple_sketch" title="_datasketches.tuple_sketch"><span class="pre">_datasketches.tuple_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordered</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.compact_tuple_sketch.__init__" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="theta.html#datasketches.theta_sketch" title="_datasketches.theta_sketch"><span class="pre">_datasketches.theta_sketch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">summary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__init__(self,</span> <span class="pre">other:</span> <span class="pre">_datasketches.tuple_sketch,</span> <span class="pre">ordered:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Creates a compact_tuple_sketch from an existing tuple_sketch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> (<a class="reference internal" href="#datasketches.tuple_sketch" title="datasketches.tuple_sketch"><em>tuple_sketch</em></a>) – a sourch tuple_sketch</p></li>
+<li><p><strong>ordered</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether the incoming sketch entries are sorted. Default True</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">__init__(self,</span> <span class="pre">other:</span> <span class="pre">_datasketches.theta_sketch,</span> <span class="pre">summary:</span> <span class="pre">object)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Creates a compact_tuple_sketch from a theta_sketch using a fixed summary value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> (<a class="reference internal" href="theta.html#datasketches.theta_sketch" title="datasketches.theta_sketch"><em>theta_sketch</em></a>) – a source theta sketch</p></li>
+<li><p><strong>summary</strong> (<em>object</em>) – a summary to use for every sketch entry</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.compact_tuple_sketch.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.compact_tuple_sketch.serialize" title="Link to this definition"></a></dt>
+<dd><p>Serializes the sketch into a bytes object</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.tuple_union">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tuple_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.tuple_union" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="datasketches.tuple_union.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/tuple_policy.html#datasketches.TuplePolicy" title="_datasketches.TuplePolicy"><span class="pre">_datasketches.TuplePolicy</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lg_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.tuple_union.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a tuple_union using the provided parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>policy</strong> (<a class="reference internal" href="../helper/tuple_policy.html#datasketches.TuplePolicy" title="datasketches.TuplePolicy"><em>TuplePolicy</em></a>) – a policy to use when unioning entries</p></li>
+<li><p><strong>lg_k</strong> (<em>int</em><em>, </em><em>optional</em>) – base 2 logarithm of the maximum size of the union. Default 12.</p></li>
+<li><p><strong>p</strong> (<em>float</em><em>, </em><em>optional</em>) – an initial sampling rate to use. Default 1.0</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – the seed to use when hashing values. Must match any sketch seeds.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_union.get_result">
+<span class="sig-name descname"><span class="pre">get_result</span></span><a class="headerlink" href="#datasketches.tuple_union.get_result" title="Link to this definition"></a></dt>
+<dd><p>Returns the sketch corresponding to the union result</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_union.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><a class="headerlink" href="#datasketches.tuple_union.reset" title="Link to this definition"></a></dt>
+<dd><p>Resets the sketch to the initial empty</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_union.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.tuple_union.update" title="Link to this definition"></a></dt>
+<dd><p>Updates the union with the given sketch</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.tuple_intersection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tuple_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.tuple_intersection" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="datasketches.tuple_intersection.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/tuple_policy.html#datasketches.TuplePolicy" title="_datasketches.TuplePolicy"><span class="pre">_datasketches.TuplePolicy</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.tuple_intersection.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a tuple_intersection using the provided parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>policy</strong> (<a class="reference internal" href="../helper/tuple_policy.html#datasketches.TuplePolicy" title="datasketches.TuplePolicy"><em>TuplePolicy</em></a>) – a policy to use when intersecting entries</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – the seed to use when hashing values. Must match any sketch seeds</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_intersection.get_result">
+<span class="sig-name descname"><span class="pre">get_result</span></span><a class="headerlink" href="#datasketches.tuple_intersection.get_result" title="Link to this definition"></a></dt>
+<dd><p>Returns the sketch corresponding to the intersection result</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_intersection.has_result">
+<span class="sig-name descname"><span class="pre">has_result</span></span><a class="headerlink" href="#datasketches.tuple_intersection.has_result" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the intersection has a valid result, otherwise False</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_intersection.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.tuple_intersection.update" title="Link to this definition"></a></dt>
+<dd><p>Intersects the provided sketch with the current intersection state</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.tuple_a_not_b">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tuple_a_not_b</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.tuple_a_not_b" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="datasketches.tuple_a_not_b.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.tuple_a_not_b.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a tuple_a_not_b object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – the seed to use when hashing values. Must match any sketch seeds.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tuple_a_not_b.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><a class="headerlink" href="#datasketches.tuple_a_not_b.compute" title="Link to this definition"></a></dt>
+<dd><p>Returns a sketch with the result of applying the A-not-B operation on the given inputs</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="theta.html" class="btn btn-neutral float-left" title="Theta Sketch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../quantiles/index.html" class="btn btn-neutral float-right" title="Quantiles Sketches" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

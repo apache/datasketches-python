@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tuple Policy &mdash; datasketches 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Kolmogorov-Smirnov Test" href="ks_test.html" />
+    <link rel="prev" title="Jaccard Similarity" href="jaccard.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            datasketches
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../distinct_counting/index.html">Distinct Counting</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantiles/index.html">Quantiles Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../frequency/index.html">Frequency Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../vector/index.html">Vector Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Random Sampling Sketches</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Helper Classes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="serde.html">Serialize/Deserialize (SerDe)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jaccard.html">Jaccard Similarity</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tuple Policy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.TuplePolicy"><code class="docutils literal notranslate"><span class="pre">TuplePolicy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.TuplePolicy.create_summary"><code class="docutils literal notranslate"><span class="pre">TuplePolicy.create_summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.TuplePolicy.update_summary"><code class="docutils literal notranslate"><span class="pre">TuplePolicy.update_summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.TuplePolicy.__call__"><code class="docutils literal notranslate"><span class="pre">TuplePolicy.__call__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.AccumulatorPolicy"><code class="docutils literal notranslate"><span class="pre">AccumulatorPolicy</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.MinIntPolicy"><code class="docutils literal notranslate"><span class="pre">MinIntPolicy</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.MaxIntPolicy"><code class="docutils literal notranslate"><span class="pre">MaxIntPolicy</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ks_test.html">Kolmogorov-Smirnov Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernel.html">Kernel Function</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">datasketches</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Helper Classes</a></li>
+      <li class="breadcrumb-item active">Tuple Policy</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/helper/tuple_policy.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tuple-policy">
+<h1>Tuple Policy<a class="headerlink" href="#tuple-policy" title="Link to this heading"></a></h1>
+<p>A Tuple Policy is needed when using a <a class="reference internal" href="../distinct_counting/tuple.html#datasketches.tuple_sketch" title="datasketches.tuple_sketch"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple_sketch</span></code></a> in order to specify how the
+summary values should be created, updated, combined, or intersected. A summary can consist of
+any python object.</p>
+<p>Each implementation must extend the abstract base class <a class="reference internal" href="#datasketches.TuplePolicy" title="datasketches.TuplePolicy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TuplePolicy</span></code></a>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.TuplePolicy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TuplePolicy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.TuplePolicy" title="Link to this definition"></a></dt>
+<dd><p>An abstract base class for Tuple Policy objects. All custom policies must extend this class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.TuplePolicy.create_summary">
+<span class="sig-name descname"><span class="pre">create_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#datasketches.TuplePolicy.create_summary" title="Link to this definition"></a></dt>
+<dd><p>Creates a new Summary object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a Summary object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.TuplePolicy.update_summary">
+<span class="sig-name descname"><span class="pre">update_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">summary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#datasketches.TuplePolicy.update_summary" title="Link to this definition"></a></dt>
+<dd><p>Applies the relevant policy to update the provided summary with the data in update.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>summary</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>) – An existing Summary</p></li>
+<li><p><strong>update</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>) – An update to apply to the Summary</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The updated Summary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.TuplePolicy.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">summary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#datasketches.TuplePolicy.__call__" title="Link to this definition"></a></dt>
+<dd><p>Similar to update_summary but allows a different implementation for set operations (union and intersection)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>summary</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>) – An existing Summary</p></li>
+<li><p><strong>update</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>) – An update to apply to the Summary</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The updated Summary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.AccumulatorPolicy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AccumulatorPolicy</span></span><a class="headerlink" href="#datasketches.AccumulatorPolicy" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datasketches.TuplePolicy" title="_datasketches.TuplePolicy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TuplePolicy</span></code></a></p>
+<p>Implements an accumulatory summary policy, where new values
+are added to the existing value.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.MinIntPolicy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MinIntPolicy</span></span><a class="headerlink" href="#datasketches.MinIntPolicy" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datasketches.TuplePolicy" title="_datasketches.TuplePolicy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TuplePolicy</span></code></a></p>
+<p>Implements a MIN rule, where the smallest integer value is always kept.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.MaxIntPolicy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MaxIntPolicy</span></span><a class="headerlink" href="#datasketches.MaxIntPolicy" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datasketches.TuplePolicy" title="_datasketches.TuplePolicy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TuplePolicy</span></code></a></p>
+<p>Implements a MAX rule, where the largest integer value is always kept.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="jaccard.html" class="btn btn-neutral float-left" title="Jaccard Similarity" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ks_test.html" class="btn btn-neutral float-right" title="Kolmogorov-Smirnov Test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
