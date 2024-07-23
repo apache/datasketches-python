@@ -114,8 +114,8 @@ class VectorOfKllSketchesTest(unittest.TestCase):
 
       for i in range(0, n):
         dat  = np.random.randn(nbatch, d)
-        smin = np.amin(np.row_stack((smin, dat)), axis=0)
-        smax = np.amax(np.row_stack((smax, dat)), axis=0)
+        smin = np.amin(np.vstack((smin, dat)), axis=0)
+        smax = np.amax(np.vstack((smax, dat)), axis=0)
         kll.update(dat)
 
       # 0 should be near the median
