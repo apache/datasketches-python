@@ -19,11 +19,11 @@
 
 #include <vector>
 #include <stdexcept>
+#include <algorithm> // should ultimately be in tdigest.hpp
 
 #include <nanobind/nanobind.h>
 #include <nanobind/make_iterator.h>
 #include <nanobind/stl/string.h>
-//#include <nanobind/stl/vector.h>
 #include <nanobind/ndarray.h>
 
 #include "tdigest.hpp"
