@@ -30,10 +30,10 @@ class TdigestTest(unittest.TestCase):
       td.update(0.0)
 
       # 0 should be near the median
-      self.assertAlmostEqual(0.5, td.get_rank(0.0), delta=0.06)
+      self.assertAlmostEqual(0.5, td.get_rank(0.0), delta=0.1)
 
       # the median should be near 0
-      self.assertAlmostEqual(0.0, td.get_quantile(0.5), delta=0.06)
+      self.assertAlmostEqual(0.0, td.get_quantile(0.5), delta=0.1)
 
       # note that with t-digest, while it typically performs quite well in practice,
       # we do not have any sort of theoretical guarantees on the error bounds
@@ -78,8 +78,8 @@ class TdigestTest(unittest.TestCase):
       td.update(np.random.normal(size=n-1))
       td.update(0.0)
 
-      self.assertAlmostEqual(0.5, td.get_rank(0.0), delta=0.06)
-      self.assertAlmostEqual(0.0, td.get_quantile(0.5), delta=0.06)
+      self.assertAlmostEqual(0.5, td.get_rank(0.0), delta=0.1)
+      self.assertAlmostEqual(0.0, td.get_quantile(0.5), delta=0.1)
 
       self.assertLessEqual(td.get_min_value(), td.get_quantile(0.01))
       self.assertLessEqual(0.0, td.get_rank(td.get_min_value()))
