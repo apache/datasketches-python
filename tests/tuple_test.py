@@ -87,6 +87,24 @@ class TupleTest(unittest.TestCase):
         self.assertTrue(sk.is_empty())
         self.assertEqual(sk.num_retained, 0)
 
+    def test_tuple_filter(self):
+        lgk = 12    # 2^k = 4096 rows in the table
+        n = 1 << 18 # ~256k unique values
+
+        # filtering lets us apply a predicate to the sketch, producing a new
+        # compact sketch using the entries matching the predicate.
+        sk = update_tuple_sketch(AccumulatorPolicy(), lgk)
+        for ii in range(0, n):
+          sk.update(ii, ii)
+
+        # we can filter by a predicate, whether a lambda or a defined function
+        # for instance, using 0.5*n will return a compact_tuple_sketch with
+        # approximately half the entries.
+        result = sk.filter(lambda x: x < (0.5 * n))
+        self.assertAlmostEqual(result.get_estimate(), 0.5 * n, delta=0.01 * n)
+        self.assertLess(result.get_lower_bound(1), 0.5 * n)
+        self.assertGreater(result.get_upper_bound(1), 0.5 * n)
+
     def test_tuple_set_operations(self):
         lgk = 12    # 2^k = 4096 rows in the table
         n = 1 << 18 # ~256k unique values
