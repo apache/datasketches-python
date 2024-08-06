@@ -37,8 +37,8 @@ void bind_tdigest(nb::module_ &m, const char* name) {
 
   auto tdigest_class = nb::class_<tdigest<T>>(m, name)
     .def(nb::init<uint16_t>(), nb::arg("k")=tdigest<T>::DEFAULT_K,
-         "Creates a classic quantiles sketch instance with the given value of k.\n\n"
-         ":param k: Controls the size/accuracy trade-off of the sketch. Default is 128.\n"
+         "Creates a tdigest instance with the given value of k.\n\n"
+         ":param k: Controls the size/accuracy trade-off of the sketch. Default is 200.\n"
          ":type k: int, optional"
     )
     .def("__copy__", [](const tdigest<T>& sk) { return tdigest<T>(sk); })
