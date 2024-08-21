@@ -23,6 +23,7 @@
 #include <nanobind/make_iterator.h>
 #include <nanobind/intrusive/counter.h>
 #include <nanobind/stl/array.h>
+#include <nanobind/stl/function.h>
 #include <nanobind/stl/string.h>
 
 #include "py_serde.hpp"
@@ -133,6 +134,14 @@ void init_tuple(nb::module_ &m) {
         }, nb::arg("serde"),
         "Serializes the sketch into a bytes object"
     )
+    .def("filter",
+         [](const py_compact_tuple& sk, const std::function<bool(const nb::object&)> func) {
+           return sk.filter(func);
+         }, nb::arg("predicate"),
+         "Produces a compact_tuple_sketch from the given sketch by applying a predicate to "
+         "the summary in each entry.\n\n"
+         ":param predicate: A function returning true or value evaluated on each tuple summary\n"
+         ":return: A compact_tuple_sketch with the selected entries\n:rtype: :class:`compact_tuple_sketch`")
     .def_static(
         "deserialize",
         [](const nb::bytes& bytes, py_object_serde& serde, uint64_t seed) {
@@ -169,6 +178,14 @@ void init_tuple(nb::module_ &m) {
          "Returns a compacted form of the sketch, optionally sorting it")
     .def("trim", &py_update_tuple::trim, "Removes retained entries in excess of the nominal size k (if any)")
     .def("reset", &py_update_tuple::reset, "Resets the sketch to the initial empty state")
+    .def("filter",
+         [](const py_update_tuple& sk, const std::function<bool(const nb::object&)> func) {
+           return sk.filter(func);
+         }, nb::arg("predicate"),
+         "Produces a compact_tuple_sketch from the given sketch by applying a predicate to "
+         "the summary in each entry.\n\n"
+         ":param predicate: A function returning true or value evaluated on each tuple summary\n"
+         ":return: A compact_tuple_sketch with the selected entries\n:rtype: :class:`compact_tuple_sketch`")
   ;
 
   nb::class_<py_tuple_union>(m, "tuple_union")

@@ -108,6 +108,7 @@ target_sources(python
     src/density_wrapper.cpp
     src/ks_wrapper.cpp
     src/count_wrapper.cpp
+    src/tdigest_wrapper.cpp
     src/vector_of_kll.cpp
     src/py_serde.cpp
 )
@@ -116,7 +117,7 @@ cmake_policy(SET CMP0097 NEW)
 include(ExternalProject)
 ExternalProject_Add(datasketches
   GIT_REPOSITORY https://github.com/apache/datasketches-cpp.git
-  GIT_TAG 5.0.2
+  GIT_TAG 5.1.0
   GIT_SHALLOW true
   GIT_SUBMODULES ""
   INSTALL_DIR /tmp/datasketches
@@ -126,7 +127,7 @@ ExternalProject_Get_property(datasketches INSTALL_DIR)
 set(datasketches_INSTALL_DIR ${INSTALL_DIR})
 message("Source dir of datasketches = ${datasketches_INSTALL_DIR}")
 message("Numpy include dir(s): ${Python_NumPy_INCLUDE_DIRS}")
-target_include_directories(python 
+target_include_directories(python
   PRIVATE
     ${datasketches_INSTALL_DIR}/include/DataSketches
     ${Python_NumPy_INCLUDE_DIRS}
