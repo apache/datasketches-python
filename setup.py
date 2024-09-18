@@ -104,6 +104,6 @@ setup(
     # may need to add all source paths for sdist packages w/o MANIFEST.in
     ext_modules=[CMakeExtension('datasketches','.')],
     cmdclass={'build_ext': CMakeBuild},
-    install_requires=['numpy < 2.0'],
+    install_requires=['numpy'],
     zip_safe=False
 )
