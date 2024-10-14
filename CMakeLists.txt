@@ -17,6 +17,11 @@
 
 cmake_minimum_required(VERSION 3.16.0)
 
+# version of the code library
+set(DATASKETCHES_CPP_VERSION master)
+
+set(CMAKE_BUILD_TYPE "Debug")
+
 string(TIMESTAMP DT %Y%m%d UTC)
 string(TIMESTAMP HHMM %H%M UTC)
 configure_file(version.cfg.in version.cfg @ONLY)
@@ -109,6 +114,7 @@ target_sources(python
     src/ks_wrapper.cpp
     src/count_wrapper.cpp
     src/tdigest_wrapper.cpp
+    src/bloom_wrapper.cpp
     src/vector_of_kll.cpp
     src/py_serde.cpp
 )
@@ -117,7 +123,7 @@ cmake_policy(SET CMP0097 NEW)
 include(ExternalProject)
 ExternalProject_Add(datasketches
   GIT_REPOSITORY https://github.com/apache/datasketches-cpp.git
-  GIT_TAG 5.1.0
+  GIT_TAG ${DATASKETCHES_CPP_VERSION}
   GIT_SHALLOW true
   GIT_SUBMODULES ""
   INSTALL_DIR /tmp/datasketches

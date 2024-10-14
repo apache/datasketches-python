@@ -40,6 +40,7 @@ void init_quantiles(nb::module_& m);
 void init_count_min(nb::module_& m);
 void init_density(nb::module_& m);
 void init_tdigest(nb::module_& m);
+void init_bloom(nb::module_& m);
 void init_vector_of_kll(nb::module_& m);
 
 // supporting objects
@@ -72,6 +73,7 @@ NB_MODULE(_datasketches, m) {
   init_count_min(m);
   init_density(m);
   init_tdigest(m);
+  init_bloom(m);
   init_vector_of_kll(m);
 
   init_kolmogorov_smirnov(m);

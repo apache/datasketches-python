@@ -36,7 +36,7 @@ void bind_tdigest(nb::module_ &m, const char* name) {
   using namespace datasketches;
 
   auto tdigest_class = nb::class_<tdigest<T>>(m, name)
-    .def(nb::init<uint16_t>(), nb::arg("k")=tdigest<T>::DEFAULT_K,
+    .def(nb::init<uint16_t>(), nb::arg("k")=static_cast<int32_t>(tdigest<T>::DEFAULT_K),
          "Creates a tdigest instance with the given value of k.\n\n"
          ":param k: Controls the size/accuracy trade-off of the sketch. Default is 200.\n"
          ":type k: int, optional"
