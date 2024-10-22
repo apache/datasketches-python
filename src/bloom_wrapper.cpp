@@ -56,12 +56,40 @@ void init_bloom(nb::module_ &m) {
         nb::arg("target_false_positive_prob"),
         nb::arg("seed") = nb::none()
     )
+    .def_static("initalize_by_accuracy",
+        [](nb::bytearray& bytearray, uint64_t max_distinct_items, double target_fpp, std::optional<uint64_t> seed) {
+          return bloom_filter::builder::initialize_by_accuracy(
+            PyByteArray_AsString(bytearray.ptr()),
+            bytearray.size(),
+            max_distinct_items,
+            target_fpp,
+            seed.value_or(bloom_filter::builder::generate_random_seed()));
+        },
+        nb::arg("memory"),
+        nb::arg("max_distinct_items"),
+        nb::arg("target_false_positive_prob"),
+        nb::arg("seed") = nb::none()
+    )
     .def_static("create_by_size",
         [](uint64_t num_bits, uint16_t num_hashes, std::optional<uint64_t> seed) {
           return bloom_filter::builder::create_by_size(num_bits,
             num_hashes,
             seed.value_or(bloom_filter::builder::generate_random_seed()));
         },
+        nb::arg("num_bits"),
+        nb::arg("num_hashes"),
+        nb::arg("seed") = nb::none()
+    )
+    .def_static("initialize_by_size",
+        [](nb::bytearray& bytearray, uint64_t num_bits, uint16_t num_hashes, std::optional<uint64_t> seed) {
+          return bloom_filter::builder::initialize_by_size(
+            PyByteArray_AsString(bytearray.ptr()),
+            bytearray.size(),
+            num_bits,
+            num_hashes,
+            seed.value_or(bloom_filter::builder::generate_random_seed()));
+        },
+        nb::arg("memory"),
         nb::arg("num_bits"),
         nb::arg("num_hashes"),
         nb::arg("seed") = nb::none()
@@ -81,7 +109,7 @@ void init_bloom(nb::module_ &m) {
     )
     .def_static(
         "writable_wrap",
-        [](const nb::bytearray& bytearray) {
+        [](nb::bytearray& bytearray) {
           return bloom_filter::writable_wrap(const_cast<char*>(bytearray.c_str()), bytearray.size());
         },
         nb::arg("bytearray"),
@@ -150,7 +178,16 @@ void init_bloom(nb::module_ &m) {
          "Returns the hash seed for this Bloom filter")
     .def("reset", &bloom_filter::reset,
          "Returns the Bloom filter to its original empty state")
-
+    .def("is_read_only", &bloom_filter::is_read_only,
+         "Returns True if the Bloom filter is read-only, otherwise False")
+    .def("is_memory_owned", &bloom_filter::is_memory_owned,
+         "Returns True if the Bloom filter owns the backing array, otherwise False")
+    .def("is_wrapped", &bloom_filter::is_wrapped,
+         "Returns True if the Bloom filter was created by wrapping memory\n"
+         "whether writable or not, otherwise False")
+    .def("is_compatible", &bloom_filter::is_compatible,
+         nb::arg("other"),
+         "Returns True iff the two Bloom filters may be unioned or intersected")
     .def("get_serialized_size_bytes", [](const bloom_filter& bf) { return bf.get_serialized_size_bytes(); },
          "Returns the number of bytes needed to serialize the Bloom filter")
     .def_static("get_serialized_size_bytes_given_bits", [](uint64_t num_bits) { return bloom_filter::get_serialized_size_bytes(num_bits); },
