@@ -44,7 +44,7 @@ void bind_tdigest(nb::module_ &m, const char* name) {
     .def("__copy__", [](const tdigest<T>& sk) { return tdigest<T>(sk); })
     .def("update", (void(tdigest<T>::*)(T)) &tdigest<T>::update, nb::arg("item"),
         "Updates the sketch with the given value")
-    .def("merge", (void(tdigest<T>::*)(tdigest<T>&)) &tdigest<T>::merge, nb::arg("sketch"),
+    .def("merge", (void(tdigest<T>::*)(const tdigest<T>&)) &tdigest<T>::merge, nb::arg("sketch"),
          "Merges the provided sketch into this one")
     .def("__str__", [](const tdigest<T>& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
