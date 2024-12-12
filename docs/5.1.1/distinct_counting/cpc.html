@@ -1,0 +1,268 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compressed Probabilistic Counting (CPC) &mdash; datasketches 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Theta Sketch" href="theta.html" />
+    <link rel="prev" title="HyperLogLog (HLL)" href="hyper_log_log.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            datasketches
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Distinct Counting</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="hyper_log_log.html">HyperLogLog (HLL)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Compressed Probabilistic Counting (CPC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.cpc_sketch"><code class="docutils literal notranslate"><span class="pre">cpc_sketch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.get_estimate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.get_lower_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_sketch.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.get_upper_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.is_empty</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_sketch.lg_k"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.lg_k</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.serialize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.to_string</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_sketch.update"><code class="docutils literal notranslate"><span class="pre">cpc_sketch.update</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.cpc_union"><code class="docutils literal notranslate"><span class="pre">cpc_union</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_union.__init__"><code class="docutils literal notranslate"><span class="pre">cpc_union.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_union.get_result"><code class="docutils literal notranslate"><span class="pre">cpc_union.get_result</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.cpc_union.update"><code class="docutils literal notranslate"><span class="pre">cpc_union.update</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theta.html">Theta Sketch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tuple.html">Tuple Sketch</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quantiles/index.html">Quantiles Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../frequency/index.html">Frequency Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../vector/index.html">Vector Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Random Sampling Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helper/index.html">Helper Classes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">datasketches</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Distinct Counting</a></li>
+      <li class="breadcrumb-item active">Compressed Probabilistic Counting (CPC)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/distinct_counting/cpc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="compressed-probabilistic-counting-cpc">
+<h1>Compressed Probabilistic Counting (CPC)<a class="headerlink" href="#compressed-probabilistic-counting-cpc" title="Link to this heading"></a></h1>
+<p>High performance C++ implementation of Compressed Probabilistic Counting (CPC) Sketch.
+This is a unique-counting sketch that implements the Compressed Probabilistic Counting (CPC, a.k.a FM85) algorithms developed by Kevin Lang in his paper
+<a class="reference external" href="https://arxiv.org/abs/1708.06839">Back to the Future: an Even More Nearly Optimal Cardinality Estimation Algorithm</a>.
+This sketch is extremely space-efficient when serialized.
+In an apples-to-apples empirical comparison against compressed HyperLogLog sketches, this new algorithm simultaneously wins on the two dimensions of the space/accuracy tradeoff and produces sketches that are smaller than the entropy of HLL, so no possible implementation of compressed HLL can match its space efficiency for a given accuracy. As described in the paper this sketch implements a newly developed ICON estimator algorithm that survives unioning operations, another well-known estimator, the Historical Inverse Probability (HIP) estimator does not.
+The update speed performance of this sketch is quite fast and is comparable to the speed of HLL.
+The unioning (merging) capability of this sketch also allows for merging of sketches with different configurations of K.
+For additional security this sketch can be configured with a user-specified hash seed.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.cpc_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cpc_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.cpc_sketch" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.cpc_sketch.deserialize">
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.cpc_sketch" title="_datasketches.cpc_sketch"><span class="pre">_datasketches.cpc_sketch</span></a></span></span><a class="headerlink" href="#datasketches.cpc_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Reads a bytes object and returns the corresponding cpc_sketch</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.cpc_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lg_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.cpc_sketch.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a new CPC sketch</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lg_k</strong> (<em>int</em><em>, </em><em>optional</em>) – base 2 logarithm of the number of bins in the sketch</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – seed value for the hash function</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.cpc_sketch.get_estimate">
+<span class="sig-name descname"><span class="pre">get_estimate</span></span><a class="headerlink" href="#datasketches.cpc_sketch.get_estimate" title="Link to this definition"></a></dt>
+<dd><p>Estimate of the distinct count of the input stream</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.cpc_sketch.get_lower_bound">
+<span class="sig-name descname"><span class="pre">get_lower_bound</span></span><a class="headerlink" href="#datasketches.cpc_sketch.get_lower_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximate lower bound on the estimate for kappa values in {1, 2, 3}, roughly corresponding to standard deviations</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.cpc_sketch.get_upper_bound">
+<span class="sig-name descname"><span class="pre">get_upper_bound</span></span><a class="headerlink" href="#datasketches.cpc_sketch.get_upper_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximate upper bound on the estimate for kappa values in {1, 2, 3}, roughly corresponding to standard deviations</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.cpc_sketch.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><a class="headerlink" href="#datasketches.cpc_sketch.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.cpc_sketch.lg_k">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lg_k</span></span><a class="headerlink" href="#datasketches.cpc_sketch.lg_k" title="Link to this definition"></a></dt>
+<dd><p>Configured lg_k of this sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.cpc_sketch.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.cpc_sketch.serialize" title="Link to this definition"></a></dt>
+<dd><p>Serializes the sketch into a bytes object</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.cpc_sketch.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.cpc_sketch.to_string" title="Link to this definition"></a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.cpc_sketch.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.cpc_sketch.update" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">datum:</span> <span class="pre">int)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the given 64-bit integer value</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">datum:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the given 64-bit floating point</p>
+<ol class="arabic simple" start="3">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">datum:</span> <span class="pre">str)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the given string</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.cpc_union">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cpc_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.cpc_union" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="datasketches.cpc_union.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lg_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9001</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.cpc_union.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.cpc_union.get_result">
+<span class="sig-name descname"><span class="pre">get_result</span></span><a class="headerlink" href="#datasketches.cpc_union.get_result" title="Link to this definition"></a></dt>
+<dd><p>Returns a CPC sketch with the result of the union</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.cpc_union.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.cpc_union.update" title="Link to this definition"></a></dt>
+<dd><p>Updates the union with the provided CPC sketch</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="hyper_log_log.html" class="btn btn-neutral float-left" title="HyperLogLog (HLL)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="theta.html" class="btn btn-neutral float-right" title="Theta Sketch" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

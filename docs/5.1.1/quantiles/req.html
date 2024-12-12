@@ -1,0 +1,752 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relative Error Quantiles (REQ) Sketch &mdash; datasketches 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Quantiles Sketch (Deprecated)" href="quantiles_depr.html" />
+    <link rel="prev" title="KLL Sketch" href="kll.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            datasketches
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../distinct_counting/index.html">Distinct Counting</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Quantiles Sketches</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Relative Error Quantiles (REQ) Sketch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.req_ints_sketch"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.get_RSE"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.get_RSE()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.get_cdf"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.get_cdf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.get_max_value"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.get_max_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.get_min_value"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.get_min_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.get_pmf"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.get_pmf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.get_quantile"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.get_quantile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.get_quantiles"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.get_quantiles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.get_rank"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.get_rank</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.get_rank_lower_bound"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.get_rank_lower_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.get_rank_upper_bound"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.get_rank_upper_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.is_empty</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.is_estimation_mode"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.is_estimation_mode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.is_hra"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.is_hra</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.k"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.k</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.merge"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.merge</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.n"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.n</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.num_retained"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.num_retained</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.serialize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.to_string</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_ints_sketch.update"><code class="docutils literal notranslate"><span class="pre">req_ints_sketch.update</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.req_floats_sketch"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.get_RSE"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.get_RSE()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.get_cdf"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.get_cdf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.get_max_value"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.get_max_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.get_min_value"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.get_min_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.get_pmf"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.get_pmf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.get_quantile"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.get_quantile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.get_quantiles"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.get_quantiles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.get_rank"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.get_rank</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.get_rank_lower_bound"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.get_rank_lower_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.get_rank_upper_bound"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.get_rank_upper_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.is_empty</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.is_estimation_mode"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.is_estimation_mode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.is_hra"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.is_hra</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.k"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.k</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.merge"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.merge</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.n"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.n</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.num_retained"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.num_retained</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.serialize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.to_string</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_floats_sketch.update"><code class="docutils literal notranslate"><span class="pre">req_floats_sketch.update</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.req_items_sketch"><code class="docutils literal notranslate"><span class="pre">req_items_sketch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.get_RSE"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.get_RSE()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.get_cdf"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.get_cdf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.get_max_value"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.get_max_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.get_min_value"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.get_min_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.get_pmf"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.get_pmf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.get_quantile"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.get_quantile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.get_quantiles"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.get_quantiles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.get_rank"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.get_rank</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.get_rank_lower_bound"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.get_rank_lower_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.get_rank_upper_bound"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.get_rank_upper_bound</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.is_empty</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.is_estimation_mode"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.is_estimation_mode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.is_hra"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.is_hra</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.k"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.k</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.merge"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.merge</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.n"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.n</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.num_retained"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.num_retained</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.serialize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.to_string</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.req_items_sketch.update"><code class="docutils literal notranslate"><span class="pre">req_items_sketch.update</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../frequency/index.html">Frequency Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../vector/index.html">Vector Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Random Sampling Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helper/index.html">Helper Classes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">datasketches</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Quantiles Sketches</a></li>
+      <li class="breadcrumb-item active">Relative Error Quantiles (REQ) Sketch</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/quantiles/req.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="relative-error-quantiles-req-sketch">
+<h1>Relative Error Quantiles (REQ) Sketch<a class="headerlink" href="#relative-error-quantiles-req-sketch" title="Link to this heading"></a></h1>
+<p>This is an implementation based on the <a class="reference external" href="https://arxiv.org/abs/2004.01668">paper</a> “Relative Error Streaming Quantiles” by Graham Cormode, Zohar Karnin, Edo Liberty, Justin Thaler, Pavel Veselý, and loosely derived from a Python prototype written by Pavel Veselý.</p>
+<p>This implementation differs from the algorithm described in the paper in the following:</p>
+<p>The algorithm requires no upper bound on the stream length.
+Instead, each relative-compactor counts the number of compaction operations performed so far (via variable state).
+Initially, the relative-compactor starts with <cite>INIT_NUMBER_OF_SECTIONS</cite>.
+Each time the number of compactions <cite>(variable state) exceeds 2^{numSections - 1}</cite>, we double <cite>numSections</cite>.
+Note that after merging the sketch with another one variable state may not correspond to the number of compactions performed at a particular level, however,
+since the state variable never exceeds the number of compactions, the guarantees of the sketch remain valid.</p>
+<p>The size of each section (variable <cite>k</cite> and <cite>section_size</cite> in the code and parameter <cite>k</cite> in the paper) is
+initialized with a number set by the user via variable <cite>k</cite>.
+When the number of sections doubles, we decrease section_size by a factor of <cite>sqrt(2)</cite>.
+This is applied at each level separately.
+Thus, when we double the number of sections, the nominal compactor size increases by a factor of approx. <cite>sqrt(2) (+/- rounding)</cite>.</p>
+<p>The merge operation here does not perform “special compactions”, which are used in the paper to allow for a tight mathematical analysis of the sketch.
+This implementation provides a number of capabilities not discussed in the paper or provided in the Python prototype.</p>
+<p>The Python prototype only implemented high accuracy for low ranks. This implementation provides the user with the ability to
+choose either high rank accuracy or low rank accuracy at the time of sketch construction.
+The Python prototype only implemented a comparison criterion of <cite>INCLUSIVE</cite>.
+This implementation allows the user to use both the <cite>INCLUSIVE</cite> criterion and the <cite>EXCLUSIVE</cite> criterion.
+This implementation provides extensive debug visibility into the operation of the sketch with two levels of detail output.
+This is not only useful for debugging, but is a powerful tool to help users understand how the sketch works.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For the <a class="reference internal" href="#datasketches.req_items_sketch" title="datasketches.req_items_sketch"><code class="xref py py-class docutils literal notranslate"><span class="pre">req_items_sketch</span></code></a>, objects must be comparable with <code class="docutils literal notranslate"><span class="pre">__lt__</span></code>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Serializing and deserializing a <a class="reference internal" href="#datasketches.req_items_sketch" title="datasketches.req_items_sketch"><code class="xref py py-class docutils literal notranslate"><span class="pre">req_items_sketch</span></code></a> requires the use of a <a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="datasketches.PyObjectSerDe"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyObjectSerDe</span></code></a>.</p>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">req_ints_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.req_ints_sketch" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.deserialize">
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.req_ints_sketch" title="_datasketches.req_ints_sketch"><span class="pre">_datasketches.req_ints_sketch</span></a></span></span><a class="headerlink" href="#datasketches.req_ints_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.get_RSE">
+<span class="sig-name descname"><span class="pre">get_RSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_hra</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.req_ints_sketch.get_RSE" title="Link to this definition"></a></dt>
+<dd><p>Returns an a priori estimate of relative standard error (RSE, expressed as a number in [0,1]). Derived from Lemma 12 in <a class="reference external" href="http://arxiv.org/abs/2004.01668v2">http://arxiv.org/abs/2004.01668v2</a>, but the constant factors have been modified based on empirical measurements, for a given value of parameter k.
+Normalized rank must be a value between 0.0 and 1.0 (inclusive). If is_hra is True, uses high rank accuracy mode, else low rank accuracy. N is an estimate of the total number of points provided to the sketch.</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_hra</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.req_ints_sketch.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates an REQ sketch instance with the given value of k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – Controls the size/accuracy trade-off of the sketch. Default is 12.</p></li>
+<li><p><strong>is_hra</strong> (<em>bool</em><em>, </em><em>optional</em>) – Specifies whether the skech has High Rank Accuracy (True) or Low Rank Accuracy. Default True.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.get_cdf">
+<span class="sig-name descname"><span class="pre">get_cdf</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.get_cdf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Cumulative Distribution Function (CDF), which is the cumulative analog of the PMF, of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+If the parameter inclusive=false, the definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+If the parameter inclusive=true, the definition of an ‘interval’ is exclusive of the left split point (or minimum value) and inclusive of the right split point.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.get_max_value">
+<span class="sig-name descname"><span class="pre">get_max_value</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.get_max_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the maximum value from the stream. If empty, req_floats_sketch returns nan; req_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.get_min_value">
+<span class="sig-name descname"><span class="pre">get_min_value</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.get_min_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the minimum value from the stream. If empty, req_floats_sketch returns nan; req_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.get_pmf">
+<span class="sig-name descname"><span class="pre">get_pmf</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.get_pmf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Probability Mass Function (PMF) of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+If the parameter inclusive=false, the definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+If the parameter inclusive=true, the definition of an ‘interval’ is exclusive of the left split point (or minimum value) and inclusive of the right split point.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.get_quantile">
+<span class="sig-name descname"><span class="pre">get_quantile</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.get_quantile" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the data value associated with the given normalized rank in a hypothetical sorted version of the input stream so far.
+For req_floats_sketch: if the sketch is empty this returns nan. For req_ints_sketch: if the sketch is empty this throws a RuntimeError.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.get_quantiles">
+<span class="sig-name descname"><span class="pre">get_quantiles</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.get_quantiles" title="Link to this definition"></a></dt>
+<dd><p>This returns an array that could have been generated by using get_quantile() for each normalized rank separately.
+If the sketch is empty this returns an empty vector.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.get_rank">
+<span class="sig-name descname"><span class="pre">get_rank</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.get_rank" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the normalized rank of the given value from 0 to 1, inclusive.
+The resulting approximation has a probabilistic guarantee that can be obtained from the get_normalized_rank_error(False) function.
+With the parameter inclusive=true the weight of the given value is included into the rank.Otherwise the rank equals the sum of the weights of values less than the given value.
+If the sketch is empty this returns nan.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.get_rank_lower_bound">
+<span class="sig-name descname"><span class="pre">get_rank_lower_bound</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.get_rank_lower_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximate lower bound on the given normalized rank.
+Normalized rank must be a value between 0.0 and 1.0 (inclusive); the number of standard deviations must be 1, 2, or 3.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.get_rank_upper_bound">
+<span class="sig-name descname"><span class="pre">get_rank_upper_bound</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.get_rank_upper_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximate upper bound on the given normalized rank.
+Normalized rank must be a value between 0.0 and 1.0 (inclusive); the number of standard deviations must be 1, 2, or 3.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.is_estimation_mode">
+<span class="sig-name descname"><span class="pre">is_estimation_mode</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.is_estimation_mode" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is in estimation mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.is_hra">
+<span class="sig-name descname"><span class="pre">is_hra</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.is_hra" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is in High Rank Accuracy mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.k">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.k" title="Link to this definition"></a></dt>
+<dd><p>The configured parameter k</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.merge">
+<span class="sig-name descname"><span class="pre">merge</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.merge" title="Link to this definition"></a></dt>
+<dd><p>Merges the provided sketch into this one</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.n">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.n" title="Link to this definition"></a></dt>
+<dd><p>The length of the input stream</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.num_retained">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_retained</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.num_retained" title="Link to this definition"></a></dt>
+<dd><p>The number of retained items (samples) in the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.serialize" title="Link to this definition"></a></dt>
+<dd><p>Serializes the sketch into a bytes object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.to_string" title="Link to this definition"></a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_ints_sketch.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.req_ints_sketch.update" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">item:</span> <span class="pre">int)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the given value</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">array:</span> <span class="pre">ndarray[dtype=int32])</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the values in the given array</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">req_floats_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.req_floats_sketch" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.deserialize">
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.req_floats_sketch" title="_datasketches.req_floats_sketch"><span class="pre">_datasketches.req_floats_sketch</span></a></span></span><a class="headerlink" href="#datasketches.req_floats_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.get_RSE">
+<span class="sig-name descname"><span class="pre">get_RSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_hra</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.req_floats_sketch.get_RSE" title="Link to this definition"></a></dt>
+<dd><p>Returns an a priori estimate of relative standard error (RSE, expressed as a number in [0,1]). Derived from Lemma 12 in <a class="reference external" href="http://arxiv.org/abs/2004.01668v2">http://arxiv.org/abs/2004.01668v2</a>, but the constant factors have been modified based on empirical measurements, for a given value of parameter k.
+Normalized rank must be a value between 0.0 and 1.0 (inclusive). If is_hra is True, uses high rank accuracy mode, else low rank accuracy. N is an estimate of the total number of points provided to the sketch.</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_hra</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.req_floats_sketch.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates an REQ sketch instance with the given value of k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – Controls the size/accuracy trade-off of the sketch. Default is 12.</p></li>
+<li><p><strong>is_hra</strong> (<em>bool</em><em>, </em><em>optional</em>) – Specifies whether the skech has High Rank Accuracy (True) or Low Rank Accuracy. Default True.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.get_cdf">
+<span class="sig-name descname"><span class="pre">get_cdf</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.get_cdf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Cumulative Distribution Function (CDF), which is the cumulative analog of the PMF, of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+If the parameter inclusive=false, the definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+If the parameter inclusive=true, the definition of an ‘interval’ is exclusive of the left split point (or minimum value) and inclusive of the right split point.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.get_max_value">
+<span class="sig-name descname"><span class="pre">get_max_value</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.get_max_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the maximum value from the stream. If empty, req_floats_sketch returns nan; req_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.get_min_value">
+<span class="sig-name descname"><span class="pre">get_min_value</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.get_min_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the minimum value from the stream. If empty, req_floats_sketch returns nan; req_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.get_pmf">
+<span class="sig-name descname"><span class="pre">get_pmf</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.get_pmf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Probability Mass Function (PMF) of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+If the parameter inclusive=false, the definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+If the parameter inclusive=true, the definition of an ‘interval’ is exclusive of the left split point (or minimum value) and inclusive of the right split point.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.get_quantile">
+<span class="sig-name descname"><span class="pre">get_quantile</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.get_quantile" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the data value associated with the given normalized rank in a hypothetical sorted version of the input stream so far.
+For req_floats_sketch: if the sketch is empty this returns nan. For req_ints_sketch: if the sketch is empty this throws a RuntimeError.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.get_quantiles">
+<span class="sig-name descname"><span class="pre">get_quantiles</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.get_quantiles" title="Link to this definition"></a></dt>
+<dd><p>This returns an array that could have been generated by using get_quantile() for each normalized rank separately.
+If the sketch is empty this returns an empty vector.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.get_rank">
+<span class="sig-name descname"><span class="pre">get_rank</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.get_rank" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the normalized rank of the given value from 0 to 1, inclusive.
+The resulting approximation has a probabilistic guarantee that can be obtained from the get_normalized_rank_error(False) function.
+With the parameter inclusive=true the weight of the given value is included into the rank.Otherwise the rank equals the sum of the weights of values less than the given value.
+If the sketch is empty this returns nan.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.get_rank_lower_bound">
+<span class="sig-name descname"><span class="pre">get_rank_lower_bound</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.get_rank_lower_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximate lower bound on the given normalized rank.
+Normalized rank must be a value between 0.0 and 1.0 (inclusive); the number of standard deviations must be 1, 2, or 3.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.get_rank_upper_bound">
+<span class="sig-name descname"><span class="pre">get_rank_upper_bound</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.get_rank_upper_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximate upper bound on the given normalized rank.
+Normalized rank must be a value between 0.0 and 1.0 (inclusive); the number of standard deviations must be 1, 2, or 3.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.is_estimation_mode">
+<span class="sig-name descname"><span class="pre">is_estimation_mode</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.is_estimation_mode" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is in estimation mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.is_hra">
+<span class="sig-name descname"><span class="pre">is_hra</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.is_hra" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is in High Rank Accuracy mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.k">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.k" title="Link to this definition"></a></dt>
+<dd><p>The configured parameter k</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.merge">
+<span class="sig-name descname"><span class="pre">merge</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.merge" title="Link to this definition"></a></dt>
+<dd><p>Merges the provided sketch into this one</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.n">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.n" title="Link to this definition"></a></dt>
+<dd><p>The length of the input stream</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.num_retained">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_retained</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.num_retained" title="Link to this definition"></a></dt>
+<dd><p>The number of retained items (samples) in the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.serialize" title="Link to this definition"></a></dt>
+<dd><p>Serializes the sketch into a bytes object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.to_string" title="Link to this definition"></a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_floats_sketch.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.req_floats_sketch.update" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">item:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the given value</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">array:</span> <span class="pre">ndarray[dtype=float32])</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the values in the given array</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">req_items_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.req_items_sketch" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.deserialize">
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.req_items_sketch" title="_datasketches.req_items_sketch"><span class="pre">_datasketches.req_items_sketch</span></a></span></span><a class="headerlink" href="#datasketches.req_items_sketch.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object using the provided serde.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.get_RSE">
+<span class="sig-name descname"><span class="pre">get_RSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_hra</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.req_items_sketch.get_RSE" title="Link to this definition"></a></dt>
+<dd><p>Returns an a priori estimate of relative standard error (RSE, expressed as a number in [0,1]). Derived from Lemma 12 in <a class="reference external" href="http://arxiv.org/abs/2004.01668v2">http://arxiv.org/abs/2004.01668v2</a>, but the constant factors have been modified based on empirical measurements, for a given value of parameter k.
+Normalized rank must be a value between 0.0 and 1.0 (inclusive). If is_hra is True, uses high rank accuracy mode, else low rank accuracy. N is an estimate of the total number of points provided to the sketch.</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_hra</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.req_items_sketch.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates an REQ sketch instance with the given value of k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – Controls the size/accuracy trade-off of the sketch. Default is 12.</p></li>
+<li><p><strong>is_hra</strong> (<em>bool</em><em>, </em><em>optional</em>) – Specifies whether the skech has High Rank Accuracy (True) or Low Rank Accuracy. Default True.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.get_cdf">
+<span class="sig-name descname"><span class="pre">get_cdf</span></span><a class="headerlink" href="#datasketches.req_items_sketch.get_cdf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Cumulative Distribution Function (CDF), which is the cumulative analog of the PMF, of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+If the parameter inclusive=false, the definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+If the parameter inclusive=true, the definition of an ‘interval’ is exclusive of the left split point (or minimum value) and inclusive of the right split point.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.get_max_value">
+<span class="sig-name descname"><span class="pre">get_max_value</span></span><a class="headerlink" href="#datasketches.req_items_sketch.get_max_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the maximum value from the stream. If empty, req_floats_sketch returns nan; req_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.get_min_value">
+<span class="sig-name descname"><span class="pre">get_min_value</span></span><a class="headerlink" href="#datasketches.req_items_sketch.get_min_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the minimum value from the stream. If empty, req_floats_sketch returns nan; req_ints_sketch throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.get_pmf">
+<span class="sig-name descname"><span class="pre">get_pmf</span></span><a class="headerlink" href="#datasketches.req_items_sketch.get_pmf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Probability Mass Function (PMF) of the input stream given a set of split points (values).
+The resulting approximations have a probabilistic guarantee that can be obtained from the get_normalized_rank_error(True) function.
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+If the parameter inclusive=false, the definition of an ‘interval’ is inclusive of the left split point (or minimum value) and exclusive of the right split point, with the exception that the last interval will include the maximum value.
+If the parameter inclusive=true, the definition of an ‘interval’ is exclusive of the left split point (or minimum value) and inclusive of the right split point.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.get_quantile">
+<span class="sig-name descname"><span class="pre">get_quantile</span></span><a class="headerlink" href="#datasketches.req_items_sketch.get_quantile" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the data value associated with the given normalized rank in a hypothetical sorted version of the input stream so far.
+For req_floats_sketch: if the sketch is empty this returns nan. For req_ints_sketch: if the sketch is empty this throws a RuntimeError.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.get_quantiles">
+<span class="sig-name descname"><span class="pre">get_quantiles</span></span><a class="headerlink" href="#datasketches.req_items_sketch.get_quantiles" title="Link to this definition"></a></dt>
+<dd><p>This returns an array that could have been generated by using get_quantile() for each normalized rank separately.
+If the sketch is empty this returns an empty vector.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.get_rank">
+<span class="sig-name descname"><span class="pre">get_rank</span></span><a class="headerlink" href="#datasketches.req_items_sketch.get_rank" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the normalized rank of the given value from 0 to 1, inclusive.
+The resulting approximation has a probabilistic guarantee that can be obtained from the get_normalized_rank_error(False) function.
+With the parameter inclusive=true the weight of the given value is included into the rank.Otherwise the rank equals the sum of the weights of values less than the given value.
+If the sketch is empty this returns nan.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.get_rank_lower_bound">
+<span class="sig-name descname"><span class="pre">get_rank_lower_bound</span></span><a class="headerlink" href="#datasketches.req_items_sketch.get_rank_lower_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximate lower bound on the given normalized rank.
+Normalized rank must be a value between 0.0 and 1.0 (inclusive); the number of standard deviations must be 1, 2, or 3.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.get_rank_upper_bound">
+<span class="sig-name descname"><span class="pre">get_rank_upper_bound</span></span><a class="headerlink" href="#datasketches.req_items_sketch.get_rank_upper_bound" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximate upper bound on the given normalized rank.
+Normalized rank must be a value between 0.0 and 1.0 (inclusive); the number of standard deviations must be 1, 2, or 3.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><a class="headerlink" href="#datasketches.req_items_sketch.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.is_estimation_mode">
+<span class="sig-name descname"><span class="pre">is_estimation_mode</span></span><a class="headerlink" href="#datasketches.req_items_sketch.is_estimation_mode" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is in estimation mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.is_hra">
+<span class="sig-name descname"><span class="pre">is_hra</span></span><a class="headerlink" href="#datasketches.req_items_sketch.is_hra" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is in High Rank Accuracy mode, otherwise False</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.k">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#datasketches.req_items_sketch.k" title="Link to this definition"></a></dt>
+<dd><p>The configured parameter k</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.merge">
+<span class="sig-name descname"><span class="pre">merge</span></span><a class="headerlink" href="#datasketches.req_items_sketch.merge" title="Link to this definition"></a></dt>
+<dd><p>Merges the provided sketch into this one</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.n">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#datasketches.req_items_sketch.n" title="Link to this definition"></a></dt>
+<dd><p>The length of the input stream</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.num_retained">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_retained</span></span><a class="headerlink" href="#datasketches.req_items_sketch.num_retained" title="Link to this definition"></a></dt>
+<dd><p>The number of retained items (samples) in the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.req_items_sketch.serialize" title="Link to this definition"></a></dt>
+<dd><p>Serializes the sketch into a bytes object using the provided serde.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.req_items_sketch.to_string" title="Link to this definition"></a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.req_items_sketch.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.req_items_sketch.update" title="Link to this definition"></a></dt>
+<dd><p>Updates the sketch with the given value</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="kll.html" class="btn btn-neutral float-left" title="KLL Sketch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="quantiles_depr.html" class="btn btn-neutral float-right" title="Quantiles Sketch (Deprecated)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
