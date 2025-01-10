@@ -50,6 +50,15 @@ class TdigestTest(unittest.TestCase):
       self.assertFalse(td.is_empty())
       self.assertEqual(td.get_total_weight(), n)
 
+      # we can get the PMF and CDF
+      pmf = td.get_pmf([-0.5, 0.0, 0.5])
+      self.assertEqual(len(pmf), 4)
+      self.assertAlmostEqual(sum(pmf), 1.0)
+
+      cdf = td.get_cdf([0.0])
+      self.assertEqual(len(cdf), 2)
+      self.assertAlmostEqual(cdf[0], 0.5, delta = 0.05)
+
       # we can define a new tdiget with a different distribution, then merge them
       td2 = tdigest_double()
       td2.update(np.random.normal(loc=2.0, size=n))
@@ -88,6 +97,14 @@ class TdigestTest(unittest.TestCase):
 
       self.assertFalse(td.is_empty())
       self.assertEqual(td.get_total_weight(), n)
+
+      pmf = td.get_pmf([-0.5, 0.0, 0.5])
+      self.assertEqual(len(pmf), 4)
+      self.assertAlmostEqual(sum(pmf), 1.0)
+
+      cdf = td.get_cdf([0.0])
+      self.assertEqual(len(cdf), 2)
+      self.assertAlmostEqual(cdf[0], 0.5, delta = 0.05)
 
       td2 = tdigest_float()
       td2.update(np.random.normal(loc=2.0, size=n))

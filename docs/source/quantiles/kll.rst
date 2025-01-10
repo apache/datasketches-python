@@ -14,10 +14,6 @@ The analysis is obtained using `get_quantile()` function or the
 inverse functions `get_rank()`, `get_pmf()` (Probability Mass Function), and `get_cdf()`
 (Cumulative Distribution Function).
 
-As of May 2020, this implementation produces serialized sketches which are binary-compatible
-with the equivalent Java implementation only when template parameter `T = float`
-(32-bit single precision values).
-
 Given an input stream of `N` items, the `natural rank` of any specific
 item is defined as its index `(1 to N)` in inclusive mode
 or `(0 to N-1)` in exclusive mode
@@ -168,4 +164,3 @@ Additionally, the interval may be quite large for certain distributions.
     .. rubric:: Non-static Methods:
 
     .. automethod:: __init__
-

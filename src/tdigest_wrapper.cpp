@@ -24,6 +24,7 @@
 #include <nanobind/nanobind.h>
 #include <nanobind/make_iterator.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/stl/vector.h>
 #include <nanobind/ndarray.h>
 
 #include "tdigest.hpp"
@@ -44,7 +45,7 @@ void bind_tdigest(nb::module_ &m, const char* name) {
     .def("__copy__", [](const tdigest<T>& sk) { return tdigest<T>(sk); })
     .def("update", (void(tdigest<T>::*)(T)) &tdigest<T>::update, nb::arg("item"),
         "Updates the sketch with the given value")
-    .def("merge", (void(tdigest<T>::*)(tdigest<T>&)) &tdigest<T>::merge, nb::arg("sketch"),
+    .def("merge", (void(tdigest<T>::*)(const tdigest<T>&)) &tdigest<T>::merge, nb::arg("sketch"),
          "Merges the provided sketch into this one")
     .def("__str__", [](const tdigest<T>& sk) { return sk.to_string(); },
          "Produces a string summary of the sketch")
@@ -71,6 +72,32 @@ void bind_tdigest(nb::module_ &m, const char* name) {
     .def("get_serialized_size_bytes", &tdigest<T>::get_serialized_size_bytes,
          nb::arg("with_buffer")=false,
          "Returns the size of the serialized sketch, in bytes")
+    .def(
+        "get_pmf",
+        [](const tdigest<T>& sk, const std::vector<T>& split_points) {
+          return sk.get_PMF(split_points.data(), split_points.size());
+        },
+        nb::arg("split_points"),
+        "Returns an approximation to the Probability Mass Function (PMF) of the input stream "
+        "given a set of split points (values).\n"
+        "If the sketch is empty this returns an empty vector.\n"
+        "split_points is an array of m unique, monotonically increasing float values "
+        "that divide the real number line into m+1 consecutive disjoint intervals.\n"
+        "It is not necessary to include either the min or max values in these split points."
+    )
+    .def(
+        "get_cdf",
+        [](const tdigest<T>& sk, const std::vector<T>& split_points) {
+          return sk.get_CDF(split_points.data(), split_points.size());
+        },
+        nb::arg("split_points"),
+        "Returns an approximation to the Cumulative Distribution Function (CDF), which is the "
+        "cumulative analog of the PMF, of the input stream given a set of split points (values).\n"
+        "If the sketch is empty this returns an empty vector.\n"
+        "split_points is an array of m unique, monotonically increasing float values "
+        "that divide the real number line into m+1 consecutive disjoint intervals.\n"
+        "It is not necessary to include either the min or max values in these split points."
+    )
     ;
 
     add_serialization<T>(tdigest_class);

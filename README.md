@@ -75,10 +75,13 @@ The unit tests are mostly structured in a tutorial style and can be used as a re
   - `vector_of_kll_floats_sketches`
 - Kolmogorov-Smirnov Test
   - `ks_test` applied to a pair of matched-type Absolute Error quantiles sketches
-- Density
+- Kernel Density
   - `density_sketch`
 - Count-min sketch
   - `count_min_sketch`
+- t-digest
+  - tdigest_float
+  - tdigest_double
 
 ## Known Differences from C++
 
