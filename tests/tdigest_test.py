@@ -59,7 +59,7 @@ class TdigestTest(unittest.TestCase):
       self.assertEqual(len(cdf), 2)
       self.assertAlmostEqual(cdf[0], 0.5, delta = 0.05)
 
-      # we can define a new tdiget with a different distribution, then merge them
+      # we can define a new tdigest with a different distribution, then merge them
       td2 = tdigest_double()
       td2.update(np.random.normal(loc=2.0, size=n))
       td.merge(td2)
