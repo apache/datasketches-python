@@ -13,7 +13,7 @@ The implementation in this library has a few differences from the reference impl
 
 Unlike all other algorithms in the library, t-digest is empirical and has no mathematical basis for estimating its error
 and its results are dependent on the input data. However, for many common data distributions, it can produce excellent results.
-t-digest also operates only on numeric data and, unlike the the quantiles family algorithms in the library which return quantile
+t-digest also operates only on numeric data and, unlike the quantiles family algorithms in the library which return quantile
 approximations from the input domain, t-digest interpolates values and will hold and return data points not seen in the input.
 
 The closest alternative to t-digest in this library is REQ sketch. It prioritizes one chosen side of the rank domain:
