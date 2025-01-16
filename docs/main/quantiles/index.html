@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quantiles Sketches &mdash; datasketches 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
@@ -49,6 +49,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quantiles Sketches</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdigest.html">t-digest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
 </ul>
 </li>
@@ -99,13 +100,16 @@ less-than-or-equal-to) the given item. Using straightforward logic, they can als
 in the stream.</p>
 <p>These sketches may be used to compute approximate histograms, Probability Mass Functions (PMFs), or
 Cumulative Distribution Functions (CDFs).</p>
-<p>The library provides three types of quantiles sketches, each of which has generic items as well as versions
-specific to a given numeric type (e.g. integer or floating point values). All three types provide error
-bounds on rank estimation with proven probabilistic error distributions.</p>
+<p>The library provides four types of quantiles sketches, three of which have generic items as well as versions
+specific to a given numeric type (e.g. integer or floating point values). Those three types provide error
+bounds on rank estimation with proven probabilistic error distributions. t-digest is a heuristic-based sketch
+that works only on numeric data, and while the error properties are not guaranteed, the sketch typically
+does a good job with small storage.</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>KLL: Provides uniform rank estimation error over the entire range</p></li>
+<li><p>KLL: Provides uniform rank estimation error over the entire range.</p></li>
 <li><p>REQ: Provides relative rank error estimates, which decreases approaching either the high or low end values.</p></li>
+<li><p>t-digest: Relative rank error estimates, heuristic-based without guarantees but quite compact with generally very good error properties.</p></li>
 <li><p>Classic quantiles: Largely deprecated in favor of KLL, also provides uniform rank estimation error. Included largely for backwards compatibility with historic data.</p></li>
 </ul>
 </div></blockquote>
@@ -113,6 +117,7 @@ bounds on rank estimation with proven probabilistic error distributions.</p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tdigest.html">t-digest</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
 </ul>
 </div>

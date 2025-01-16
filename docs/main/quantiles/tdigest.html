@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>t-digest &mdash; datasketches 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Quantiles Sketch (Deprecated)" href="quantiles_depr.html" />
+    <link rel="prev" title="Relative Error Quantiles (REQ) Sketch" href="req.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            datasketches
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../distinct_counting/index.html">Distinct Counting</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Quantiles Sketches</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="kll.html">KLL Sketch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">t-digest</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.tdigest_float"><code class="docutils literal notranslate"><span class="pre">tdigest_float</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.deserialize"><code class="docutils literal notranslate"><span class="pre">tdigest_float.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.__init__"><code class="docutils literal notranslate"><span class="pre">tdigest_float.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.compress"><code class="docutils literal notranslate"><span class="pre">tdigest_float.compress</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.get_cdf"><code class="docutils literal notranslate"><span class="pre">tdigest_float.get_cdf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.get_max_value"><code class="docutils literal notranslate"><span class="pre">tdigest_float.get_max_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.get_min_value"><code class="docutils literal notranslate"><span class="pre">tdigest_float.get_min_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.get_pmf"><code class="docutils literal notranslate"><span class="pre">tdigest_float.get_pmf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.get_quantile"><code class="docutils literal notranslate"><span class="pre">tdigest_float.get_quantile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.get_rank"><code class="docutils literal notranslate"><span class="pre">tdigest_float.get_rank</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">tdigest_float.get_serialized_size_bytes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.get_total_weight"><code class="docutils literal notranslate"><span class="pre">tdigest_float.get_total_weight</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.is_empty"><code class="docutils literal notranslate"><span class="pre">tdigest_float.is_empty</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.k"><code class="docutils literal notranslate"><span class="pre">tdigest_float.k</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.merge"><code class="docutils literal notranslate"><span class="pre">tdigest_float.merge</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.serialize"><code class="docutils literal notranslate"><span class="pre">tdigest_float.serialize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.to_string"><code class="docutils literal notranslate"><span class="pre">tdigest_float.to_string</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_float.update"><code class="docutils literal notranslate"><span class="pre">tdigest_float.update</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#datasketches.tdigest_double"><code class="docutils literal notranslate"><span class="pre">tdigest_double</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.deserialize"><code class="docutils literal notranslate"><span class="pre">tdigest_double.deserialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.__init__"><code class="docutils literal notranslate"><span class="pre">tdigest_double.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.compress"><code class="docutils literal notranslate"><span class="pre">tdigest_double.compress</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.get_cdf"><code class="docutils literal notranslate"><span class="pre">tdigest_double.get_cdf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.get_max_value"><code class="docutils literal notranslate"><span class="pre">tdigest_double.get_max_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.get_min_value"><code class="docutils literal notranslate"><span class="pre">tdigest_double.get_min_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.get_pmf"><code class="docutils literal notranslate"><span class="pre">tdigest_double.get_pmf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.get_quantile"><code class="docutils literal notranslate"><span class="pre">tdigest_double.get_quantile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.get_rank"><code class="docutils literal notranslate"><span class="pre">tdigest_double.get_rank</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">tdigest_double.get_serialized_size_bytes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.get_total_weight"><code class="docutils literal notranslate"><span class="pre">tdigest_double.get_total_weight</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.is_empty"><code class="docutils literal notranslate"><span class="pre">tdigest_double.is_empty</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.k"><code class="docutils literal notranslate"><span class="pre">tdigest_double.k</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.merge"><code class="docutils literal notranslate"><span class="pre">tdigest_double.merge</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.serialize"><code class="docutils literal notranslate"><span class="pre">tdigest_double.serialize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.to_string"><code class="docutils literal notranslate"><span class="pre">tdigest_double.to_string</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.tdigest_double.update"><code class="docutils literal notranslate"><span class="pre">tdigest_double.update</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../frequency/index.html">Frequency Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../vector/index.html">Vector Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sampling/index.html">Random Sampling Sketches</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../helper/index.html">Helper Classes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">datasketches</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Quantiles Sketches</a></li>
+      <li class="breadcrumb-item active">t-digest</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/quantiles/tdigest.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="t-digest">
+<h1>t-digest<a class="headerlink" href="#t-digest" title="Link to this heading"></a></h1>
+<p>The implementation in this library is based on the MergingDigest described in
+<a class="reference external" href="https://arxiv.org/abs/1902.04023">Computing Extremely Accurate Quantiles Using t-Digests</a> by Ted Dunning and Otmar Ertl.</p>
+<p>The implementation in this library has a few differences from the reference implementation associated with that paper:</p>
+<ul class="simple">
+<li><p>Merge does not modify the input</p></li>
+<li><p>Derialization similar to other sketches in this library, although reading the reference implementation format is supported</p></li>
+</ul>
+<p>Unlike all other algorithms in the library, t-digest is empirical and has no mathematical basis for estimating its error
+and its results are dependent on the input data. However, for many common data distributions, it can produce excellent results.
+t-digest also operates only on numeric data and, unlike the quantiles family algorithms in the library which return quantile
+approximations from the input domain, t-digest interpolates values and will hold and return data points not seen in the input.</p>
+<p>The closest alternative to t-digest in this library is REQ sketch. It prioritizes one chosen side of the rank domain:
+either low rank accuracy or high rank accuracy. t-digest (in this implementation) prioritizes both ends of the rank domain
+and has lower accuracy towards the middle of the rank domain (median).</p>
+<p>Measurements show that t-digest is slightly biased (tends to underestimate low ranks and overestimate high ranks), while still
+doing very well close to the extremes. The effect seems to be more pronounced with more input values.</p>
+<p>For more information on the performance characteristics, see <a class="reference external" href="https://datasketches.apache.org/docs/tdigest/tdigest.html">the Datasketches page on t-digest</a>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.tdigest_float">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tdigest_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.tdigest_float" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.deserialize">
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.tdigest_float" title="_datasketches.tdigest_float"><span class="pre">_datasketches.tdigest_float</span></a></span></span><a class="headerlink" href="#datasketches.tdigest_float.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object.</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.tdigest_float.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a tdigest instance with the given value of k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – Controls the size/accuracy trade-off of the sketch. Default is 200.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.compress">
+<span class="sig-name descname"><span class="pre">compress</span></span><a class="headerlink" href="#datasketches.tdigest_float.compress" title="Link to this definition"></a></dt>
+<dd><p>Process buffered values and merge centroids, if necesssary</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.get_cdf">
+<span class="sig-name descname"><span class="pre">get_cdf</span></span><a class="headerlink" href="#datasketches.tdigest_float.get_cdf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Cumulative Distribution Function (CDF), which is the cumulative analog of the PMF, of the input stream given a set of split points (values).
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.get_max_value">
+<span class="sig-name descname"><span class="pre">get_max_value</span></span><a class="headerlink" href="#datasketches.tdigest_float.get_max_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the maximum value from the stream. If empty, throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.get_min_value">
+<span class="sig-name descname"><span class="pre">get_min_value</span></span><a class="headerlink" href="#datasketches.tdigest_float.get_min_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the minimum value from the stream. If empty, throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.get_pmf">
+<span class="sig-name descname"><span class="pre">get_pmf</span></span><a class="headerlink" href="#datasketches.tdigest_float.get_pmf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Probability Mass Function (PMF) of the input stream given a set of split points (values).
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.get_quantile">
+<span class="sig-name descname"><span class="pre">get_quantile</span></span><a class="headerlink" href="#datasketches.tdigest_float.get_quantile" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the data value associated with the given rank in a hypothetical sorted version of the input stream so far.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.get_rank">
+<span class="sig-name descname"><span class="pre">get_rank</span></span><a class="headerlink" href="#datasketches.tdigest_float.get_rank" title="Link to this definition"></a></dt>
+<dd><p>Computes the approximate normalized rank of the given value</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.get_serialized_size_bytes">
+<span class="sig-name descname"><span class="pre">get_serialized_size_bytes</span></span><a class="headerlink" href="#datasketches.tdigest_float.get_serialized_size_bytes" title="Link to this definition"></a></dt>
+<dd><p>Returns the size of the serialized sketch, in bytes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.get_total_weight">
+<span class="sig-name descname"><span class="pre">get_total_weight</span></span><a class="headerlink" href="#datasketches.tdigest_float.get_total_weight" title="Link to this definition"></a></dt>
+<dd><p>The total weight processed by the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><a class="headerlink" href="#datasketches.tdigest_float.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.k">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#datasketches.tdigest_float.k" title="Link to this definition"></a></dt>
+<dd><p>The configured parameter k</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.merge">
+<span class="sig-name descname"><span class="pre">merge</span></span><a class="headerlink" href="#datasketches.tdigest_float.merge" title="Link to this definition"></a></dt>
+<dd><p>Merges the provided sketch into this one</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.tdigest_float.serialize" title="Link to this definition"></a></dt>
+<dd><p>Serializes the sketch into a bytes object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.tdigest_float.to_string" title="Link to this definition"></a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_float.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.tdigest_float.update" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">item:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the given value</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">array:</span> <span class="pre">ndarray[dtype=float32])</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the values in the given array</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datasketches.tdigest_double">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tdigest_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.tdigest_double" title="Link to this definition"></a></dt>
+<dd><p class="rubric">Static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.deserialize">
+<span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.tdigest_double" title="_datasketches.tdigest_double"><span class="pre">_datasketches.tdigest_double</span></a></span></span><a class="headerlink" href="#datasketches.tdigest_double.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Deserializes the sketch from a bytes object.</p>
+</dd></dl>
+
+<p class="rubric">Non-static Methods:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.tdigest_double.__init__" title="Link to this definition"></a></dt>
+<dd><p>Creates a tdigest instance with the given value of k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – Controls the size/accuracy trade-off of the sketch. Default is 200.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.compress">
+<span class="sig-name descname"><span class="pre">compress</span></span><a class="headerlink" href="#datasketches.tdigest_double.compress" title="Link to this definition"></a></dt>
+<dd><p>Process buffered values and merge centroids, if necesssary</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.get_cdf">
+<span class="sig-name descname"><span class="pre">get_cdf</span></span><a class="headerlink" href="#datasketches.tdigest_double.get_cdf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Cumulative Distribution Function (CDF), which is the cumulative analog of the PMF, of the input stream given a set of split points (values).
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.get_max_value">
+<span class="sig-name descname"><span class="pre">get_max_value</span></span><a class="headerlink" href="#datasketches.tdigest_double.get_max_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the maximum value from the stream. If empty, throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.get_min_value">
+<span class="sig-name descname"><span class="pre">get_min_value</span></span><a class="headerlink" href="#datasketches.tdigest_double.get_min_value" title="Link to this definition"></a></dt>
+<dd><p>Returns the minimum value from the stream. If empty, throws a RuntimeError</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.get_pmf">
+<span class="sig-name descname"><span class="pre">get_pmf</span></span><a class="headerlink" href="#datasketches.tdigest_double.get_pmf" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the Probability Mass Function (PMF) of the input stream given a set of split points (values).
+If the sketch is empty this returns an empty vector.
+split_points is an array of m unique, monotonically increasing float values that divide the real number line into m+1 consecutive disjoint intervals.
+It is not necessary to include either the min or max values in these split points.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.get_quantile">
+<span class="sig-name descname"><span class="pre">get_quantile</span></span><a class="headerlink" href="#datasketches.tdigest_double.get_quantile" title="Link to this definition"></a></dt>
+<dd><p>Returns an approximation to the data value associated with the given rank in a hypothetical sorted version of the input stream so far.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.get_rank">
+<span class="sig-name descname"><span class="pre">get_rank</span></span><a class="headerlink" href="#datasketches.tdigest_double.get_rank" title="Link to this definition"></a></dt>
+<dd><p>Computes the approximate normalized rank of the given value</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.get_serialized_size_bytes">
+<span class="sig-name descname"><span class="pre">get_serialized_size_bytes</span></span><a class="headerlink" href="#datasketches.tdigest_double.get_serialized_size_bytes" title="Link to this definition"></a></dt>
+<dd><p>Returns the size of the serialized sketch, in bytes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.get_total_weight">
+<span class="sig-name descname"><span class="pre">get_total_weight</span></span><a class="headerlink" href="#datasketches.tdigest_double.get_total_weight" title="Link to this definition"></a></dt>
+<dd><p>The total weight processed by the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><a class="headerlink" href="#datasketches.tdigest_double.is_empty" title="Link to this definition"></a></dt>
+<dd><p>Returns True if the sketch is empty, otherwise False</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.k">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#datasketches.tdigest_double.k" title="Link to this definition"></a></dt>
+<dd><p>The configured parameter k</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.merge">
+<span class="sig-name descname"><span class="pre">merge</span></span><a class="headerlink" href="#datasketches.tdigest_double.merge" title="Link to this definition"></a></dt>
+<dd><p>Merges the provided sketch into this one</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.tdigest_double.serialize" title="Link to this definition"></a></dt>
+<dd><p>Serializes the sketch into a bytes object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.tdigest_double.to_string" title="Link to this definition"></a></dt>
+<dd><p>Produces a string summary of the sketch</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="datasketches.tdigest_double.update">
+<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.tdigest_double.update" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">item:</span> <span class="pre">float)</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the given value</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">update(self,</span> <span class="pre">array:</span> <span class="pre">ndarray[dtype=float64])</span> <span class="pre">-&gt;</span> <span class="pre">None</span></code></p></li>
+</ol>
+<p>Updates the sketch with the values in the given array</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="req.html" class="btn btn-neutral float-left" title="Relative Error Quantiles (REQ) Sketch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="quantiles_depr.html" class="btn btn-neutral float-right" title="Quantiles Sketch (Deprecated)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

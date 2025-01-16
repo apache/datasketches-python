@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KLL Sketch &mdash; datasketches 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
@@ -143,6 +143,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="req.html">Relative Error Quantiles (REQ) Sketch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tdigest.html">t-digest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quantiles_depr.html">Quantiles Sketch (Deprecated)</a></li>
 </ul>
 </li>
@@ -196,9 +197,6 @@ that the items are comparable.
 The analysis is obtained using <cite>get_quantile()</cite> function or the
 inverse functions <cite>get_rank()</cite>, <cite>get_pmf()</cite> (Probability Mass Function), and <cite>get_cdf()</cite>
 (Cumulative Distribution Function).</p>
-<p>As of May 2020, this implementation produces serialized sketches which are binary-compatible
-with the equivalent Java implementation only when template parameter <cite>T = float</cite>
-(32-bit single precision values).</p>
 <p>Given an input stream of <cite>N</cite> items, the <cite>natural rank</cite> of any specific
 item is defined as its index <cite>(1 to N)</cite> in inclusive mode
 or <cite>(0 to N-1)</cite> in exclusive mode
