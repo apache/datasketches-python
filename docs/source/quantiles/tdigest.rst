@@ -23,7 +23,7 @@ and has lower accuracy towards the middle of the rank domain (median).
 Measurements show that t-digest is slightly biased (tends to underestimate low ranks and overestimate high ranks), while still
 doing very well close to the extremes. The effect seems to be more pronounced with more input values.
 
-For more information on the performance characteristics, see `the Datasketches site page on t-digest <https://datasketches.apache.org/docs/tdigest/tdigest.html>`.
+For more information on the performance characteristics, see `the Datasketches page on t-digest <https://datasketches.apache.org/docs/tdigest/tdigest.html>`_.
 
 .. autoclass:: tdigest_float
     :members:
