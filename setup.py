@@ -21,6 +21,7 @@
 import os
 import sys
 import platform
+import shutil
 import subprocess
 import re
 from datetime import datetime, timezone
@@ -35,11 +36,9 @@ class CMakeExtension(Extension):
 
 class CMakeBuild(build_ext):
     def run(self):
-        try:
-            subprocess.check_output(['cmake', '--version'])
-        except OSError:
+        if shutil.which('cmake') is None:
             raise RuntimeError(
-                "CMake >= 3.12 must be installed to build the following extensions: " +
+                "CMake >= 3.16 must be installed to build the following extensions: " +
                 ", ".join(e.name for e in self.extensions))
 
         for ext in self.extensions:
@@ -89,6 +88,10 @@ dt = datetime.now(timezone.utc)
 ds_version = re.sub('@DT@', dt.strftime('%Y%m%d'), ds_version)
 ds_version = re.sub('@HHMM@', 'dev' + dt.strftime('%H%M'), ds_version)
 
+setup_requires = []
+if shutil.which('cmake') is None:
+    setup_requires += ['cmake >= 3.16']
+
 setup(
     name='datasketches',
     version=ds_version,
@@ -104,6 +107,7 @@ setup(
     # may need to add all source paths for sdist packages w/o MANIFEST.in
     ext_modules=[CMakeExtension('datasketches','.')],
     cmdclass={'build_ext': CMakeBuild},
+    setup_requires=setup_requires,
     install_requires=['numpy'],
     zip_safe=False
 )
