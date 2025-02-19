@@ -145,7 +145,7 @@ The configuration parameter <code class="docutils literal notranslate"><span cla
 <p>During warmup, when the sketch has only received a small number of unique items (up to about 10% of <code class="docutils literal notranslate"><span class="pre">k</span></code>), this implementation leverages a new class of estimator algorithms with significantly better accuracy.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.tgt_hll_type">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tgt_hll_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.tgt_hll_type" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tgt_hll_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.tgt_hll_type" title="Link to this definition"></a></dt>
 <dd><p>Target HLL flavor</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.tgt_hll_type.HLL_4">
@@ -166,7 +166,7 @@ The configuration parameter <code class="docutils literal notranslate"><span cla
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.hll_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hll_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.hll_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hll_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.hll_sketch" title="Link to this definition"></a></dt>
 <dd><p class="rubric">Static Methods:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="datasketches.hll_sketch.deserialize">
@@ -246,7 +246,7 @@ The configuration parameter <code class="docutils literal notranslate"><span cla
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.hll_sketch.lg_config_k">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lg_config_k</span></span><a class="headerlink" href="#datasketches.hll_sketch.lg_config_k" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lg_config_k</span></span><a class="headerlink" href="#datasketches.hll_sketch.lg_config_k" title="Link to this definition"></a></dt>
 <dd><p>Configured lg_k value for the sketch</p>
 </dd></dl>
 
@@ -270,7 +270,7 @@ The configuration parameter <code class="docutils literal notranslate"><span cla
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.hll_sketch.tgt_type">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tgt_type</span></span><a class="headerlink" href="#datasketches.hll_sketch.tgt_type" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tgt_type</span></span><a class="headerlink" href="#datasketches.hll_sketch.tgt_type" title="Link to this definition"></a></dt>
 <dd><p>The HLL type (4, 6, or 8) when in estimation mode</p>
 </dd></dl>
 
@@ -302,7 +302,7 @@ The configuration parameter <code class="docutils literal notranslate"><span cla
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.hll_union">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hll_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.hll_union" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hll_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.hll_union" title="Link to this definition"></a></dt>
 <dd><p class="rubric">Static Methods:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="datasketches.hll_union.get_rel_err">
@@ -354,7 +354,7 @@ The configuration parameter <code class="docutils literal notranslate"><span cla
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.hll_union.lg_config_k">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lg_config_k</span></span><a class="headerlink" href="#datasketches.hll_union.lg_config_k" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lg_config_k</span></span><a class="headerlink" href="#datasketches.hll_union.lg_config_k" title="Link to this definition"></a></dt>
 <dd><p>Configured lg_k value for the union</p>
 </dd></dl>
 

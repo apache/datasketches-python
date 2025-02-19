@@ -200,7 +200,7 @@ only for backwards compatibility.</p>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.frequent_items_error_type">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frequent_items_error_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.frequent_items_error_type" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frequent_items_error_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.frequent_items_error_type" title="Link to this definition"></a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="datasketches.frequent_items_error_type.NO_FALSE_POSITIVES">
 <span class="sig-name descname"><span class="pre">NO_FALSE_POSITIVES</span></span><em class="property"><span class="w"> </span><span class="pre">:</span> <span class="pre">Returns</span> <span class="pre">only</span> <span class="pre">true</span> <span class="pre">positives</span> <span class="pre">but</span> <span class="pre">may</span> <span class="pre">miss</span> <span class="pre">some</span> <span class="pre">heavy</span> <span class="pre">hitters.</span></em><a class="headerlink" href="#datasketches.frequent_items_error_type.NO_FALSE_POSITIVES" title="Link to this definition"></a></dt>
@@ -215,7 +215,7 @@ only for backwards compatibility.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.frequent_items_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frequent_items_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.frequent_items_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frequent_items_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.frequent_items_sketch" title="Link to this definition"></a></dt>
 <dd><p class="rubric">Static Methods:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="datasketches.frequent_items_sketch.deserialize">
@@ -249,7 +249,7 @@ only for backwards compatibility.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.frequent_items_sketch.epsilon">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">epsilon</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.epsilon" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">epsilon</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.epsilon" title="Link to this definition"></a></dt>
 <dd><p>The epsilon value used by the sketch to compute error</p>
 </dd></dl>
 
@@ -297,7 +297,7 @@ Note: The true frequency of a item would be the sum of the counts as a result of
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.frequent_items_sketch.num_active_items">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_active_items</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.num_active_items" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_active_items</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.num_active_items" title="Link to this definition"></a></dt>
 <dd><p>The number of active items in the sketch</p>
 </dd></dl>
 
@@ -315,7 +315,7 @@ Note: The true frequency of a item would be the sum of the counts as a result of
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.frequent_items_sketch.total_weight">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_weight</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.total_weight" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_weight</span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.total_weight" title="Link to this definition"></a></dt>
 <dd><p>The sum of the weights (frequencies) in the stream seen so far by the sketch</p>
 </dd></dl>
 
@@ -329,7 +329,7 @@ Note: The true frequency of a item would be the sum of the counts as a result of
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.frequent_strings_sketch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frequent_strings_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.frequent_strings_sketch" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frequent_strings_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.frequent_strings_sketch" title="Link to this definition"></a></dt>
 <dd><p class="rubric">Static Methods:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="datasketches.frequent_strings_sketch.deserialize">
@@ -363,7 +363,7 @@ Note: The true frequency of a item would be the sum of the counts as a result of
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.frequent_strings_sketch.epsilon">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">epsilon</span></span><a class="headerlink" href="#datasketches.frequent_strings_sketch.epsilon" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">epsilon</span></span><a class="headerlink" href="#datasketches.frequent_strings_sketch.epsilon" title="Link to this definition"></a></dt>
 <dd><p>The epsilon value used by the sketch to compute error</p>
 </dd></dl>
 
@@ -411,7 +411,7 @@ Note: The true frequency of a item would be the sum of the counts as a result of
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.frequent_strings_sketch.num_active_items">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_active_items</span></span><a class="headerlink" href="#datasketches.frequent_strings_sketch.num_active_items" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_active_items</span></span><a class="headerlink" href="#datasketches.frequent_strings_sketch.num_active_items" title="Link to this definition"></a></dt>
 <dd><p>The number of active items in the sketch</p>
 </dd></dl>
 
@@ -429,7 +429,7 @@ Note: The true frequency of a item would be the sum of the counts as a result of
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.frequent_strings_sketch.total_weight">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_weight</span></span><a class="headerlink" href="#datasketches.frequent_strings_sketch.total_weight" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_weight</span></span><a class="headerlink" href="#datasketches.frequent_strings_sketch.total_weight" title="Link to this definition"></a></dt>
 <dd><p>The sum of the weights (frequencies) in the stream seen so far by the sketch</p>
 </dd></dl>
 

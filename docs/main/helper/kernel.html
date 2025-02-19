@@ -111,7 +111,7 @@ Gaussian (also known as a Radial Basis Function) kernel. Custom classes must ove
 and provide a floating point value as a score indicating the similarity of two input vectors.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.KernelFunction">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">KernelFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.KernelFunction" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">KernelFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.KernelFunction" title="Link to this definition"></a></dt>
 <dd><p>A generic base class from which user-defined kernels must inherit.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="datasketches.KernelFunction.__call__">
@@ -137,7 +137,7 @@ and provide a floating point value as a score indicating the similarity of two i
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.GaussianKernel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GaussianKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.GaussianKernel" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GaussianKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.GaussianKernel" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#datasketches.KernelFunction" title="_datasketches.KernelFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">KernelFunction</span></code></a></p>
 <p>Implements a basic Gaussian kernel</p>
 <dl class="field-list simple">
