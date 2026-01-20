@@ -9,6 +9,9 @@
 # OSX files
 .DS_Store
 
+# Compiled binary files
+*.so
+
 # Python created files
 .eggs/
 .tox/
