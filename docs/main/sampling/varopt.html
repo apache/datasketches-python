@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Variance Optimal Sampling (VarOpt) &mdash; datasketches 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=2709fde1"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -60,26 +60,26 @@
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_sketch"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.deserialize"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.deserialize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.estimate_subset_sum"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.estimate_subset_sum</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.get_serialized_size_bytes</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.is_empty</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.estimate_subset_sum"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.estimate_subset_sum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.get_serialized_size_bytes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.is_empty()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.k"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.k</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.n"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.n</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.num_samples"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.num_samples</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.serialize</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.to_string</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.update"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.serialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.to_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_sketch.update"><code class="docutils literal notranslate"><span class="pre">var_opt_sketch.update()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.var_opt_union"><code class="docutils literal notranslate"><span class="pre">var_opt_union</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.deserialize"><code class="docutils literal notranslate"><span class="pre">var_opt_union.deserialize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.__init__"><code class="docutils literal notranslate"><span class="pre">var_opt_union.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.get_result"><code class="docutils literal notranslate"><span class="pre">var_opt_union.get_result</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">var_opt_union.get_serialized_size_bytes</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.reset"><code class="docutils literal notranslate"><span class="pre">var_opt_union.reset</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.serialize"><code class="docutils literal notranslate"><span class="pre">var_opt_union.serialize</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.to_string"><code class="docutils literal notranslate"><span class="pre">var_opt_union.to_string</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.update"><code class="docutils literal notranslate"><span class="pre">var_opt_union.update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.get_result"><code class="docutils literal notranslate"><span class="pre">var_opt_union.get_result()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.get_serialized_size_bytes"><code class="docutils literal notranslate"><span class="pre">var_opt_union.get_serialized_size_bytes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.reset"><code class="docutils literal notranslate"><span class="pre">var_opt_union.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.serialize"><code class="docutils literal notranslate"><span class="pre">var_opt_union.serialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.to_string"><code class="docutils literal notranslate"><span class="pre">var_opt_union.to_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.var_opt_union.update"><code class="docutils literal notranslate"><span class="pre">var_opt_union.update()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -132,7 +132,7 @@ Feeding the sketch items with a uniform weight value will produce a sample equiv
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">var_opt_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.var_opt_sketch" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">var_opt_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.var_opt_sketch" title="Link to this definition"></a></dt>
 <dd><p class="rubric">Static Methods:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch.deserialize">
@@ -152,57 +152,57 @@ Feeding the sketch items with a uniform weight value will produce a sample equiv
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch.estimate_subset_sum">
-<span class="sig-name descname"><span class="pre">estimate_subset_sum</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.estimate_subset_sum" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">estimate_subset_sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">collections.abc.Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">object</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#datasketches.var_opt_sketch.estimate_subset_sum" title="Link to this definition"></a></dt>
 <dd><p>Applies a provided predicate to the sketch and returns the estimated total weight matching the predicate, as well as upper and lower bounds on the estimate and the total weight processed by the sketch</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch.get_serialized_size_bytes">
-<span class="sig-name descname"><span class="pre">get_serialized_size_bytes</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.get_serialized_size_bytes" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_serialized_size_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.var_opt_sketch.get_serialized_size_bytes" title="Link to this definition"></a></dt>
 <dd><p>Computes the size in bytes needed to serialize the current sketch</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch.is_empty">
-<span class="sig-name descname"><span class="pre">is_empty</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.is_empty" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#datasketches.var_opt_sketch.is_empty" title="Link to this definition"></a></dt>
 <dd><p>Returns True if the sketch is empty, otherwise False</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch.k">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.k" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.k" title="Link to this definition"></a></dt>
 <dd><p>Returns the sketch’s maximum configured sample size</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch.n">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.n" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.n" title="Link to this definition"></a></dt>
 <dd><p>Returns the total stream length</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch.num_samples">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_samples</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.num_samples" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">num_samples</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.num_samples" title="Link to this definition"></a></dt>
 <dd><p>Returns the number of samples currently in the sketch</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch.serialize">
-<span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.serialize" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#datasketches.var_opt_sketch.serialize" title="Link to this definition"></a></dt>
 <dd><p>Serializes the sketch into a bytes object</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch.to_string">
-<span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.to_string" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#datasketches.var_opt_sketch.to_string" title="Link to this definition"></a></dt>
 <dd><p>Produces a string summary of the sketch and optionally prints the items</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_sketch.update">
-<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.var_opt_sketch.update" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.var_opt_sketch.update" title="Link to this definition"></a></dt>
 <dd><p>Updates the sketch with the given value and weight</p>
 </dd></dl>
 
@@ -210,7 +210,7 @@ Feeding the sketch items with a uniform weight value will produce a sample equiv
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasketches.var_opt_union">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">var_opt_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.var_opt_union" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">var_opt_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datasketches.var_opt_union" title="Link to this definition"></a></dt>
 <dd><p class="rubric">Static Methods:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_union.deserialize">
@@ -224,39 +224,39 @@ Feeding the sketch items with a uniform weight value will produce a sample equiv
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.var_opt_union.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_union.get_result">
-<span class="sig-name descname"><span class="pre">get_result</span></span><a class="headerlink" href="#datasketches.var_opt_union.get_result" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datasketches.var_opt_sketch" title="_datasketches.var_opt_sketch"><span class="pre">_datasketches.var_opt_sketch</span></a></span></span><a class="headerlink" href="#datasketches.var_opt_union.get_result" title="Link to this definition"></a></dt>
 <dd><p>Returns a sketch corresponding to the union result</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_union.get_serialized_size_bytes">
-<span class="sig-name descname"><span class="pre">get_serialized_size_bytes</span></span><a class="headerlink" href="#datasketches.var_opt_union.get_serialized_size_bytes" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_serialized_size_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#datasketches.var_opt_union.get_serialized_size_bytes" title="Link to this definition"></a></dt>
 <dd><p>Computes the size in bytes needed to serialize the current union</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_union.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><a class="headerlink" href="#datasketches.var_opt_union.reset" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.var_opt_union.reset" title="Link to this definition"></a></dt>
 <dd><p>Resets the union to the empty state</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_union.serialize">
-<span class="sig-name descname"><span class="pre">serialize</span></span><a class="headerlink" href="#datasketches.var_opt_union.serialize" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#datasketches.var_opt_union.serialize" title="Link to this definition"></a></dt>
 <dd><p>Serializes the union into a bytes object with the provided serde</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_union.to_string">
-<span class="sig-name descname"><span class="pre">to_string</span></span><a class="headerlink" href="#datasketches.var_opt_union.to_string" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#datasketches.var_opt_union.to_string" title="Link to this definition"></a></dt>
 <dd><p>Produces a string summary of the sketch</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.var_opt_union.update">
-<span class="sig-name descname"><span class="pre">update</span></span><a class="headerlink" href="#datasketches.var_opt_union.update" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.var_opt_sketch" title="_datasketches.var_opt_sketch"><span class="pre">_datasketches.var_opt_sketch</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.var_opt_union.update" title="Link to this definition"></a></dt>
 <dd><p>Updates the union with the given sketch</p>
 </dd></dl>
 
