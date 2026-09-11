@@ -19,12 +19,12 @@
 requires = ["wheel",
             "setuptools >= 30.3.0",
             "numpy",
-            "nanobind >= 1.6"]
+            "nanobind >= 2.7"]
 build-backend = "setuptools.build_meta"
 
 [tool.cibuildwheel]
 build-verbosity = 0  # options: 1, 2, or 3
-skip = ["cp36-*", "cp37-*", "cp38-*", "pp*", "*-win32"]
+skip = ["cp36-*", "cp37-*", "cp38-*", "pp*", "*-win32", "cp3??t-*"]
 
 [tool.cibuildwheel.windows]
 archs = ["auto64"]
