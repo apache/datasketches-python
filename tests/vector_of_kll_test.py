@@ -97,6 +97,27 @@ class VectorOfKllSketchesTest(unittest.TestCase):
       kll = vector_of_kll_ints_sketches(k, d)
       self.assertTrue(np.all(kll.is_empty()))
 
+    def test_kll_input_dtypes(self):
+      # array inputs must give the same results as lists, whatever their dtype (issue #63)
+      kll = vector_of_kll_floats_sketches(200, 2)
+      kll.update(np.column_stack([np.arange(1, 101), np.arange(101, 201)]).astype(np.float32))
+
+      ranks = [0.0625, 0.9375] # exactly representable in float32
+      expected = kll.get_quantiles(ranks)
+      for dtype in (np.float32, np.float64):
+        np.testing.assert_array_equal(kll.get_quantiles(np.array(ranks, dtype=dtype)), expected)
+
+      values = [25.5, 150.5]
+      for fn in (kll.get_ranks, kll.get_pmf, kll.get_cdf):
+        expected = fn(values)
+        for dtype in (np.float32, np.float64):
+          np.testing.assert_array_equal(fn(np.array(values, dtype=dtype)), expected)
+
+      # sketch indices, including numpy's default int64
+      expected = kll.get_quantiles(0.5, [1, 0])
+      for dtype in (np.int32, np.int64):
+        np.testing.assert_array_equal(kll.get_quantiles(0.5, np.array([1, 0], dtype=dtype)), expected)
+
     def test_kll_2Dupdates(self):
       # 1D case tested in the first example
       # 2D case will follow same idea, but focusing on update()
