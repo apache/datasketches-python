@@ -101,6 +101,12 @@ class HllTest(unittest.TestCase):
         hll.reset()
         self.assertTrue(hll.is_empty())
 
+        # reset can also return to an empty full-size HLL array
+        hll.reset(full_size=True)
+        self.assertTrue(hll.is_empty())
+        full = hll_sketch(lgk, tgt_hll_type.HLL_6, True)
+        self.assertEqual(hll.get_updatable_serialization_bytes(), full.get_updatable_serialization_bytes())
+
     def test_hll_union(self):
         lgk = 7
         n = 53

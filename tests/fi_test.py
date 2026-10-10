@@ -148,5 +148,12 @@ class FiTest(unittest.TestCase):
     reference_apriori_error = frequent_strings_sketch.get_apriori_error(k, wt)
     self.assertAlmostEqual(sk_apriori_error, reference_apriori_error, delta=1e-6)
 
+    fi.update("a", 5)
+    self.assertFalse(fi.is_empty())
+    fi.reset()
+    self.assertTrue(fi.is_empty())
+    self.assertEqual(fi.total_weight, 0)
+    self.assertEqual(fi.num_active_items, 0)
+
 if __name__ == '__main__':
   unittest.main()

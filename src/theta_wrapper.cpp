@@ -88,8 +88,8 @@ void init_theta(nb::module_ &m) {
          "Updates the sketch with the given floating point value")
     .def("update", (void (update_theta_sketch::*)(const std::string&)) &update_theta_sketch::update, nb::arg("datum"),
          "Updates the sketch with the given string")
-    .def("compact", &update_theta_sketch::compact, nb::arg("ordered")=true,
-         "Returns a compacted form of the sketch, optionally sorting it")
+    .def("compact", &update_theta_sketch::compact, nb::arg("ordered")=true, nb::arg("trim")=false,
+         "Returns a compacted form of the sketch, optionally sorting it and trimming it to at most the nominal size k")
     .def("trim", &update_theta_sketch::trim, "Removes retained entries in excess of the nominal size k (if any)")
     .def("reset", &update_theta_sketch::reset, "Resets the sketch to the initial empty state")
   ;
