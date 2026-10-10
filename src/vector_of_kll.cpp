@@ -104,8 +104,8 @@ class vector_of_kll_sketches {
     template<typename TT>
     Array2D<TT> make_ndarray(size_t rows, size_t cols) const;
 
-    const uint32_t k_; // kll sketch k parameter
-    const uint32_t d_; // number of dimensions (here: sketches) to hold
+    uint32_t k_; // kll sketch k parameter
+    uint32_t d_; // number of dimensions (here: sketches) to hold
     std::vector<kll_sketch<T, C>> sketches_;
 };
 
