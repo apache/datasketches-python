@@ -68,6 +68,11 @@ class ThetaTest(unittest.TestCase):
           count = count + 1
         self.assertEqual(count, new_sk.num_retained)
 
+        # compact can also trim the result to at most k entries
+        trimmed = sk.compact(trim=True)
+        self.assertLessEqual(trimmed.num_retained, 1 << lgk)
+        self.assertLessEqual(trimmed.num_retained, sk.num_retained)
+
         num = sk.num_retained
         sk.trim()
         self.assertLessEqual(sk.num_retained, num)

@@ -62,6 +62,8 @@ void bind_fi_sketch(nb::module_ &m, const char* name) {
          "Merges the given sketch into this one")
     .def("is_empty", &frequent_items_sketch<T, W, H, E>::is_empty,
          "Returns True if the sketch is empty, otherwise False")
+    .def("reset", &frequent_items_sketch<T, W, H, E>::reset,
+         "Resets the sketch to the initial empty state")
     .def_prop_ro("num_active_items", &frequent_items_sketch<T, W, H, E>::get_num_active_items,
          "The number of active items in the sketch")
     .def_prop_ro("total_weight", &frequent_items_sketch<T, W, H, E>::get_total_weight,

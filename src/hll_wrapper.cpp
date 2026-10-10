@@ -65,8 +65,8 @@ void init_hll(nb::module_ &m) {
          "Returns the size of the serialized sketch")
     .def("get_compact_serialization_bytes", &hll_sketch::get_compact_serialization_bytes,
          "Returns the size of the serialized sketch when compressing the exception table if HLL_4")
-    .def("reset", &hll_sketch::reset,
-         "Resets the sketch to the empty state in coupon collection mode")
+    .def("reset", &hll_sketch::reset, nb::arg("full_size")=false,
+         "Resets the sketch to the empty state, in coupon collection mode or, if full_size is True, as a full-size HLL array")
     .def("update", (void (hll_sketch::*)(int64_t)) &hll_sketch::update, nb::arg("datum"),
          "Updates the sketch with the given integral value")
     .def("update", (void (hll_sketch::*)(double)) &hll_sketch::update, nb::arg("datum"),
