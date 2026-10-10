@@ -57,6 +57,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_sketch.get_rel_err"><code class="docutils literal notranslate"><span class="pre">hll_sketch.get_rel_err()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_sketch.__init__"><code class="docutils literal notranslate"><span class="pre">hll_sketch.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_sketch.get_compact_serialization_bytes"><code class="docutils literal notranslate"><span class="pre">hll_sketch.get_compact_serialization_bytes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_sketch.get_composite_estimate"><code class="docutils literal notranslate"><span class="pre">hll_sketch.get_composite_estimate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_sketch.get_estimate"><code class="docutils literal notranslate"><span class="pre">hll_sketch.get_estimate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_sketch.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">hll_sketch.get_lower_bound()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_sketch.get_updatable_serialization_bytes"><code class="docutils literal notranslate"><span class="pre">hll_sketch.get_updatable_serialization_bytes()</span></code></a></li>
@@ -75,6 +76,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#datasketches.hll_union"><code class="docutils literal notranslate"><span class="pre">hll_union</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_union.get_rel_err"><code class="docutils literal notranslate"><span class="pre">hll_union.get_rel_err()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_union.__init__"><code class="docutils literal notranslate"><span class="pre">hll_union.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_union.get_composite_estimate"><code class="docutils literal notranslate"><span class="pre">hll_union.get_composite_estimate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_union.get_estimate"><code class="docutils literal notranslate"><span class="pre">hll_union.get_estimate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_union.get_lower_bound"><code class="docutils literal notranslate"><span class="pre">hll_union.get_lower_bound()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.hll_union.get_result"><code class="docutils literal notranslate"><span class="pre">hll_union.get_result()</span></code></a></li>
@@ -209,6 +211,12 @@ The configuration parameter <code class="docutils literal notranslate"><span cla
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_sketch.get_composite_estimate">
+<span class="sig-name descname"><span class="pre">get_composite_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.get_composite_estimate" title="Link to this definition"></a></dt>
+<dd><p>Composite estimate of the distinct count. Less accurate than get_estimate() when the HIP estimator is available, but order-independent, and the estimator used once a sketch has been unioned. Intended for error characterization rather than normal use.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.hll_sketch.get_estimate">
 <span class="sig-name descname"><span class="pre">get_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.hll_sketch.get_estimate" title="Link to this definition"></a></dt>
 <dd><p>Estimate of the distinct count of the input stream</p>
@@ -324,6 +332,12 @@ The configuration parameter <code class="docutils literal notranslate"><span cla
 <dd class="field-odd"><p><strong>lg_max_k</strong> (<em>int</em>) – The maximum size, in log2, of k. Must be between 7 and 21, inclusive.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.hll_union.get_composite_estimate">
+<span class="sig-name descname"><span class="pre">get_composite_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#datasketches.hll_union.get_composite_estimate" title="Link to this definition"></a></dt>
+<dd><p>Composite estimate of the distinct count. This is less accurate than get_estimate() and is used automatically when a union cannot keep the HIP estimator. Intended for error characterization rather than normal use.</p>
 </dd></dl>
 
 <dl class="py method">
