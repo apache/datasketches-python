@@ -53,6 +53,10 @@ void init_hll(nb::module_ &m) {
     .def_prop_ro("tgt_type", &hll_sketch::get_target_type, "The HLL type (4, 6, or 8) when in estimation mode")
     .def("get_estimate", &hll_sketch::get_estimate,
          "Estimate of the distinct count of the input stream")
+    .def("get_composite_estimate", &hll_sketch::get_composite_estimate,
+         "Composite estimate of the distinct count. Less accurate than get_estimate() when the HIP estimator "
+         "is available, but order-independent, and the estimator used once a sketch has been unioned. "
+         "Intended for error characterization rather than normal use.")
     .def("get_lower_bound", &hll_sketch::get_lower_bound, nb::arg("num_std_devs"),
          "Returns the approximate lower error bound given the specified number of standard deviations in {1, 2, 3}")
     .def("get_upper_bound", &hll_sketch::get_upper_bound, nb::arg("num_std_devs"),
@@ -111,6 +115,10 @@ void init_hll(nb::module_ &m) {
     .def_prop_ro("lg_config_k", &hll_union::get_lg_config_k, "Configured lg_k value for the union")
     .def("get_estimate", &hll_union::get_estimate,
          "Estimate of the distinct count of the input stream")
+    .def("get_composite_estimate", &hll_union::get_composite_estimate,
+         "Composite estimate of the distinct count. This is less accurate than get_estimate() and is used "
+         "automatically when a union cannot keep the HIP estimator. Intended for error characterization "
+         "rather than normal use.")
     .def("get_lower_bound", &hll_union::get_lower_bound, nb::arg("num_std_devs"),
          "Returns the approximate lower error bound given the specified number of standard deviations in {1, 2, 3}")
     .def("get_upper_bound", &hll_union::get_upper_bound, nb::arg("num_std_devs"),

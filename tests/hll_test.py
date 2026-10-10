@@ -128,7 +128,25 @@ class HllTest(unittest.TestCase):
         sk = union.get_result()
         self.assertTrue(isinstance(sk, hll_sketch))
         self.assertEqual(sk.tgt_type, tgt_hll_type.HLL_4)
-        
+
+    def test_hll_composite_estimate_is_order_independent(self):
+        lgk = 12
+        n = 5000
+        forward = hll_sketch(lgk)
+        reverse = hll_sketch(lgk)
+        for i in range(n):
+            forward.update(i)
+            reverse.update(n - 1 - i)
+
+        # HIP estimates can depend on insertion order. The composite estimator must not.
+        self.assertEqual(forward.get_composite_estimate(), reverse.get_composite_estimate())
+        self.assertGreater(forward.get_composite_estimate(), 0)
+
+        union = hll_union(lgk)
+        union.update(forward)
+        union.update(reverse)
+        self.assertEqual(union.get_composite_estimate(), union.get_result().get_composite_estimate())
+
     def generate_sketch(self, n, lgk, sk_type=tgt_hll_type.HLL_4, st_idx=0):
         sk = hll_sketch(lgk, sk_type)
         for i in range(st_idx, st_idx + n):
