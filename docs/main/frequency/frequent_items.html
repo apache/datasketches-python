@@ -69,6 +69,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_items_sketch.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.get_upper_bound()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_items_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.is_empty()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_items_sketch.merge"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.merge()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_items_sketch.reset"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.reset()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_items_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.serialize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_items_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.to_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_items_sketch.update"><code class="docutils literal notranslate"><span class="pre">frequent_items_sketch.update()</span></code></a></li>
@@ -89,6 +90,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_strings_sketch.get_upper_bound"><code class="docutils literal notranslate"><span class="pre">frequent_strings_sketch.get_upper_bound()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_strings_sketch.is_empty"><code class="docutils literal notranslate"><span class="pre">frequent_strings_sketch.is_empty()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_strings_sketch.merge"><code class="docutils literal notranslate"><span class="pre">frequent_strings_sketch.merge()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_strings_sketch.reset"><code class="docutils literal notranslate"><span class="pre">frequent_strings_sketch.reset()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_strings_sketch.serialize"><code class="docutils literal notranslate"><span class="pre">frequent_strings_sketch.serialize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_strings_sketch.to_string"><code class="docutils literal notranslate"><span class="pre">frequent_strings_sketch.to_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#datasketches.frequent_strings_sketch.update"><code class="docutils literal notranslate"><span class="pre">frequent_strings_sketch.update()</span></code></a></li>
@@ -290,6 +292,12 @@ Note: The true frequency of a item would be the sum of the counts as a result of
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datasketches.frequent_items_sketch.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.reset" title="Link to this definition"></a></dt>
+<dd><p>Resets the sketch to the initial empty state</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datasketches.frequent_items_sketch.serialize">
 <span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serde</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../helper/serde.html#datasketches.PyObjectSerDe" title="_datasketches.PyObjectSerDe"><span class="pre">_datasketches.PyObjectSerDe</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#datasketches.frequent_items_sketch.serialize" title="Link to this definition"></a></dt>
 <dd><p>Serializes the sketch into a bytes object using the provided serde.</p>
@@ -401,6 +409,12 @@ Note: The true frequency of a item would be the sum of the counts as a result of
 <dt class="sig sig-object py" id="datasketches.frequent_strings_sketch.merge">
 <span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datasketches.frequent_strings_sketch" title="_datasketches.frequent_strings_sketch"><span class="pre">_datasketches.frequent_strings_sketch</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.frequent_strings_sketch.merge" title="Link to this definition"></a></dt>
 <dd><p>Merges the given sketch into this one</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datasketches.frequent_strings_sketch.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#datasketches.frequent_strings_sketch.reset" title="Link to this definition"></a></dt>
+<dd><p>Resets the sketch to the initial empty state</p>
 </dd></dl>
 
 <dl class="py method">
