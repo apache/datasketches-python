@@ -18,6 +18,14 @@ If you prefer to call the `setup.py` build script directly, which is discouraged
 
 The library is also available from PyPI via `python3 -m pip install datasketches`.
 
+If either command fails with `error: externally-managed-environment`, your Python installation (for example, Homebrew Python or the system Python on recent Debian and Ubuntu releases) does not allow installing packages into it directly ([PEP 668](https://peps.python.org/pep-0668/)). Install into a virtual environment instead:
+
+```
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install datasketches   # or: python3 -m pip install .
+```
+
 ## Usage
 
 Having installed the library, loading the Apache DataSketches Library in Python is simple: `import datasketches`.
