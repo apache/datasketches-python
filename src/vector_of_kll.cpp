@@ -65,8 +65,10 @@ class vector_of_kll_sketches {
     void update(nb::ndarray<T>& items, char order);
     void merge(const vector_of_kll_sketches<T>& other);
 
+    // The array alternative is typed so that nanobind converts other dtypes
+    // (e.g. float32 ranks, int64 indices) instead of reinterpreting the buffer.
     template<typename V>
-    using ArrInputType = std::variant<nb::ndarray<>, nb::list, V>;
+    using ArrInputType = std::variant<nb::ndarray<V, nb::ndim<1>>, nb::list, V>;
 
     // returns a single sketch combining all data in the array
     kll_sketch<T, C> collapse(ArrInputType<int>& isk) const;
@@ -194,8 +196,8 @@ auto vector_of_kll_sketches<T, C>::make_ndarray(size_t rows, size_t cols) const 
 template<typename T, typename C>
 template<typename TT>
 auto vector_of_kll_sketches<T, C>::input_to_vec(ArrInputType<TT>& input) const -> Array1D<TT> {
-  if (std::holds_alternative<nb::ndarray<>>(input)) {
-    nb::ndarray<> arr = std::get<nb::ndarray<>>(input);
+  if (std::holds_alternative<nb::ndarray<TT, nb::ndim<1>>>(input)) {
+    nb::ndarray<TT, nb::ndim<1>> arr = std::get<nb::ndarray<TT, nb::ndim<1>>>(input);
     return Array1D<TT>(arr);
   } else if (std::holds_alternative<nb::list>(input)) {
     nb::list list = std::get<nb::list>(input);
