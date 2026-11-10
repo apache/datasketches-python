@@ -47,11 +47,11 @@ class PyStringsSerDe(PyObjectSerDe):
     b.extend(map(ord,item))
     return bytes(b)
 
-  def from_bytes(self, data: bytes, offset: int):
-    num_chars = int.from_bytes(data[offset:offset+3], 'little')
+  def from_bytes(self, data, offset: int):
+    num_chars = struct.unpack_from('<i', data, offset)[0]
     if (num_chars < 0 or num_chars > offset + len(data)):
         raise IndexError(f'num_chars read must be non-negative and not larger than the buffer. Found {num_chars}')
-    str = data[offset+4:offset+4+num_chars].decode()
+    str = bytes(data[offset+4:offset+4+num_chars]).decode()
     return (str, 4+num_chars)
 
 class PyIntsSerDe(PyObjectSerDe):

@@ -54,12 +54,13 @@ struct py_object_serde {
   /**
    * @brief Constructs an object from a serialized image, reading the
    * incoming buffer starting at the specified offset.
-   * 
-   * @param bytes A buffer containing items from a serialized sketch
-   * @param offset The starting offset into the bytes buffer
+   *
+   * @param data A buffer-protocol object (memoryview or bytes) containing items
+   *             from a serialized sketch
+   * @param offset The starting offset into the data buffer
    * @return A Python tuple of the reconstructed item and the total number of bytes read
    */
-  virtual nb::tuple from_bytes(nb::bytes& bytes, size_t offset) const = 0;
+  virtual nb::tuple from_bytes(nb::object& data, size_t offset) const = 0;
 
   virtual ~py_object_serde() = default;
 
@@ -94,10 +95,10 @@ struct PyObjectSerDe : public py_object_serde {
     );
   }
 
-  nb::tuple from_bytes(nb::bytes& bytes, size_t offset) const override {
+  nb::tuple from_bytes(nb::object& data, size_t offset) const override {
     NB_OVERRIDE_PURE(
       from_bytes,       // Name of function in C++ (must match Python name)
-      bytes, offset     // Argument(s)
+      data, offset      // Argument(s)
     );
   }
 };
