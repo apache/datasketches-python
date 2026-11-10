@@ -21,8 +21,8 @@ from datasketches import update_tuple_sketch
 from datasketches import compact_tuple_sketch, tuple_union
 from datasketches import tuple_intersection, tuple_a_not_b
 from datasketches import tuple_jaccard_similarity
-from datasketches import tuple_jaccard_similarity, PyIntsSerDe
-from datasketches import AccumulatorPolicy, MaxIntPolicy, MinIntPolicy
+from datasketches import tuple_jaccard_similarity, PyIntsSerDe, PyStringsSerDe
+from datasketches import AccumulatorPolicy, MaxIntPolicy, MinIntPolicy, KeepLastStringPolicy
 from datasketches import update_theta_sketch
 
 class TupleTest(unittest.TestCase):
@@ -230,6 +230,45 @@ class TupleTest(unittest.TestCase):
       for i in range(0, n):
         sk.update(i + offset, value)
       return sk
+
+    def test_tuple_strings_serde_round_trip(self):
+      # Short-string summary: exercises PyStringsSerDe over the memoryview path
+      # the C++ deserialize loop hands it one summary at a time.
+      lgk = 10
+      n = 1 << 12
+      value = 'alpha'
+      sk = update_tuple_sketch(KeepLastStringPolicy(), lgk)
+      for i in range(n):
+        sk.update(i, value)
+      compact = sk.compact()
+
+      sk_bytes = compact.serialize(PyStringsSerDe())
+      new_sk = compact_tuple_sketch.deserialize(sk_bytes, serde=PyStringsSerDe())
+
+      self.assertEqual(compact.num_retained, new_sk.num_retained)
+      self.assertEqual(compact.get_estimate(), new_sk.get_estimate())
+      for pair in new_sk:
+        self.assertEqual(pair[1], value)
+
+    def test_tuple_strings_serde_long_string(self):
+      # Long-string summary (len >= 256): the length prefix needs all 4 bytes,
+      # so this guards against a prior bug that read only 3 bytes of the length.
+      lgk = 8
+      n = 1 << 10
+      value = 'x' * 300
+      sk = update_tuple_sketch(KeepLastStringPolicy(), lgk)
+      for i in range(n):
+        sk.update(i, value)
+      compact = sk.compact()
+
+      sk_bytes = compact.serialize(PyStringsSerDe())
+      new_sk = compact_tuple_sketch.deserialize(sk_bytes, serde=PyStringsSerDe())
+
+      self.assertEqual(compact.num_retained, new_sk.num_retained)
+      for pair in new_sk:
+        self.assertEqual(pair[1], value)
+        self.assertEqual(len(pair[1]), 300)
+
 
 if __name__ == '__main__':
     unittest.main()

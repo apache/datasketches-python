@@ -78,3 +78,19 @@ class MinIntPolicy(TuplePolicy):
 
   def __call__(self, summary: int, update: int) -> int:
     return min(summary, update)
+
+
+class KeepLastStringPolicy(TuplePolicy):
+  '''String-summary policy that keeps the most recent update.'''
+
+  def __init__(self):
+    TuplePolicy.__init__(self)
+
+  def create_summary(self) -> str:
+    return ''
+
+  def update_summary(self, summary: str, update: str) -> str:
+    return update
+
+  def __call__(self, summary: str, update: str) -> str:
+    return update
