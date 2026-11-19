@@ -69,7 +69,7 @@ void add_serialization(nb::class_<SK>& clazz) {
     .def_static(
         "deserialize",
         [](const nb::bytes& bytes, datasketches::py_object_serde& serde) {
-            return SK::deserialize(bytes.c_str(), bytes.size(), serde);
+            return SK::deserialize(bytes.c_str(), bytes.size(), datasketches::py_object_deserializer{serde, bytes});
         }, nb::arg("bytes"), nb::arg("serde"),
         "Deserializes the sketch from a bytes object using the provided serde."
     );

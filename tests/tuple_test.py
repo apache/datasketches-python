@@ -21,7 +21,7 @@ from datasketches import update_tuple_sketch
 from datasketches import compact_tuple_sketch, tuple_union
 from datasketches import tuple_intersection, tuple_a_not_b
 from datasketches import tuple_jaccard_similarity
-from datasketches import tuple_jaccard_similarity, PyIntsSerDe, PyStringsSerDe
+from datasketches import PyObjectSerDe, PyIntsSerDe, PyStringsSerDe
 from datasketches import AccumulatorPolicy, MaxIntPolicy, MinIntPolicy, KeepLastStringPolicy
 from datasketches import update_theta_sketch
 
@@ -230,6 +230,28 @@ class TupleTest(unittest.TestCase):
       for i in range(0, n):
         sk.update(i + offset, value)
       return sk
+
+    def test_retained_summary_views(self):
+        class DelimitedBytesSerDe(PyObjectSerDe):
+            def get_size(self, item):
+                return len(item) + 1
+
+            def to_bytes(self, item):
+                return item + b'\0'
+
+            def from_bytes(self, data, offset):
+                end = offset
+                while data[end] != 0:
+                    end += 1
+                return memoryview(data)[offset:end], end + 1 - offset
+
+        theta = update_theta_sketch()
+        theta.update(1)
+        theta.update(2)
+        sketch = compact_tuple_sketch(theta, b'alpha')
+        serde = DelimitedBytesSerDe()
+        restored = compact_tuple_sketch.deserialize(sketch.serialize(serde), serde)
+        self.assertEqual(dict(restored), dict(sketch))
 
     def test_tuple_strings_serde_round_trip(self):
       # Short-string summary: exercises PyStringsSerDe over the memoryview path

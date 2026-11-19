@@ -77,7 +77,9 @@ void bind_ebpps_sketch(nb::module_ &m, const char* name) {
          "Serializes the sketch into a bytes object")
     .def_static(
          "deserialize",
-         [](const nb::bytes& bytes, py_object_serde& serde) { return ebpps_sketch<T>::deserialize(bytes.c_str(), bytes.size(), serde); },
+         [](const nb::bytes& bytes, py_object_serde& serde) {
+           return ebpps_sketch<T>::deserialize(bytes.c_str(), bytes.size(), py_object_deserializer{serde, bytes});
+         },
          nb::arg("bytes"), nb::arg("serde"),
          "Reads a bytes object and returns the corresponding ebpps_sketch")
     .def("__iter__",

@@ -72,23 +72,20 @@ namespace datasketches {
     return bytes_written;
   }
 
-  size_t py_object_serde::deserialize(const void* ptr, size_t capacity, nb::object* items, unsigned num) const {
+  size_t py_object_deserializer::deserialize(const void* ptr, size_t capacity, nb::object* items, unsigned num) const {
     size_t bytes_read = 0;
     unsigned i = 0;
     bool failure = false;
     bool error_from_python = false;
     nb::gil_scoped_acquire acquire;
 
-    // zero-copy view over the incoming buffer; avoids a per-call buffer copy
-    // (this function is invoked per entry by the sketch deserialization loop)
-    nb::object view = nb::steal(PyMemoryView_FromMemory(
-        const_cast<char*>(static_cast<const char*>(ptr)),
-        static_cast<Py_ssize_t>(capacity),
-        PyBUF_READ));
+    const size_t offset = static_cast<const char*>(ptr) - bytes.c_str();
+    nb::object view = nb::steal(PyMemoryView_FromObject(bytes.ptr()));
+    if (!view.is_valid()) throw nb::python_error();
     for (; i < num && !failure; ++i) {
       nb::tuple bytes_and_len;
       try {
-        bytes_and_len = from_bytes(view, bytes_read);
+        bytes_and_len = serde.from_bytes(view, offset + bytes_read);
       } catch (nb::python_error &e) {
         failure = true;
         error_from_python = true;
@@ -103,7 +100,6 @@ namespace datasketches {
       }
       
       new (&items[i]) nb::object(nb::cast<nb::object>(bytes_and_len[0]));
-      ptr = static_cast<const char*>(ptr) + length;
       bytes_read += length;
     }
 

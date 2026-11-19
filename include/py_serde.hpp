@@ -68,6 +68,13 @@ struct py_object_serde {
   // default implementations for C++ std::string and numeric types.
   size_t size_of_item(const nb::object& item) const;
   size_t serialize(void* ptr, size_t capacity, const nb::object* items, unsigned num) const;
+};
+
+// The sketch passes pointers into one serialized image, including for nested sketches.
+struct py_object_deserializer {
+  const py_object_serde& serde;
+  const nb::bytes& bytes;
+
   size_t deserialize(const void* ptr, size_t capacity, nb::object* items, unsigned num) const;
 };
 
