@@ -240,10 +240,8 @@ class TupleTest(unittest.TestCase):
                 return item + b'\0'
 
             def from_bytes(self, data, offset):
-                end = offset
-                while data[end] != 0:
-                    end += 1
-                return memoryview(data)[offset:end], end + 1 - offset
+                end = data.index(b'\0', offset)
+                return memoryview(data)[offset:end], end - offset + 1
 
         theta = update_theta_sketch()
         theta.update(1)

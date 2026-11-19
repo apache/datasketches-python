@@ -42,10 +42,10 @@ void init_serde(nb::module_& m) {
         ":return: A :class:`bytes` object with the serialized object\n:rtype: bytes"
         )
     .def("from_bytes", &py_object_serde::from_bytes, nb::arg("data"), nb::arg("offset"),
-        "Reads a buffer starting from the given offset and returns a tuple of the reconstructed "
+        "Reads a bytes object starting from the given offset and returns a tuple of the reconstructed "
         "object and the number of additional bytes read\n\n"
-        ":param data: A buffer-protocol object (``memoryview`` or ``bytes``) from which to deserialize\n"
-        ":type data: memoryview or bytes\n"
+        ":param data: A :class:`bytes` object from which to deserialize\n"
+        ":type data: bytes\n"
         ":param offset: The offset, in bytes, at which to start reading\n:type offset: int\n"
         ":return: A :class:`tuple` with the reconstructed object and the number of bytes read\n"
         ":rtype: tuple(object, int)"
@@ -80,12 +80,10 @@ namespace datasketches {
     nb::gil_scoped_acquire acquire;
 
     const size_t offset = static_cast<const char*>(ptr) - bytes.c_str();
-    nb::object view = nb::steal(PyMemoryView_FromObject(bytes.ptr()));
-    if (!view.is_valid()) throw nb::python_error();
     for (; i < num && !failure; ++i) {
       nb::tuple bytes_and_len;
       try {
-        bytes_and_len = serde.from_bytes(view, offset + bytes_read);
+        bytes_and_len = serde.from_bytes(bytes, offset + bytes_read);
       } catch (nb::python_error &e) {
         failure = true;
         error_from_python = true;
