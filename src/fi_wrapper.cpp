@@ -160,7 +160,7 @@ void add_serialization(nb::class_<datasketches::frequent_items_sketch<T, W, H, E
     .def_static(
         "deserialize",
         [](const nb::bytes& bytes, py_object_serde& serde) {
-          return frequent_items_sketch<T, W, H, E>::deserialize(bytes.c_str(), bytes.size(), serde);
+          return frequent_items_sketch<T, W, H, E>::deserialize(bytes.c_str(), bytes.size(), py_object_deserializer{serde, bytes});
         }, nb::arg("bytes"), nb::arg("serde"),
         "Reads a bytes object using the provided serde and returns the corresponding frequent_strings_sketch."
     );

@@ -35,6 +35,7 @@ import struct
 class PyStringsSerDe(PyObjectSerDe):
   '''Implements a simple string-encoding scheme where a string is
      written as `<num_bytes> <string_contents>`, with no null termination.
+     The byte count is an unsigned 32-bit little-endian integer.
      This format allows pre-allocating each string, at the cost of
      additional storage. Using this format, the serialized string consumes
      ``4 + len(item)`` bytes.'''
@@ -48,11 +49,14 @@ class PyStringsSerDe(PyObjectSerDe):
     return bytes(b)
 
   def from_bytes(self, data: bytes, offset: int):
-    num_chars = int.from_bytes(data[offset:offset+3], 'little')
-    if (num_chars < 0 or num_chars > offset + len(data)):
-        raise IndexError(f'num_chars read must be non-negative and not larger than the buffer. Found {num_chars}')
-    str = data[offset+4:offset+4+num_chars].decode()
-    return (str, 4+num_chars)
+    start = offset + 4
+    if offset < 0 or start > len(data):
+      raise IndexError('String length prefix is outside the buffer')
+    num_bytes = struct.unpack_from('<I', data, offset)[0]
+    end = start + num_bytes
+    if end > len(data):
+      raise IndexError(f'String of {num_bytes} bytes exceeds the remaining buffer')
+    return (data[start:end].decode(), 4 + num_bytes)
 
 class PyIntsSerDe(PyObjectSerDe):
   '''Implements an integer encoding scheme where each integer is written

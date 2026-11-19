@@ -21,7 +21,7 @@ from datasketches import update_tuple_sketch
 from datasketches import compact_tuple_sketch, tuple_union
 from datasketches import tuple_intersection, tuple_a_not_b
 from datasketches import tuple_jaccard_similarity
-from datasketches import tuple_jaccard_similarity, PyIntsSerDe
+from datasketches import PyObjectSerDe, PyIntsSerDe
 from datasketches import AccumulatorPolicy, MaxIntPolicy, MinIntPolicy
 from datasketches import update_theta_sketch
 
@@ -230,6 +230,26 @@ class TupleTest(unittest.TestCase):
       for i in range(0, n):
         sk.update(i + offset, value)
       return sk
+
+    def test_retained_summary_views(self):
+        class DelimitedBytesSerDe(PyObjectSerDe):
+            def get_size(self, item):
+                return len(item) + 1
+
+            def to_bytes(self, item):
+                return item + b'\0'
+
+            def from_bytes(self, data, offset):
+                end = data.index(b'\0', offset)
+                return memoryview(data)[offset:end], end - offset + 1
+
+        theta = update_theta_sketch()
+        theta.update(1)
+        theta.update(2)
+        sketch = compact_tuple_sketch(theta, b'alpha')
+        serde = DelimitedBytesSerDe()
+        restored = compact_tuple_sketch.deserialize(sketch.serialize(serde), serde)
+        self.assertEqual(dict(restored), dict(sketch))
 
 if __name__ == '__main__':
     unittest.main()

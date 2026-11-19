@@ -54,12 +54,12 @@ struct py_object_serde {
   /**
    * @brief Constructs an object from a serialized image, reading the
    * incoming buffer starting at the specified offset.
-   * 
-   * @param bytes A buffer containing items from a serialized sketch
-   * @param offset The starting offset into the bytes buffer
+   *
+   * @param data The bytes containing the serialized sketch
+   * @param offset The starting offset into the data buffer
    * @return A Python tuple of the reconstructed item and the total number of bytes read
    */
-  virtual nb::tuple from_bytes(nb::bytes& bytes, size_t offset) const = 0;
+  virtual nb::tuple from_bytes(const nb::bytes& data, size_t offset) const = 0;
 
   virtual ~py_object_serde() = default;
 
@@ -67,6 +67,13 @@ struct py_object_serde {
   // default implementations for C++ std::string and numeric types.
   size_t size_of_item(const nb::object& item) const;
   size_t serialize(void* ptr, size_t capacity, const nb::object* items, unsigned num) const;
+};
+
+// The sketch passes pointers into one serialized image, including for nested sketches.
+struct py_object_deserializer {
+  const py_object_serde& serde;
+  const nb::bytes& bytes;
+
   size_t deserialize(const void* ptr, size_t capacity, nb::object* items, unsigned num) const;
 };
 
@@ -94,10 +101,10 @@ struct PyObjectSerDe : public py_object_serde {
     );
   }
 
-  nb::tuple from_bytes(nb::bytes& bytes, size_t offset) const override {
+  nb::tuple from_bytes(const nb::bytes& data, size_t offset) const override {
     NB_OVERRIDE_PURE(
       from_bytes,       // Name of function in C++ (must match Python name)
-      bytes, offset     // Argument(s)
+      data, offset      // Argument(s)
     );
   }
 };

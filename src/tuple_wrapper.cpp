@@ -145,7 +145,7 @@ void init_tuple(nb::module_ &m) {
     .def_static(
         "deserialize",
         [](const nb::bytes& bytes, py_object_serde& serde, uint64_t seed) {
-          return py_compact_tuple::deserialize(bytes.c_str(), bytes.size(), seed, serde);
+          return py_compact_tuple::deserialize(bytes.c_str(), bytes.size(), seed, py_object_deserializer{serde, bytes});
         },
         nb::arg("bytes"), nb::arg("serde"), nb::arg("seed")=DEFAULT_SEED,
         "Reads a bytes object and returns the corresponding compact_tuple_sketch"
